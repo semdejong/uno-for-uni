@@ -1,16 +1,13 @@
 package com.uno.server;
 
-import com.uno.client.Card;
-import com.uno.client.Hand;
-
 public class Player {
 
     private String name;
-    private com.uno.client.Hand hand;
+    private Hand hand;
 
     public Player(String name){
         this.name = name;
-        this.hand = new com.uno.client.Hand();
+        this.hand = new Hand();
     }
 
     public String getName() {
@@ -21,7 +18,7 @@ public class Player {
         this.name = name;
     }
 
-    public com.uno.client.Hand getHand() {
+    public Hand getHand() {
         return hand;
     }
 
@@ -29,7 +26,7 @@ public class Player {
         this.hand = hand;
     }
 
-    public void addCard(com.uno.client.Card card){
+    public void addCard(Card card){
         hand.addCard(card);
     }
 
