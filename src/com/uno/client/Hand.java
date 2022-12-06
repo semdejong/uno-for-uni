@@ -11,9 +11,7 @@ public class Hand {
     }
 
     public static void addCard(Card card){
-        if(hand.size() < 7){
-            hand.add(card);
-        }
+        hand.add(card);
     }
 
     public static void removeCard(Card card){

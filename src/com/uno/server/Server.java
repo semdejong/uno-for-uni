@@ -1,7 +1,13 @@
 package com.uno.server;
 
+import java.util.ArrayList;
+
 public class Server {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+    private ArrayList<Player> players = new ArrayList<>();
+    private DrawPile drawPile;
+    private PlayPile playPile;
+
+    public Server(){
+
     }
 }
