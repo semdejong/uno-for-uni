@@ -92,6 +92,14 @@ public class Server {
                                 reverse = true;
                                 Collections.reverse(players);
                             }
+                            if(card.getType() == Card.cardType.DRAW_TWO){
+                                forced2Draw(2, players.get(players.indexOf(player) + 1));
+                                skip = true;
+                            }
+                            if(card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                                forced4Draw(4, players.get(players.indexOf(player) + 1));
+                                skip = true;
+                            }
 
                             validMove = true;
                             player.getHand().removeCard(card);
@@ -117,7 +125,40 @@ public class Server {
             }
         }
     }
-
+    public void forced2Draw(int amount, Player player){
+        boolean progressiveUno = false;
+        if (progressiveUno){
+            for (Card card : player.getHand().getCards()){
+                if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                    player.getHand().removeCard(card);
+                    playPile.playCard(card);
+                    if (card.getType() == Card.cardType.DRAW_TWO){
+                        forced2Draw(amount + 2, players.get(players.indexOf(player) + 1));
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < amount; i++){
+            player.getHand().addCard(drawPile.drawCard());
+        }
+    }
+    public void forced4Draw(int amount, Player player){
+        boolean progressiveUno = false;
+        if (progressiveUno){
+            for (Card card : player.getHand().getCards()){
+                if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                    player.getHand().removeCard(card);
+                    playPile.playCard(card);
+                    if (card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                        forced4Draw(amount + 4, players.get(players.indexOf(player) + 1));
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < amount; i++){
+            player.getHand().addCard(drawPile.drawCard());
+        }
+    }
     public void chatBox(){}
     public Player showWinner(){
         return null;
