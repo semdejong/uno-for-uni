@@ -1,6 +1,8 @@
 package com.uno.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import com.uno.utils.TextIO;
 
 public class Server {
@@ -20,6 +22,7 @@ public class Server {
         addPlayers();
         drawPile.dealCards(players);
         playPile = new PlayPile(drawPile.drawCard());
+        runGame();
     }
 
     public void addPlayers(){
@@ -44,12 +47,88 @@ public class Server {
         }
     }
 
+    public void runGame(){
+        System.out.println("Game started!");
+        boolean skip = false;
+        boolean reverse = false;
+        Player currentPlayer = players.get(0);
+        while(true){
+            for(Player player : players){
+                if (skip){
+                    skip = false;
+                    continue;
+                }
+
+                if(reverse){
+                    if(currentPlayer.equals(player)){
+                        reverse = false;
+                    }
+                    continue;
+                }
+
+                currentPlayer = player;
+                boolean validMove = false;
+                while(!validMove){
+                    clearConsole();
+                    System.out.println("It's " + player.getName() + "'s turn");
+                    System.out.println("Your hand: \n" + player.getHand().toString());
+                    System.out.println("Active card: " + playPile.getActiveCard().toString());
+                    System.out.println("What would you like to do? (play/draw)");
+                    String input = TextIO.getln();
+                    if (input.equals("play")) {
+                        System.out.println("Which card would you like to play? (enter the number)");
+                        int cardIndex = TextIO.getlnInt();
+                        if (cardIndex < 1 || cardIndex > player.getHand().getHandSize()) {
+                            System.out.println("Invalid card index!");
+                            continue;
+                        }
+                        Card card = player.getHand().getCards().get(cardIndex - 1);
+                        if (playPile.playCard(card)) {
+                            if(card.getType() == Card.cardType.SKIP){
+                                skip = true;
+                            }
+
+                            if(card.getType() == Card.cardType.REVERSE){
+                                reverse = true;
+                                Collections.reverse(players);
+                            }
+
+                            validMove = true;
+                            player.getHand().removeCard(card);
+                            if (player.getHand().getHandSize() == 0) {
+                                System.out.println("You won!");
+                                return;
+                            }
+                        } else {
+                            System.out.println("Invalid card!");
+                        }
+                    } else if (input.equals("draw")) {
+                        validMove = true;
+                        if(drawPile.getDeck().size() == 0){
+                            System.out.println("No more cards in the draw pile!");
+                            drawPile.setDeck(playPile.getDiscardPile());
+                            playPile.clearDiscardPile();
+                        }
+                        player.getHand().addCard(drawPile.drawCard());
+                    } else {
+                        System.out.println("Invalid input!");
+                    }
+                }
+            }
+        }
+    }
+
     public void chatBox(){}
     public Player showWinner(){
         return null;
     }
     public Player disconnectedPlayer(){
         return null;
+    }
+
+    public final static void clearConsole()
+    {
+        for(int i = 0; i < 50; ++i) System.out.println();
     }
 
     public static void main(String[] args) {

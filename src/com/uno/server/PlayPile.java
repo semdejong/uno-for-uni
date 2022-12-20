@@ -14,28 +14,43 @@ public class PlayPile {
     public Card getActiveCard() {
         return activeCard;
     }
-    public void playCard(Card card){
+
+    public ArrayList<Card> getDiscardPile() {
+        return discardPile;
+    }
+
+    public void setDiscardPile(ArrayList<Card> discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    public void clearDiscardPile(){
+        discardPile.clear();
+    }
+
+
+    public boolean playCard(Card card){
         if (playable(card)){
             if (card.getType() == Card.cardType.WILD){
                 card.setColor(askColorWild());
             }
             if (card.getType() == Card.cardType.WILD_DRAW_FOUR){
                 card.setColor(askColorWild());
-                forcedDraw(4);
+//                forcedDraw(4);
             }
             if (card.getType() == Card.cardType.DRAW_TWO){
-                forcedDraw(2);
+//                forcedDraw(2);
             }
             if (card.getType() == Card.cardType.SKIP){
-                skipTurn();
             }
             if (card.getType() == Card.cardType.REVERSE){
-                reverse();
+//                reverse();
             }
             discardPile.add(activeCard);
             activeCard = card;
+            return true;
         }else {
             System.out.println("Card is not playable");
+            return false;
         }
     }
     public Card.cardColor askColorWild(){
@@ -59,7 +74,7 @@ public class PlayPile {
         }
     }
     public boolean playable(Card card){
-        return card.getColor().equals(activeCard.getColor()) || card.getType().equals(activeCard.getType()) || card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR);
+        return card.getColor().equals(activeCard.getColor()) || card.getNumber() == activeCard.getNumber() || card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR);
     }
 
 }

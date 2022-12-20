@@ -36,10 +36,10 @@ public class Hand {
         String handString = "";
 
         for(Card card : hand){
-            handString += card.toString() + " ";
+            handString += "card " + (hand.indexOf(card) + 1) + ". " + card.toString() + "\n";
         }
 
-        return "Hand: " + handString;
+        return  handString;
     }
 
 

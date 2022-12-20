@@ -25,14 +25,15 @@ public class DrawPile {
 
         // Add the special cards to the deck
         for(Card.cardColor color : Card.cardColor.values()) {
+            if(color == Card.cardColor.BLACK) continue;
             deck.add(new Card(Card.cardType.SKIP, color, -1));
-            deck.add(new Card(Card.cardType.REVERSE, color, -1));
-            deck.add(new Card(Card.cardType.DRAW_TWO, color, -1));
+            deck.add(new Card(Card.cardType.REVERSE, color, -2));
+            deck.add(new Card(Card.cardType.DRAW_TWO, color, -3));
         }
 
         // Add the wild cards to the deck
-        deck.add(new Card(Card.cardType.WILD, Card.cardColor.BLACK, -1));
-        deck.add(new Card(Card.cardType.WILD_DRAW_FOUR, Card.cardColor.BLACK, -1));
+        deck.add(new Card(Card.cardType.WILD, Card.cardColor.BLACK, -4));
+        deck.add(new Card(Card.cardType.WILD_DRAW_FOUR, Card.cardColor.BLACK, -5));
     }
 
     public Card drawCard(){
@@ -48,6 +49,15 @@ public class DrawPile {
                 player.addCard(drawCard());
             }
         }
+    }
+
+    public ArrayList<Card> getDeck(){
+        return deck;
+    }
+
+    public void setDeck(ArrayList<Card> deck){
+        this.deck = deck;
+        shuffle();
     }
 
     public void shuffle(){
