@@ -20,7 +20,7 @@ public class Hand {
 
     }
 
-    public ArrayList<Card> getHand() {
+    public ArrayList<Card> getCards() {
         return hand;
     }
 
@@ -30,6 +30,16 @@ public class Hand {
 
     public int getHandSize() {
         return hand.size();
+    }
+
+    public String toString(){
+        String handString = "";
+
+        for(Card card : hand){
+            handString += card.toString() + " ";
+        }
+
+        return "Hand: " + handString;
     }
 
 
