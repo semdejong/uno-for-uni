@@ -26,6 +26,7 @@ public class Player {
         this.hand = hand;
     }
 
+
     public void addCard(Card card){
         hand.addCard(card);
     }

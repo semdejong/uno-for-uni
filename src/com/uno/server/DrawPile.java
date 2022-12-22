@@ -10,30 +10,35 @@ public class DrawPile {
         deck = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            // Add a red card for each number 0-9
-            deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.RED,i));
-
-            // Add a yellow card for each number 0-9
-            deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.YELLOW,i));
-
-            // Add a green card for each number 0-9
+            // Add all cards for each number 0-9 where 1-9 have 2 of each and 0 has 1 of each
+            deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.RED, i));
+            deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.YELLOW, i));
             deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.GREEN,i));
-
-            // Add a blue card for each number 0-9
             deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.BLUE,i));
+
+            if(i != 0) {
+                deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.RED, i));
+                deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.YELLOW, i));
+                deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.GREEN,i));
+                deck.add(new Card(Card.cardType.NUMBER, Card.cardColor.BLUE,i));
+            }
         }
 
         // Add the special cards to the deck
         for(Card.cardColor color : Card.cardColor.values()) {
             if(color == Card.cardColor.BLACK) continue;
-            deck.add(new Card(Card.cardType.SKIP, color, -1));
-            deck.add(new Card(Card.cardType.REVERSE, color, -2));
-            deck.add(new Card(Card.cardType.DRAW_TWO, color, -3));
+            for(int i = 0; i < 2; i++) {
+                deck.add(new Card(Card.cardType.SKIP, color, -1));
+                deck.add(new Card(Card.cardType.REVERSE, color, -2));
+                deck.add(new Card(Card.cardType.DRAW_TWO, color, -3));
+            }
         }
 
         // Add the wild cards to the deck
-        deck.add(new Card(Card.cardType.WILD, Card.cardColor.BLACK, -4));
-        deck.add(new Card(Card.cardType.WILD_DRAW_FOUR, Card.cardColor.BLACK, -5));
+        for(int i = 0; i < 4; i++) {
+            deck.add(new Card(Card.cardType.WILD, Card.cardColor.BLACK, -4));
+            deck.add(new Card(Card.cardType.WILD_DRAW_FOUR, Card.cardColor.BLACK, -5));
+        }
     }
 
     public Card drawCard(){

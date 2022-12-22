@@ -32,6 +32,10 @@ public class Hand {
         return hand.size();
     }
 
+    public void clearHand(){
+        hand.clear();
+    }
+
     public String toString(){
         String handString = "";
 

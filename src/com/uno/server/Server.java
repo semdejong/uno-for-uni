@@ -1,5 +1,6 @@
 package com.uno.server;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,7 +10,6 @@ public class Server {
     private ArrayList<Player> players;
     private DrawPile drawPile;
     private PlayPile playPile;
-    private static final int startCards = 7;
 
     public Server(){
         drawPile = new DrawPile();
@@ -75,9 +75,10 @@ public class Server {
                     System.out.println("Active card: " + playPile.getActiveCard().toString());
                     System.out.println("What would you like to do? (play/draw)");
                     String input = TextIO.getln();
-                    if (input.equals("play")) {
-                        System.out.println("Which card would you like to play? (enter the number)");
-                        int cardIndex = TextIO.getlnInt();
+                    if (input.contains("play")) {
+
+                        int cardIndex = tryParseInt(input, -1);
+
                         if (cardIndex < 1 || cardIndex > player.getHand().getHandSize()) {
                             System.out.println("Invalid card index!");
                             continue;
@@ -93,11 +94,19 @@ public class Server {
                                 Collections.reverse(players);
                             }
                             if(card.getType() == Card.cardType.DRAW_TWO){
-                                forced2Draw(2, players.get(players.indexOf(player) + 1));
+                                if(players.indexOf(player) + 1 == players.size()) {
+                                    forced2Draw(2, players.get(0));
+                                }else {
+                                    forced2Draw(2, players.get(players.indexOf(player) + 1));
+                                }
                                 skip = true;
                             }
                             if(card.getType() == Card.cardType.WILD_DRAW_FOUR){
-                                forced4Draw(4, players.get(players.indexOf(player) + 1));
+                                if(players.indexOf(player) + 1 == players.size()) {
+                                    forced4Draw(4, players.get(0));
+                                }else {
+                                    forced4Draw(4, players.get(players.indexOf(player) + 1));
+                                }
                                 skip = true;
                             }
 
@@ -105,6 +114,7 @@ public class Server {
                             player.getHand().removeCard(card);
                             if (player.getHand().getHandSize() == 0) {
                                 player.setScore(calculateScore(player.getScore()));
+                                restart();
                                 if (player.getScore() >= 500) {
                                     System.out.println(player.getName() + " won the game!");
                                     return;
@@ -115,12 +125,7 @@ public class Server {
                         }
                     } else if (input.equals("draw")) {
                         validMove = true;
-                        if(drawPile.getDeck().size() == 0){
-                            System.out.println("No more cards in the draw pile!");
-                            drawPile.setDeck(playPile.getDiscardPile());
-                            playPile.clearDiscardPile();
-                        }
-                        player.getHand().addCard(drawPile.drawCard());
+                        drawCardPlayer(player);
                     } else {
                         System.out.println("Invalid input!");
                     }
@@ -128,6 +133,16 @@ public class Server {
             }
         }
     }
+
+    public void drawCardPlayer(Player player){
+        if(drawPile.getDeck().size() == 0){
+            System.out.println("No more cards in the draw pile!");
+            drawPile.setDeck(playPile.getDiscardPile());
+            playPile.clearDiscardPile();
+        }
+        player.getHand().addCard(drawPile.drawCard());
+    }
+
     public void forced2Draw(int amount, Player player){
         boolean progressiveUno = false;
         if (progressiveUno){
@@ -195,13 +210,55 @@ public class Server {
         return null;
     }
 
+    public void restart(){
+        drawPile = new DrawPile();
+
+        for (Player player : players){
+            player.getHand().clearHand();
+        }
+
+        drawPile.dealCards(players);
+
+        playPile = new PlayPile(drawPile.drawCard());
+    }
+
     public final static void clearConsole()
     {
         for(int i = 0; i < 50; ++i) System.out.println();
     }
 
+    public int tryParseInt(String value, int defaultVal) {
+        try {
+            return Integer.parseInt(value.substring(5));
+        } catch (Exception e) {
+            return defaultVal;
+        }
+    }
     public static void main(String[] args) {
         Server server = new Server();
         server.start();
     }
+
+
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public DrawPile getDrawPile(){
+        return drawPile;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setDrawPile(DrawPile drawPile) {
+        this.drawPile = drawPile;
+    }
+
+    public void setPlayPile(PlayPile playPile) {
+        this.playPile = playPile;
+    }
+
+
 }
