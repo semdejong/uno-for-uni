@@ -45,7 +45,10 @@ public class Card {
     }
 
     public String toString() {
-        return "Card: " + this.type + " " + this.color + " " + this.number;
+        if(this.number < 0){
+            return this.type + " " + this.color;
+        }
+        return this.type + " " + this.color + " " + this.number;
     }
 
 }

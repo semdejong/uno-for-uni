@@ -9,13 +9,13 @@ public class Game {
     }
 
     private static ArrayList<Player> players;
-    private static Card activeCard;
+    private Card activeCard;
 
-    public static ArrayList<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public static void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<Player> players) {
         Game.players = players;
     }
 
