@@ -28,8 +28,8 @@ public class PlayPile {
     }
 
 
-    public boolean playCard(Card card){
-        if (playable(card)){
+    public boolean playCard(Card card, Hand hand){
+        if (playable(card, hand)){
             if (card.getType() == Card.cardType.WILD){
                 card.setColor(askColorWild());
             }
@@ -73,8 +73,18 @@ public class PlayPile {
                 return Card.cardColor.RED;
         }
     }
-    public boolean playable(Card card){
-        return card.getColor().equals(activeCard.getColor()) || card.getNumber() == activeCard.getNumber() || card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR);
+    public boolean playable(Card card, Hand hand){
+        if (hand == null){
+            return true;
+        } else if (card.getType() == Card.cardType.WILD_DRAW_FOUR) {
+            for (Card card1 : hand.getCards()){
+                if (card1.getColor() == activeCard.getColor()){
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return card.getColor().equals(activeCard.getColor()) || card.getNumber() == activeCard.getNumber() || card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR);
+        }
     }
-
 }

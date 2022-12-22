@@ -83,7 +83,7 @@ public class Server {
                             continue;
                         }
                         Card card = player.getHand().getCards().get(cardIndex - 1);
-                        if (playPile.playCard(card)) {
+                        if (playPile.playCard(card, player.getHand())) {
                             if(card.getType() == Card.cardType.SKIP){
                                 skip = true;
                             }
@@ -104,8 +104,11 @@ public class Server {
                             validMove = true;
                             player.getHand().removeCard(card);
                             if (player.getHand().getHandSize() == 0) {
-                                System.out.println("You won!");
-                                return;
+                                player.setScore(calculateScore(player.getScore()));
+                                if (player.getScore() >= 500) {
+                                    System.out.println(player.getName() + " won the game!");
+                                    return;
+                                }
                             }
                         } else {
                             System.out.println("Invalid card!");
@@ -131,7 +134,7 @@ public class Server {
             for (Card card : player.getHand().getCards()){
                 if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
                     player.getHand().removeCard(card);
-                    playPile.playCard(card);
+                    playPile.playCard(card, null);
                     if (card.getType() == Card.cardType.DRAW_TWO){
                         forced2Draw(amount + 2, players.get(players.indexOf(player) + 1));
                     }
@@ -148,7 +151,7 @@ public class Server {
             for (Card card : player.getHand().getCards()){
                 if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
                     player.getHand().removeCard(card);
-                    playPile.playCard(card);
+                    playPile.playCard(card, null);
                     if (card.getType() == Card.cardType.WILD_DRAW_FOUR){
                         forced4Draw(amount + 4, players.get(players.indexOf(player) + 1));
                     }
@@ -158,6 +161,31 @@ public class Server {
         for(int i = 0; i < amount; i++){
             player.getHand().addCard(drawPile.drawCard());
         }
+    }
+    public int calculateScore(int score){
+        for (Player player : players) {
+            for (Card card : player.getHand().getCards()) {
+                if (card.getType() == Card.cardType.NUMBER) {
+                    score += card.getNumber();
+                }
+                if (card.getType() == Card.cardType.DRAW_TWO) {
+                    score += 20;
+                }
+                if (card.getType() == Card.cardType.REVERSE) {
+                    score += 20;
+                }
+                if (card.getType() == Card.cardType.SKIP) {
+                    score += 20;
+                }
+                if (card.getType() == Card.cardType.WILD) {
+                    score += 50;
+                }
+                if (card.getType() == Card.cardType.WILD_DRAW_FOUR) {
+                    score += 50;
+                }
+            }
+        }
+        return score;
     }
     public void chatBox(){}
     public Player showWinner(){

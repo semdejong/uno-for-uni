@@ -4,7 +4,7 @@ public class Player {
 
     private String name;
     private Hand hand;
-
+    private int score;
     public Player(String name){
         this.name = name;
         this.hand = new Hand();
@@ -42,4 +42,11 @@ public class Player {
         return "Player: " + this.name + " " + this.hand;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
