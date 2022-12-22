@@ -35,15 +35,6 @@ public class PlayPile {
             }
             if (card.getType() == Card.cardType.WILD_DRAW_FOUR){
                 card.setColor(askColorWild());
-//                forcedDraw(4);
-            }
-            if (card.getType() == Card.cardType.DRAW_TWO){
-//                forcedDraw(2);
-            }
-            if (card.getType() == Card.cardType.SKIP){
-            }
-            if (card.getType() == Card.cardType.REVERSE){
-//                reverse();
             }
             discardPile.add(activeCard);
             activeCard = card;
@@ -84,7 +75,7 @@ public class PlayPile {
             }
             return true;
         } else {
-            return card.getColor().equals(activeCard.getColor()) || card.getNumber() == activeCard.getNumber() || card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR);
+            return card.getColor().equals(activeCard.getColor()) || card.getNumber() == activeCard.getNumber() || card.getType().equals(Card.cardType.WILD);
         }
     }
 }
