@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("This will be uno stub implementation");
+        //This will be the starting point of loading the game.
+
     }
 
     public static void main(String[] args) {
