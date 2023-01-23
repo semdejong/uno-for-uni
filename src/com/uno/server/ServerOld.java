@@ -237,10 +237,6 @@ public class ServerOld {
             return defaultVal;
         }
     }
-    public static void main(String[] args) {
-        ServerOld server = new ServerOld();
-        server.start();
-    }
 
 
     public ArrayList<Player> getPlayers(){

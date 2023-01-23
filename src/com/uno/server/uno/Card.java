@@ -1,7 +1,7 @@
 package com.uno.server.uno;
 
 public class Card {
-    enum cardType {
+    public enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
     };
 

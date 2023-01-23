@@ -4,9 +4,11 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler extends Thread{
-    BufferedReader in;
-    BufferedWriter out;
-    public ClientHandler(Server serverArg, Socket socketArg){
+    private BufferedReader in;
+    private BufferedWriter out;
+    private String ClientName;
+
+    public ClientHandler(Socket socketArg){
         try {
             in = new BufferedReader(new InputStreamReader(socketArg.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socketArg.getOutputStream()));
@@ -17,16 +19,7 @@ public class ClientHandler extends Thread{
     }
 
     public void run() {
-        try{
-            String msg = in.readLine();
-            while(msg != null){
-                System.out.println(msg);
-                msg = in.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("error occurred.");
-        }
+        receiveMessage();
     }
 
     public void receiveMessage(){

@@ -3,6 +3,7 @@ package com.uno.client.controller;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Communicator extends Thread{
     private  String ip;

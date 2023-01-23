@@ -48,4 +48,16 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public String getName(){
+        return clientHandler.getClientName();
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
 }
