@@ -1,4 +1,4 @@
-package com.uno.client;
+package com.uno.client.model;
 
 public class Card {
     enum cardType {

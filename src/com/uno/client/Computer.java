@@ -1,5 +1,7 @@
 package com.uno.client;
 
+import com.uno.client.model.Player;
+
 import java.util.Random;
 
 public class Computer extends Player {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServerTest {
-    Server server;
+    ServerOld server;
     ArrayList<Player> players;
 
     DrawPile drawPile;
@@ -20,7 +20,7 @@ public class ServerTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        server = new Server();
+        server = new ServerOld();
 
         players = new ArrayList<Player>();
 
