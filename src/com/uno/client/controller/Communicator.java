@@ -4,13 +4,16 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Communicator {
-    public static final String ipAddress = "192.168.178.31";
-    public static void main(String[] args) {
-        Communicator hi = new Communicator();
-        hi.connect(ipAddress, 1728);
+public class Communicator extends Thread{
+    private  String ip;
+    private int port;
+
+    public Communicator(String ip, int port){
+        this.ip = ip;
+        this.port = port;
     }
-    public void connect(String ip, int port) {
+
+    public void run() {
         try{
             Socket connection = new Socket(ip, port);
             System.out.println("Connected to server");
