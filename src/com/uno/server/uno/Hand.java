@@ -1,5 +1,7 @@
-package com.uno.server;
+package com.uno.server.uno;
 
+
+import com.uno.server.uno.Card;
 
 import java.util.ArrayList;
 

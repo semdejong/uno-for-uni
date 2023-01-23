@@ -1,11 +1,11 @@
-package com.uno.server;
+package com.uno.server.uno;
 
 public class Card {
     enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
     };
 
-    enum cardColor {
+    public enum cardColor {
         RED, YELLOW, GREEN, BLUE, BLACK
     };
 

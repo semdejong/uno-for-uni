@@ -1,22 +1,21 @@
-package com.uno.server;
+package com.uno.server.uno;
+
+import com.uno.server.ClientHandler;
+import com.uno.server.uno.Card;
+import com.uno.server.uno.Hand;
 
 public class Player {
 
-    private String name;
     private Hand hand;
     private int score;
-    public Player(String name){
-        this.name = name;
+    private ClientHandler clientHandler;
+    private Lobby lobby;
+    
+    public Player(ClientHandler clientHandler){
+        this.clientHandler = clientHandler;
         this.hand = new Hand();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Hand getHand() {
         return hand;
@@ -25,7 +24,6 @@ public class Player {
     public void setHand(Hand hand) {
         this.hand = hand;
     }
-
 
     public void addCard(Card card){
         hand.addCard(card);
@@ -40,7 +38,7 @@ public class Player {
     }
 
     public String toString(){
-        return "Player: " + this.name + " " + this.hand;
+        return "Player: " + this.clientHandler.getClientName() + " " + this.hand;
     }
 
     public int getScore() {

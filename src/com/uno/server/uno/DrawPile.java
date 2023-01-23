@@ -1,4 +1,4 @@
-package com.uno.server;
+package com.uno.server.uno;
 
 import java.util.ArrayList;
 import java.util.Collections;

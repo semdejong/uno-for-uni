@@ -1,6 +1,10 @@
 package com.uno.test;
 
 import com.uno.server.*;
+import com.uno.server.uno.Card;
+import com.uno.server.uno.DrawPile;
+import com.uno.server.uno.PlayPile;
+import com.uno.server.uno.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +28,10 @@ public class ServerTest {
 
         players = new ArrayList<Player>();
 
-        players.add(new Player("Player 1"));
-        players.add(new Player("Player 2"));
-        players.add(new Player("Player 3"));
-        players.add(new Player("Player 4"));
+        //players.add(new Player("Player 1"));
+        //players.add(new Player("Player 2"));
+        //players.add(new Player("Player 3"));
+        //players.add(new Player("Player 4"));
 
         server.setPlayers(players);
 

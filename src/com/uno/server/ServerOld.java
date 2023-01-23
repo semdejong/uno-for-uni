@@ -3,6 +3,10 @@ package com.uno.server;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.uno.server.uno.Card;
+import com.uno.server.uno.DrawPile;
+import com.uno.server.uno.PlayPile;
+import com.uno.server.uno.Player;
 import com.uno.utils.TextIO;
 
 public class ServerOld {
@@ -42,7 +46,7 @@ public class ServerOld {
                 continue;
             }
 
-            players.add(new Player(name));
+            //players.add(new Player(name));
         }
     }
 
