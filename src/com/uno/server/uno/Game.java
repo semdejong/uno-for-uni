@@ -1,5 +1,7 @@
 package com.uno.server.uno;
 
+import com.uno.server.Server;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -22,11 +24,14 @@ public class Game {
     }
 
     public void startGame(){
-        for(Player player : players){
-            drawPile.dealCards(players);
-        }
-
+        drawPile.dealCards(players);
         playPile = new PlayPile(drawPile.drawCard());
+
+        Server.broadCast("StartingCard|CARDREPR");
+
+        for (Player player : players) {
+            player.getClientHandler().sendMessage("GiveHand|CARDREP|CARDREP|CARDREP|CARDREP....");
+        }
     }
 
 

@@ -37,6 +37,10 @@ public class Player {
         return hand.getHandSize();
     }
 
+    public ClientHandler getClientHandler(){
+        return clientHandler;
+    }
+
     public String toString(){
         return "Player: " + this.clientHandler.getClientName() + " " + this.hand;
     }

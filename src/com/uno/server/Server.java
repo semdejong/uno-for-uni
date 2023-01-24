@@ -18,13 +18,13 @@ public class Server extends Thread{
     private static ArrayList<Game> games = new ArrayList<>();
 
     public static void main(String[] args){
-        Communicator communicator = new Communicator("localhost", 1728);
+        Communicator communicator = new Communicator("localhost", 1795);
         Server hi = new Server();
         hi.start();
         communicator.start();
     }
     public void run(){
-        try(ServerSocket ssock = new ServerSocket(1728);){
+        try(ServerSocket ssock = new ServerSocket(1795);){
             System.out.println("Server started");
             while(true){
                 Socket sock = ssock.accept();
