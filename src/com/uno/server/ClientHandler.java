@@ -9,6 +9,8 @@ public class ClientHandler extends Thread{
     private BufferedWriter out;
     private String ClientName;
 
+    private MessageHandler messageHandler;
+
     public ClientHandler(Socket socketArg){
         try {
             in = new BufferedReader(new InputStreamReader(socketArg.getInputStream()));
@@ -27,8 +29,8 @@ public class ClientHandler extends Thread{
         try {
             String msg = in.readLine();
             while (true) {
-                MessageHandler messageHandler = new MessageHandler();
-               messageHandler.receiveMessage(msg, this);
+                messageHandler = new MessageHandler(this);
+                messageHandler.receiveMessage(msg);
                 msg = in.readLine();
             }
         } catch (IOException e) {

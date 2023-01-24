@@ -42,7 +42,6 @@ public class Server extends Thread{
     //Send message to all connected clients
     public static void broadCast(String message){
         for (ClientHandler handler : clients){
-            sendMessage(handler, message);
             handler.sendMessage(message);
         }
     }
@@ -53,7 +52,7 @@ public class Server extends Thread{
             if(handler.equals(exception)){
                 continue;
             }
-            sendMessage(handler, message);
+            handler.sendMessage(message);
         }
     }
 
@@ -77,6 +76,11 @@ public class Server extends Thread{
 
     public static ClientHandler getClientHandlerByName(String name){
         for (ClientHandler handler : clients){
+
+            if(handler.getClientName() == null){
+                continue;
+            }
+
             if(handler.getClientName().equals(name)){
                 return handler;
             }
@@ -106,5 +110,9 @@ public class Server extends Thread{
 
     public static void setGames(ArrayList<Game> games) {
         Server.games = games;
+    }
+
+    public static void addLobby(Lobby lobby){
+        lobbies.add(lobby);
     }
 }

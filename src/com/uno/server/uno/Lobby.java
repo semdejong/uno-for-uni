@@ -1,5 +1,7 @@
 package com.uno.server.uno;
 
+import com.uno.server.ClientHandler;
+
 import java.util.ArrayList;
 
 public class Lobby {
@@ -35,6 +37,27 @@ public class Lobby {
     public void addPlayer(Player player) {
         players.add(player);
     }
+
+    public void broadCastLobby(String message){
+        for (Player player: players) {
+            player.getClientHandler().sendMessage(message);
+        }
+    }
+
+    public void broadCastLobby(String message, ClientHandler exception){
+        for (Player player: players){
+            if(player.getClientHandler().equals(exception)){
+                continue;
+            }
+
+            player.getClientHandler().sendMessage(message);
+        }
+    }
+
+    public void broadCastLobby(String message, Player player){
+        broadCastLobby(message, player.getClientHandler());
+    }
+
     public void setMaxPlayers(int maxPlayers) {
         this.maxPlayers = maxPlayers;
     }

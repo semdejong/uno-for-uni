@@ -27,9 +27,11 @@ public class CommandHandler {
             // TO DO - add special features implementation
             // lobby.setSupportedFeatures(parts[1].split(","));
         }
-        if (parts.length == 3){
-            lobby.setMaxPlayers(Integer.parseInt(parts[2]));
+
+        if (parts.length == 4){
+            lobby.setMaxPlayers(Integer.parseInt(parts[3]));
         }
+
         player.setLobby(lobby);
         Server.addLobby(lobby);
         return lobby;
@@ -38,7 +40,7 @@ public class CommandHandler {
     public static Lobby joinGame(String[] parts, ClientHandler sender){
         if (Server.getLobbies().size() == 0){
             sender.sendError(Error.E08); //no lobbies
-            return;
+            return null ;
         }
 
         ArrayList<Lobby> lobbies = Server.getLobbies();

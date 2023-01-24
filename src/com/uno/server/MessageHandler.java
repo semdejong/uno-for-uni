@@ -57,13 +57,13 @@ public class MessageHandler {
                 //do something
                 break;
             case "leavegame":
-                Server.broadCast(sender.getClientName() + " has left the game.");
-                sender.closeConnection();
+                lobby.broadCastLobby(client.getClientName() + " has left the game.");
+                client.closeConnection();
             case "sendmessage":
-                Server.broadCast(parts[1], sender);
+                Server.broadCast(parts[1], client);
                 break;
             default:
-                Server.sendMessage(sender, "E02");
+                Server.sendMessage(client, "E02");
         }
     }
 
