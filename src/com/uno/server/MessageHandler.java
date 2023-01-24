@@ -1,39 +1,54 @@
 package com.uno.server;
 
+import com.uno.server.uno.Game;
+import com.uno.server.uno.Lobby;
 import com.uno.server.uno.Player;
 
 import java.util.Random;
 
 public class MessageHandler {
 
-    //public String client;
-    public void receiveMessage(String message, ClientHandler sender) {
+    private ClientHandler client;
+    private Lobby lobby;
+    private Game game;
+
+    public MessageHandler(ClientHandler client){
+        this.client = client;
+    }
+
+    public void receiveMessage(String message) {
         String[] parts = message.split("\\|");
         parts[0] = parts[0].toLowerCase().replace(" ", "");
 
         if (parts[0].equals("connect")){
             if (Server.getClientHandlerByName(parts[1]) != null){
-                sender.sendError(Error.E01); //name not unique
+                client.sendError(Error.E01); //name not unique
                 return;
             }
-            sender.setClientName(parts[1]);
+            client.setClientName(parts[1]);
+            client.sendMessage("Welcome|"+parts[1]);
             return;
         }
 
-        if (sender.getClientName() == null){
-            sender.sendError(Error.E08); //not connected yet
+        if (client.getClientName() == null){
+            client.sendError(Error.E08); //not connected yet
             return;
         }
 
         switch (parts[0]){
             case "requestgame":
-                CommandHandler.requestGame(parts, sender);
+                lobby = CommandHandler.requestGame(parts, client);
                 break;
             case "joingame":
-                CommandHandler.joinGame(parts, sender);
+                lobby = CommandHandler.joinGame(parts, client);
                 break;
             case "start":
-                //do something
+                if (lobby.getPlayers().size() < 2){
+                    client.sendError(Error.E06); //not enough players
+                    return;
+                } else {
+                    game = lobby.startGame();
+                }
                 break;
             case "playcard":
                 //do something

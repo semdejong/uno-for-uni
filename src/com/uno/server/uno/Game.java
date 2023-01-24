@@ -10,8 +10,8 @@ public class Game {
     private PlayPile playPile;
 
 
-    public Game(){
-        players = new ArrayList<>();
+    public Game(ArrayList<Player> players){
+        this.players = players;
         drawPile = new DrawPile();
     }
 
