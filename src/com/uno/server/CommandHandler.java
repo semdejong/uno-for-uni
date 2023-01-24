@@ -1,8 +1,12 @@
 package com.uno.server;
 
+import com.uno.server.uno.Card;
 import com.uno.server.uno.Lobby;
 import com.uno.server.uno.Player;
 
+import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CommandHandler {
@@ -27,7 +31,6 @@ public class CommandHandler {
             // TO DO - add special features implementation
             // lobby.setSupportedFeatures(parts[1].split(","));
         }
-
         if (parts.length == 4){
             lobby.setMaxPlayers(Integer.parseInt(parts[3]));
         }
@@ -38,11 +41,10 @@ public class CommandHandler {
     }
 
     public static Lobby joinGame(String[] parts, ClientHandler sender){
-        if (Server.getLobbies().size() == 0){
-            sender.sendError(Error.E08); //no lobbies
-            return null ;
+        if (Server.getLobbies().size() == 0 || sender.getJoinedLobby() != null){
+            sender.sendError(Error.E08); //no lobbies or player has joined a lobby already
+            return null;
         }
-
         ArrayList<Lobby> lobbies = Server.getLobbies();
         Lobby firstLobby = lobbies.get(0);
 
@@ -60,5 +62,54 @@ public class CommandHandler {
             }
         }
         return null;
+    }
+    public static Card makeCard(String[] parts) {
+        Card.cardColor color = null;
+        Card.cardType type = null;
+        int value = 0;
+        switch (parts[0].toUpperCase()){
+            case "RED":
+                color = Card.cardColor.RED;
+                break;
+            case "BLUE":
+                color = Card.cardColor.BLUE;
+                break;
+            case "GREEN":
+                color = Card.cardColor.GREEN;
+                break;
+            case "YELLOW":
+                color = Card.cardColor.YELLOW;
+                break;
+            case "Black":
+                color = Card.cardColor.BLACK;
+                break;
+        }
+        switch (parts[1].toUpperCase()){
+            case "NUMBER":
+                type = Card.cardType.NUMBER;
+                value = Integer.parseInt(parts[2]);
+                break;
+            case "SKIP":
+                type = Card.cardType.SKIP;
+                value = -1;
+                break;
+            case "REVERSE":
+                type = Card.cardType.REVERSE;
+                value = -2;
+                break;
+            case "DRAW_TWO":
+                type = Card.cardType.DRAW_TWO;
+                value = -3;
+                break;
+            case "WILD":
+                type = Card.cardType.WILD;
+                value = -4;
+                break;
+            case "WILD_DRAW_FOUR":
+                type = Card.cardType.WILD_DRAW_FOUR;
+                value = -5;
+                break;
+        }
+        return new Card(type, color, value);
     }
 }

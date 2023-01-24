@@ -46,9 +46,9 @@ public class Card {
 
     public String toString() {
         if(this.number < 0){
-            return this.type + " " + this.color;
+            return this.color + "|" + this.type + "|" + null;
         }
-        return this.type + " " + this.color + " " + this.number;
+        return this.color + " " + this.type + " " + this.number;
     }
 
 }

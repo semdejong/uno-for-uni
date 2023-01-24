@@ -14,6 +14,7 @@ public class MessageHandler {
 
     public MessageHandler(ClientHandler client){
         this.client = client;
+        lobby = null;
     }
 
     public void receiveMessage(String message) {
@@ -51,10 +52,11 @@ public class MessageHandler {
                 }
                 break;
             case "playcard":
-                //do something
+                String[] card = {parts[1], parts[2], parts[3]};
+                game.playCard(CommandHandler.makeCard(card));
                 break;
             case "drawcard":
-                //do something
+                client.sendMessage("DrawCard|" + game.getDrawPile().drawCard().toString());
                 break;
             case "leavegame":
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");

@@ -32,38 +32,12 @@ public class PlayPile {
 
     public boolean playCard(Card card, Hand hand){
         if (playable(card, hand)){
-            if (card.getType() == Card.cardType.WILD){
-                card.setColor(askColorWild());
-            }
-            if (card.getType() == Card.cardType.WILD_DRAW_FOUR){
-                card.setColor(askColorWild());
-            }
             discardPile.add(activeCard);
             activeCard = card;
             return true;
         }else {
             System.out.println("Card is not playable");
             return false;
-        }
-    }
-    public Card.cardColor askColorWild(){
-        System.out.println("What color do you want to change to?");
-        System.out.println("1. Red");
-        System.out.println("2. Yellow");
-        System.out.println("3. Green");
-        System.out.println("4. Blue");
-        int choice = TextIO.getlnInt();
-        switch (choice){
-            case 1:
-                return Card.cardColor.RED;
-            case 2:
-                return Card.cardColor.YELLOW;
-            case 3:
-                return Card.cardColor.GREEN;
-            case 4:
-                return Card.cardColor.BLUE;
-            default:
-                return Card.cardColor.RED;
         }
     }
     public boolean playable(Card card, Hand hand){

@@ -21,7 +21,7 @@ public class Lobby {
     }
 
     public Game startGame(){
-        Game game = new Game(players);
+        Game game = new Game(players, this);
         this.game = game;
         game.startGame();
         String message = "GameStarted|";
