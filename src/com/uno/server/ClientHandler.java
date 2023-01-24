@@ -1,5 +1,7 @@
 package com.uno.server;
 
+import com.uno.server.uno.Lobby;
+
 import javax.print.attribute.standard.Severity;
 import java.io.*;
 import java.net.Socket;
@@ -15,6 +17,7 @@ public class ClientHandler extends Thread{
         try {
             in = new BufferedReader(new InputStreamReader(socketArg.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socketArg.getOutputStream()));
+            messageHandler = new MessageHandler(this);
         }catch (IOException e){
             e.printStackTrace();
             System.out.println("error occurred.");
@@ -28,8 +31,7 @@ public class ClientHandler extends Thread{
     public void receiveMessage(){
         try {
             String msg = in.readLine();
-            while (true) {
-                messageHandler = new MessageHandler(this);
+            while (true){
                 messageHandler.receiveMessage(msg);
                 msg = in.readLine();
             }
@@ -66,6 +68,10 @@ public class ClientHandler extends Thread{
 
     public String getClientName() {
         return ClientName;
+    }
+
+    public Lobby getJoinedLobby(){
+        return messageHandler.getLobby();
     }
 
     public void setClientName(String clientName) {

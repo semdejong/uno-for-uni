@@ -60,6 +60,8 @@ public class CommandHandler {
                     return lobby;
                 }
             }
+
+            sender.sendError(Error.E08); // could not find lobby
         }
         return null;
     }

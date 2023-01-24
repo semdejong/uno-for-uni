@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Lobby {
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
     private int waitingToStart = 0;
     private int pin;
     private int maxPlayers;
@@ -15,9 +15,11 @@ public class Lobby {
 
     public Lobby(int pin){
         this.pin = pin;
+        players = new ArrayList<>();
     }
     public Lobby(){
         this.pin = 0;
+        players = new ArrayList<>();
     }
 
     public Game startGame(){
@@ -29,6 +31,8 @@ public class Lobby {
             message += feature + "|";
         }
         broadCastLobby(message);
+
+        broadCastLobby("PlayersAtTable|"+ getPlayersAsString());
         return game;
     }
 
@@ -68,6 +72,20 @@ public class Lobby {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public String getPlayersAsString(){
+        String playersToReturn = "";
+
+        for(Player player: players){
+            playersToReturn += player.getName();
+
+            if(players.indexOf(player) != players.size() - 1){
+                playersToReturn += "|";
+            }
+        }
+
+        return playersToReturn;
     }
 
     public void setPlayers(ArrayList<Player> players) {

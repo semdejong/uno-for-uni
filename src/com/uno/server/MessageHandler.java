@@ -38,10 +38,10 @@ public class MessageHandler {
 
         switch (parts[0]){
             case "requestgame":
-                lobby = CommandHandler.requestGame(parts, client);
+                this.lobby = CommandHandler.requestGame(parts, client);
                 break;
             case "joingame":
-                lobby = CommandHandler.joinGame(parts, client);
+                this.lobby = CommandHandler.joinGame(parts, client);
                 break;
             case "start":
                 if (lobby.getPlayers().size() < 2){
@@ -67,6 +67,10 @@ public class MessageHandler {
             default:
                 Server.sendMessage(client, "E02");
         }
+    }
+
+    public Lobby getLobby(){
+        return lobby;
     }
 
 
