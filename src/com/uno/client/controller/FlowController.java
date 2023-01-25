@@ -1,8 +1,6 @@
 package com.uno.client.controller;
 
-import com.uno.client.view.CreateNewGameView;
-import com.uno.client.view.MainMenuView;
-import com.uno.client.view.WelcomeView;
+import com.uno.client.view.*;
 import com.uno.server.Server;
 
 public class FlowController {
@@ -33,6 +31,8 @@ public class FlowController {
 
         if(choice == 1){
             createGame();
+        }else if(choice == 2){
+            joinGame();
         }
     }
 
@@ -40,6 +40,22 @@ public class FlowController {
         emptyScreen();
 
         CreateNewGameView.updateView();
+        updateLobby(null);
+    }
+
+    public static void joinGame(){
+        emptyScreen();
+        JoinGameView.updateView();
+        updateLobby(null);
+    }
+
+    public static void updateLobby(String[] players ){
+        String[] defaultPlayers = new String[1];
+
+        defaultPlayers[0] = PlayerController.getOwnPlayer().getName();
+
+        emptyScreen();
+        LobbyView.updateView(players != null ? players : defaultPlayers);
     }
 
     public static void emptyScreen(){

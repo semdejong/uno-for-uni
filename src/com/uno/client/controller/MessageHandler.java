@@ -1,11 +1,15 @@
 package com.uno.client.controller;
 
 import com.uno.client.model.Game;
+import com.uno.client.model.Player;
 import com.uno.client.view.PlayerJoinedView;
 import com.uno.client.view.WelcomeView;
 import com.uno.client.controller.CommandHandler;
 
+import java.util.concurrent.Flow;
+
 public class MessageHandler {
+
     public static void receiveMessage(String message){
         String[] messageInParts = message.split("\\|");
         switch (messageInParts[0]){
@@ -14,7 +18,15 @@ public class MessageHandler {
                 WelcomeView.updateView(messageInParts[1]);
                 break;
             case "PlayerJoined":
-                PlayerJoinedView.updateView(messageInParts[1]);
+                Game.addPlayer(new Player(messageInParts[1]));
+
+                String[] playerNames = new String[Game.getPlayers().size()];
+
+                for (int i = 0; i < Game.getPlayers().size(); i++){
+                    playerNames[i] = Game.getPlayers().get(i).getName();
+                }
+
+                FlowController.updateLobby(playerNames);
                 break;
             case "PlayersAtTable":
                 GameController.updatePlayers(messageInParts[1]);

@@ -1,6 +1,8 @@
 package com.uno.client.view;
 
 import com.uno.client.controller.CommandSender;
+import com.uno.client.controller.PlayerController;
+import com.uno.client.model.Game;
 
 import java.util.Scanner;
 
@@ -14,5 +16,6 @@ public class CreateNewGameView {
     public static void inputView(){
         Scanner scanner = new Scanner(System.in);
         CommandSender.sendMessage("REQUESTGAME|"+"a|p|"+scanner.nextInt());
+        Game.addPlayer(PlayerController.getOwnPlayer());
     }
 }
