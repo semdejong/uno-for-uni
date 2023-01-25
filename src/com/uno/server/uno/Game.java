@@ -6,6 +6,7 @@ import com.uno.server.Server;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 
 public class Game {
     private ArrayList<Player> players;
@@ -18,7 +19,6 @@ public class Game {
     public Game(ArrayList<Player> players, Lobby lobby){
         this.players = players;
         this.lobby = lobby;
-        drawPile = new DrawPile();
     }
 
     public void addPlayer(Player player){
@@ -30,6 +30,7 @@ public class Game {
     }
 
     public void startGame(){
+        drawPile = new DrawPile();
         drawPile.dealCards(players);
         playPile = new PlayPile(drawPile.drawCard());
 
@@ -38,8 +39,7 @@ public class Game {
         for (Player player : players) {
             player.getClientHandler().sendMessage("GiveHand|CARDREP|CARDREP|CARDREP|CARDREP....");
         }
-
-        activePlayer = players.get(0);
+        activePlayer = players.get((int)(Math.random()*players.size()));
         lobby.broadCastLobby("ActivePlayer|" + activePlayer.getName());
     }
 
@@ -52,7 +52,7 @@ public class Game {
             Collections.reverse(players);
         }
         if(card.getType() == Card.cardType.SKIP){
-            nextPlayer();
+            skipped = true;
         }
         nextPlayer();
         lobby.broadCastLobby("ActivePlayer|" + activePlayer.getName());
@@ -64,7 +64,15 @@ public class Game {
         } else {
             activePlayer = players.get(index + 1);
         }
-        return activePlayer;
+    }
+
+    public Player getNextPlayer(){
+        int index = players.indexOf(activePlayer);
+        if (index == players.size() - 1){
+            return players.get(0);
+        } else {
+            return players.get(index + 1);
+        }
     }
 
     public DrawPile getDrawPile() {

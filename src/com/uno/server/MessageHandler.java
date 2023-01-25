@@ -32,7 +32,7 @@ public class MessageHandler {
         }
 
         if (client.getClientName() == null){
-            client.sendError(Error.E08); //not connected yet
+            client.sendError(Error.E09, "Client has not connected"); //not connected yet
             return;
         }
 

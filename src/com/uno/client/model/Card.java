@@ -1,11 +1,11 @@
 package com.uno.client.model;
 
 public class Card {
-    enum cardType {
+    public enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
     };
 
-    enum cardColor {
+    public enum cardColor {
         RED, YELLOW, GREEN, BLUE, BLACK
     };
 

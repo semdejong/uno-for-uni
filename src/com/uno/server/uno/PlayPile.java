@@ -36,7 +36,6 @@ public class PlayPile {
             activeCard = card;
             return true;
         }else {
-            System.out.println("Card is not playable");
             return false;
         }
     }

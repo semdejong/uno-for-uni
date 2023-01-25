@@ -67,7 +67,9 @@ public class Server extends Thread{
     public static void sendError(ClientHandler clientToReceive, Error error){
         clientToReceive.sendError(error);
     }
-
+    public static void sendError(ClientHandler clientToReceive, Error error, String message){
+       clientToReceive.sendError(error, message);
+    }
     public static void closeConnection(ClientHandler clientToClose){
         clientToClose.stop();
         clients.remove(clientToClose);

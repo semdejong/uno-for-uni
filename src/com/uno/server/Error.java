@@ -8,7 +8,8 @@ public enum Error{
     E05("You don’t have the card"),
     E06("There are currently not enough players, wait for at least two players to connect"),
     E07("It is not your turn"),
-    E08("General error");
+    E08("General error"),
+    E09("custom error");
 
     private String errorDescription;
 

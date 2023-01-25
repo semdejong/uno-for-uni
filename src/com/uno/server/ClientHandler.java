@@ -53,6 +53,9 @@ public class ClientHandler extends Thread{
     public void sendError(Error error){
         sendMessage("ERROR|"+error.toString());
     }
+    public void sendError(Error error, String message){
+        sendMessage("ERROR|"+error.toString()+"|"+message);
+    }
 
     public void closeConnection(){
         Server.closeConnection(this);
