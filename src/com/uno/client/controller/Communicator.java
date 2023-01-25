@@ -22,14 +22,9 @@ public class Communicator extends Thread{
             System.out.println("Connected to server");
             BufferedWriter outgoing = new BufferedWriter(new java.io.OutputStreamWriter(connection.getOutputStream()));
             BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            CommandSender.setOut(outgoing);
             MessageReceiver receiver = new MessageReceiver(incoming);
             receiver.start();
-            Scanner i = new Scanner(System.in);
-            while(true) {
-                outgoing.write(i.nextLine());
-                outgoing.newLine();
-                outgoing.flush();
-            }
         } catch (IOException e) {
             System.out.println("An error occurred while connecting to the server.");
             System.out.println(e.toString());

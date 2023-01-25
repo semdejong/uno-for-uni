@@ -1,6 +1,7 @@
 package com.uno.server.uno;
 
 
+import com.uno.server.ClientHandler;
 import com.uno.server.uno.Card;
 
 import java.util.ArrayList;
@@ -15,6 +16,12 @@ public class Hand {
 
     public void addCard(Card card){
         hand.add(card);
+    }
+
+    public void addCardSyncWithClient(Card card, ClientHandler client){
+        addCard(card);
+        client.sendMessage("GiveCard|"+card.toString());
+        client.getJoinedLobby().broadCastLobby("CardDrawn|"+client.getClientName());
     }
 
     public void removeCard(Card card){
@@ -42,11 +49,15 @@ public class Hand {
     public String toString(){
         String handString = "";
 
-        for(Card card : hand){
-            handString += "card " + (hand.indexOf(card) + 1) + ". " + card.toString() + "\n";
+        for (Card card : getCards()){
+            handString += card.toString();
+
+            if(getCards().indexOf(card) != getCards().size() -1){
+                handString+= "~,~";
+            }
         }
 
-        return  handString;
+        return handString;
     }
 
 

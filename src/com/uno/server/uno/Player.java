@@ -29,6 +29,13 @@ public class Player {
         hand.addCard(card);
     }
 
+    public void drawCardWithClientSync(int amountOfCards){
+        for(int i =0; i < amountOfCards; i++){
+            Card cardDrawn = lobby.getGame().getDrawPile().drawCard();
+            this.getHand().addCardSyncWithClient(cardDrawn, clientHandler);
+        }
+    }
+
     public void removeCard(Card card){
         hand.removeCard(card);
     }

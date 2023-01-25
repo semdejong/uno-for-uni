@@ -16,15 +16,16 @@ public class Server extends Thread{
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ArrayList<Lobby> lobbies = new ArrayList<>();
     private static ArrayList<Game> games = new ArrayList<>();
+    private static int port = 1725;
 
     public static void main(String[] args){
-        Communicator communicator = new Communicator("localhost", 1795);
+        Communicator communicator = new Communicator("localhost", port);
         Server hi = new Server();
         hi.start();
         communicator.start();
     }
     public void run(){
-        try(ServerSocket ssock = new ServerSocket(1795);){
+        try(ServerSocket ssock = new ServerSocket(port);){
             System.out.println("Server started");
             while(true){
                 Socket sock = ssock.accept();
@@ -37,6 +38,10 @@ public class Server extends Thread{
             System.out.println("error occurred");
             e.printStackTrace();
         }
+    }
+
+    public static void setPort(int chosenPort){
+        port = chosenPort;
     }
 
     //Send message to all connected clients

@@ -52,11 +52,11 @@ public class MessageHandler {
                 }
                 break;
             case "playcard":
-                String[] card = {parts[1], parts[2], parts[3]};
-                game.playCard(CommandHandler.makeCard(card));
+                String[] card = parts[1].split("$,$");
+                game.playCard(CommandHandler.makeCard(card), client);
                 break;
             case "drawcard":
-                client.sendMessage("DrawCard|" + game.getDrawPile().drawCard().toString());
+                game.drawCard(client);
                 break;
             case "leavegame":
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");

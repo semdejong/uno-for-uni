@@ -1,7 +1,5 @@
 package com.uno.client.controller;
 
-import com.uno.server.MessageHandler;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class MessageReceiver extends Thread{
         try{
                 String msg = reader.readLine();
                 while (true) {
-                    System.out.println(msg);
+                    MessageHandler.receiveMessage(msg);
                     msg = reader.readLine();
                 }
         } catch (IOException e) {

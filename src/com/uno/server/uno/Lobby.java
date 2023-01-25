@@ -27,12 +27,16 @@ public class Lobby {
         this.game = game;
         game.startGame();
         String message = "GameStarted|";
-        for (String feature: supportedFeatures) {
-            message += feature + "|";
-        }
+//        for (String feature: supportedFeatures) {
+//            message += feature + "|";
+//        }
         broadCastLobby(message);
 
         broadCastLobby("PlayersAtTable|"+ getPlayersAsString());
+        return game;
+    }
+
+    public Game getGame(){
         return game;
     }
 
