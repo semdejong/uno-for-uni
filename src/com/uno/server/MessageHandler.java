@@ -1,5 +1,6 @@
 package com.uno.server;
 
+import com.uno.server.uno.Card;
 import com.uno.server.uno.Game;
 import com.uno.server.uno.Lobby;
 import com.uno.server.uno.Player;
@@ -55,12 +56,20 @@ public class MessageHandler {
                 }
                 break;
             case "playcard":
-                String[] card = parts[1].split("$,$");
+                String[] card = parts[1].split("\\$,\\$");
                 game.playCard(CommandHandler.makeCard(card), client);
                 break;
             case "drawcard":
                 game.drawCard(client);
                 break;
+            case "playdrawncard":
+                if(parts[1].equals("true")){
+                    Card lastCard = getPlayerByClient().getLastDrawnCard();
+                    game.playCard(lastCard, client);
+                }else{
+                    game.nextPlayer();
+                    lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
+                }
             case "leavegame":
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");
                 client.closeConnection();

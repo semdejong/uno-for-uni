@@ -10,6 +10,7 @@ public class Player {
     private int score;
     private ClientHandler clientHandler;
     private Lobby lobby;
+    private Card lastDrawnCard;
     
     public Player(ClientHandler clientHandler){
         this.clientHandler = clientHandler;
@@ -29,10 +30,11 @@ public class Player {
         hand.addCard(card);
     }
 
-    public void drawCardWithClientSync(int amountOfCards){
+    public void drawCardWithClientSync(int amountOfCards, Game game){
         for(int i =0; i < amountOfCards; i++){
-            Card cardDrawn = lobby.getGame().getDrawPile().drawCard();
+            Card cardDrawn = game.getDrawPile().drawCard();
             this.getHand().addCardSyncWithClient(cardDrawn, clientHandler);
+            this.lastDrawnCard = cardDrawn;
         }
     }
 
@@ -58,6 +60,10 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Card getLastDrawnCard(){
+        return lastDrawnCard;
     }
 
     public String getName(){

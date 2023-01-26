@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Hand {
 
-    private static ArrayList<Card> hand;
+    private ArrayList<Card> hand;
 
     public Hand(){
         this.hand = new ArrayList<Card>();
     }
 
-    public static void addCard(Card card){
+    public void addCard(Card card){
         hand.add(card);
     }
 
-    public static void removeCard(Card card){
+    public void removeCard(Card card){
         hand.remove(card);
 
     }
@@ -23,11 +23,11 @@ public class Hand {
         return hand;
     }
 
-    public static void setHand(ArrayList<Card> hand) {
-        Hand.hand = hand;
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
     }
 
-    public static int getHandSize() {
+    public int getHandSize() {
         return hand.size();
     }
 

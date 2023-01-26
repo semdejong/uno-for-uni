@@ -20,13 +20,13 @@ public class GameController {
     }
 
     public static void updatePlayedCard(String card){
-        String[] cardInParts = card.split("$,$");
+        String[] cardInParts = card.split("\\$,\\$");
         Game.setActiveCard(CommandHandler.makeCard(cardInParts));
     }
 
     public static void giveHand(String hand){
 
-        Hand.setHand(new ArrayList<>());
+        PlayerController.getOwnPlayer().setHand(new Hand());
 
         for (String card : hand.split("~,~")){
             String[] cardInParts = card.split("\\$,\\$");

@@ -66,11 +66,11 @@ public class Game {
         }
         if(card.getType() == Card.cardType.DRAW_TWO){
             skipped = true;
-            getNextPlayer().drawCardWithClientSync(2);
+            getNextPlayer().drawCardWithClientSync(2, this);
         }
         if(card.getType() == Card.cardType.WILD_DRAW_FOUR){
             skipped = true;
-            getNextPlayer().drawCardWithClientSync(4);
+            getNextPlayer().drawCardWithClientSync(4, this);
         }
 
         activePlayer.removeCard(card);
@@ -90,7 +90,7 @@ public class Game {
             client.sendError(Error.E07);
         }
 
-        activePlayer.drawCardWithClientSync(1);
+        activePlayer.drawCardWithClientSync(1, this);
     }
 
     public boolean checkRoundEnd(){
