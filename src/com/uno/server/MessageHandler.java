@@ -61,6 +61,10 @@ public class MessageHandler {
             case "leavegame":
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");
                 client.closeConnection();
+                break;
+            case "leaveserver":
+                client.closeConnection();
+                break;
             case "sendmessage":
                 Server.broadCast(parts[1], client);
                 break;

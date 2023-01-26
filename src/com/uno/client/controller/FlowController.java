@@ -33,6 +33,9 @@ public class FlowController {
             createGame();
         }else if(choice == 2){
             joinGame();
+        }else if(choice == 4){
+            CommandSender.sendMessage("LeaveServer");
+            System.exit(0);
         }
     }
 
