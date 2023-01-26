@@ -16,13 +16,11 @@ public class Server extends Thread{
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ArrayList<Lobby> lobbies = new ArrayList<>();
     private static ArrayList<Game> games = new ArrayList<>();
-    private static int port = 1725;
+    private static int port = 3333;
 
     public static void main(String[] args){
-        Communicator communicator = new Communicator("localhost", port);
         Server hi = new Server();
         hi.start();
-        communicator.start();
     }
     public void run(){
         try(ServerSocket ssock = new ServerSocket(port);){

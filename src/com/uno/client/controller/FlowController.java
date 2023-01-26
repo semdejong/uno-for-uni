@@ -44,12 +44,15 @@ public class FlowController {
 
         CreateNewGameView.updateView();
         updateLobby(null);
+        WaitStartView.updateView();
     }
 
     public static void joinGame(){
         emptyScreen();
         JoinGameView.updateView();
         updateLobby(null);
+        WaitStartView.enoughPlayers = true;
+        WaitStartView.updateView();
     }
 
     public static void updateLobby(String[] players ){

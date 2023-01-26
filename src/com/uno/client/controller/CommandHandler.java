@@ -1,6 +1,8 @@
 package com.uno.client.controller;
 
 import com.uno.client.model.Card;
+import com.uno.client.model.Game;
+import com.uno.client.model.Hand;
 
 import java.util.Arrays;
 
@@ -42,5 +44,19 @@ public class CommandHandler {
                 break;
         }
         return new Card(type, color, value);
+    }
+    public static boolean playable(Card card){
+        if (PlayerController.getOwnPlayer().getHand().getCards() == null){
+            return true;
+        } else if (card.getType() == Card.cardType.WILD_DRAW_FOUR) {
+            for (Card card1 : PlayerController.getOwnPlayer().getHand().getCards()){
+                if (card1.getColor() == Game.getActiveCard().getColor()){
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return card.getColor().equals(Game.getActiveCard().getColor()) || card.getNumber() == Game.getActiveCard().getNumber() || card.getType().equals(Card.cardType.WILD);
+        }
     }
 }

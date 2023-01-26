@@ -55,16 +55,19 @@ public class CommandHandler {
         }
         ArrayList<Lobby> lobbies = Server.getLobbies();
         Lobby firstLobby = lobbies.get(0);
+        Player player = new Player(sender);
 
         if (lobbies.size() == 1 && firstLobby.getPin() == 0) {
-            firstLobby.addPlayer(new Player(sender));
+            firstLobby.addPlayer(player);
             firstLobby.broadCastLobby("PlayerJoined|" +sender.getClientName(), sender);
+            player.setLobby(firstLobby);
             return firstLobby;
         }else if ((lobbies.size() == 1 && firstLobby.getPin() != 0)|| lobbies.size() > 1){
             for (Lobby lobby : lobbies){
                 if (lobby.getPin() == Integer.parseInt(parts[1])){
                     lobby.addPlayer(new Player(sender));
                     lobby.broadCastLobby("PlayerJoined|" +sender.getClientName(), sender);
+                    player.setLobby(lobby);
                     return lobby;
                 }
             }

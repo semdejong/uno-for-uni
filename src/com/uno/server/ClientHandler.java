@@ -80,4 +80,12 @@ public class ClientHandler extends Thread{
     public void setClientName(String clientName) {
         ClientName = clientName;
     }
+
+    public MessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
+    public void setMessageHandler(MessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
+    }
 }

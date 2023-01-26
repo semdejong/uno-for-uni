@@ -44,8 +44,28 @@ public class Card {
         this.number = number;
     }
 
+    public boolean equals(Object compareTo){
+        if(this == compareTo) return true; //both adresses are the same in the memory.
+
+        if(!(compareTo instanceof com.uno.server.uno.Card)) return false; // if compareTo is not a card, it can not be the same.
+
+        Card card = (Card) compareTo; //Safe cast to card, because of instanceof check above
+
+        return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || card.getType() == cardType.WILD && this.getType() == cardType.WILD|| card.getType() == cardType.WILD_DRAW_FOUR && this.getType() == cardType.WILD_DRAW_FOUR);
+    }
+
+    @Override
     public String toString() {
-        return "Card: " + this.type + " " + this.color + " " + this.number;
+        if(this.number < 0){
+            return this.color + "$,$" + this.type;
+        }
+        return this.color + "$,$" + this.number;
+    }
+    public String toStringPerson(){
+        if(this.number < 0){
+            return this.color + " " + this.type;
+        }
+        return this.color + " " + this.number;
     }
 
 }

@@ -22,9 +22,8 @@ public class Lobby {
         players = new ArrayList<>();
     }
 
-    public Game startGame(){
-        Game game = new Game(players, this);
-        this.game = game;
+    public void startGame(){
+        game = new Game(players, this);
         game.startGame();
         String message = "GameStarted|";
 //        for (String feature: supportedFeatures) {
@@ -33,7 +32,9 @@ public class Lobby {
         broadCastLobby(message);
 
         broadCastLobby("PlayersAtTable|"+ getPlayersAsString());
-        return game;
+        for (Player player: players) {
+            player.getClientHandler().getMessageHandler().setGame(game);
+        }
     }
 
     public Game getGame(){

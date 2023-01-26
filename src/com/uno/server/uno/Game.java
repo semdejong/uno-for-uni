@@ -15,6 +15,7 @@ public class Game {
     private PlayPile playPile;
     private Lobby lobby;
     private Player activePlayer;
+    private boolean started = false;
 
 
     public Game(ArrayList<Player> players, Lobby lobby){
@@ -42,6 +43,7 @@ public class Game {
         }
         activePlayer = players.get((int)(Math.random()*players.size()));
         lobby.broadCastLobby("ActivePlayer|" + activePlayer.getName());
+        started = true;
     }
 
     public void playCard(Card card, ClientHandler client){
@@ -163,5 +165,45 @@ public class Game {
 
     public DrawPile getDrawPile() {
         return drawPile;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setDrawPile(DrawPile drawPile) {
+        this.drawPile = drawPile;
+    }
+
+    public PlayPile getPlayPile() {
+        return playPile;
+    }
+
+    public void setPlayPile(PlayPile playPile) {
+        this.playPile = playPile;
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
+    public void setActivePlayer(Player activePlayer) {
+        this.activePlayer = activePlayer;
     }
 }

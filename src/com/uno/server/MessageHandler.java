@@ -18,6 +18,7 @@ public class MessageHandler {
     }
 
     public void receiveMessage(String message) {
+        System.out.println("Server received:" + message);
         String[] parts = message.split("\\|");
         parts[0] = parts[0].toLowerCase().replace(" ", "");
 
@@ -47,8 +48,10 @@ public class MessageHandler {
                 if (lobby.getPlayers().size() < 2){
                     client.sendError(Error.E06); //not enough players
                     return;
-                } else {
-                    game = lobby.startGame();
+                } else if (game != null){
+                    client.sendError(Error.E09, "Game has already started");
+                } else{
+                    lobby.startGame();
                 }
                 break;
             case "playcard":
@@ -73,9 +76,39 @@ public class MessageHandler {
         }
     }
 
+
     public Lobby getLobby(){
         return lobby;
     }
 
+    public ClientHandler getClient() {
+        return client;
+    }
 
+    public void setClient(ClientHandler client) {
+        this.client = client;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Player getPlayerByClient(){
+
+        for(Player player: game.getPlayers()){
+            if(player.getClientHandler().equals(client)){
+                return player;
+            }
+        }
+
+        return null;
+    }
 }

@@ -4,6 +4,7 @@ import com.uno.client.model.Card;
 import com.uno.client.model.Game;
 import com.uno.client.model.Hand;
 import com.uno.client.model.Player;
+import com.uno.client.view.DrawnCardView;
 
 import java.util.ArrayList;
 
@@ -28,9 +29,16 @@ public class GameController {
         Hand.setHand(new ArrayList<>());
 
         for (String card : hand.split("~,~")){
-            String[] cardInParts = card.split("$,$");
-            Hand.addCard(CommandHandler.makeCard(cardInParts));
+            String[] cardInParts = card.split("\\$,\\$");
+            PlayerController.getOwnPlayer().getHand().addCard(CommandHandler.makeCard(cardInParts));
         }
     }
+    public static void drawnCard(String card){
+        String[] cardInParts = card.split("\\$,\\$");
+        Card card1 = CommandHandler.makeCard(cardInParts);
+        PlayerController.getOwnPlayer().getHand().addCard(card1);
+        DrawnCardView.updateView(card1);
+    }
+
 
 }

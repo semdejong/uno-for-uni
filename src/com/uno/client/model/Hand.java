@@ -19,7 +19,7 @@ public class Hand {
 
     }
 
-    public static ArrayList<Card> getHand() {
+    public ArrayList<Card> getCards() {
         return hand;
     }
 
@@ -31,5 +31,15 @@ public class Hand {
         return hand.size();
     }
 
-
+    @Override
+    public  String toString(){
+        String handString = "";
+        for (int i=0; i<getCards().size(); i++){
+            handString += (i+1) + ": " + hand.get(i).toStringPerson();
+            if(i != hand.size() -1){
+                handString+= "\n";
+            }
+        }
+        return handString;
+    }
 }
