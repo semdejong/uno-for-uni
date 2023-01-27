@@ -3,6 +3,12 @@ package com.uno.client.controller;
 import com.uno.client.view.*;
 import com.uno.server.Server;
 
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class FlowController {
     public static boolean comStarted = false;
 
@@ -67,12 +73,14 @@ public class FlowController {
         WaitStartView.updateView();
     }
 
-    public static void updateLobby(String[] players ){
+    public static void updateLobby(String[] players){
         String[] defaultPlayers = new String[1];
 
         defaultPlayers[0] = PlayerController.getOwnPlayer().getName();
 
         emptyScreen();
+//      WaitStartView.enoughPlayers = players != null && players.length > 1;
+        WaitStartView.enoughPlayers = true;
         LobbyView.updateView(players != null ? players : defaultPlayers);
         System.out.println(players != null && players.length > 1);
     }

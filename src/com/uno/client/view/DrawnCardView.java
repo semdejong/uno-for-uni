@@ -13,11 +13,12 @@ public class DrawnCardView {
         inputView(card);
     }
     public static void inputView(Card card){
-        Scanner in = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println("would you like to play this card? y/n");
         String input = scanner.nextLine();
         while (true){
-            if (in.nextLine().equals("y") && !CommandHandler.playable(card)){
+            if (input.equals("y") && !CommandHandler.playable(card)){
                 System.out.println("you can't play this card");
                 CommandSender.sendMessage("PlayDrawnCard|false");
                 PlayerController.getOwnPlayer().addCard(card);
@@ -40,13 +41,15 @@ public class DrawnCardView {
 
                 CommandSender.sendMessage("PlayDrawnCard|true");
                 break;
-            } else if (in.nextLine().equals("n")){
+            } else if (input.equals("n")){
                 CommandSender.sendMessage("PlayDrawnCard|false");
                 PlayerController.getOwnPlayer().addCard(card);
                 break;
             } else {
                 System.out.println("please enter y or n");
             }
+
+            input = scanner.nextLine();
         }
 
     }

@@ -44,6 +44,7 @@ public class Card {
         this.number = number;
     }
 
+    @Override
     public boolean equals(Object compareTo){
         if(this == compareTo) return true; //both adresses are the same in the memory.
 

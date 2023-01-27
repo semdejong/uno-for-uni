@@ -62,6 +62,10 @@ public class Player {
         this.score = score;
     }
 
+    public void setLastDrawnCard(Card lastDrawnCard){
+        this.lastDrawnCard = lastDrawnCard;
+    }
+
     public Card getLastDrawnCard(){
         return lastDrawnCard;
     }

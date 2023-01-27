@@ -1,11 +1,14 @@
 package com.uno.client.controller;
 
+import com.uno.client.RunClient;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Communicator{
     private  String ip;
@@ -16,7 +19,7 @@ public class Communicator{
         this.port = port;
     }
 
-    public void run() {
+    public void run(){
         try{
             Socket connection = new Socket(ip, port);
             System.out.println("Connected to server");
@@ -26,10 +29,8 @@ public class Communicator{
             CommandSender.setOut(outgoing);
             MessageReceiver receiver = new MessageReceiver(incoming);
             receiver.start();
-        } catch (IOException e) {
-            System.out.println("An error occurred while connecting to the server.");
-            System.out.println(e.toString());
+        }catch (IOException e) {
+            System.out.println("Could not connect to server");
         }
-
     }
 }
