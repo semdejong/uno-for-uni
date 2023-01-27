@@ -50,6 +50,7 @@ public class DrawPile {
     public void dealCards(ArrayList<Player> players){
         shuffle();
         for (Player player : players) {
+            player.getHand().clearHand();
             for (int i = 0; i < 7; i++) {
                 player.addCard(drawCard());
             }
@@ -69,5 +70,8 @@ public class DrawPile {
         Collections.shuffle(deck);
     }
 
+    public void addCard(Card card){
+        deck.add(card);
+    }
 
 }

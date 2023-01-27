@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Communicator extends Thread{
+public class Communicator{
     private  String ip;
     private int port;
 
@@ -20,6 +20,7 @@ public class Communicator extends Thread{
         try{
             Socket connection = new Socket(ip, port);
             System.out.println("Connected to server");
+            FlowController.comStarted = true;;
             BufferedWriter outgoing = new BufferedWriter(new java.io.OutputStreamWriter(connection.getOutputStream()));
             BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             CommandSender.setOut(outgoing);

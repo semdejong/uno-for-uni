@@ -9,6 +9,7 @@ import com.uno.client.controller.CommandHandler;
 import java.util.concurrent.Flow;
 
 public class MessageHandler {
+    public static boolean drawnCard = false;
 
     public static void receiveMessage(String message){
         System.out.println("Client received:" + message);
@@ -19,6 +20,7 @@ public class MessageHandler {
                 WelcomeView.updateView(messageInParts[1]);
                 break;
             case "PlayerJoined":
+                WaitStartView.enoughPlayers = true;
                 Game.addPlayer(new Player(messageInParts[1]));
 
                 String[] playerNames = new String[Game.getPlayers().size()];
@@ -27,7 +29,6 @@ public class MessageHandler {
                     playerNames[i] = Game.getPlayers().get(i).getName();
                 }
                 FlowController.updateLobby(playerNames);
-                WaitStartView.enoughPlayers = true;
                 break;
             case "PlayersAtTable":
                 GameController.updatePlayers(messageInParts[1]);
@@ -36,8 +37,6 @@ public class MessageHandler {
                 GameController.updatePlayedCard(messageInParts[1]);
                 break;
             case "giveHand":
-
-                //TODO: make hand and clear old one
                 GameController.giveHand(messageInParts[1]);
                 break;
             case "GameStarted":
@@ -59,7 +58,12 @@ public class MessageHandler {
                 OtherTurnView.updateView(messageInParts[1], null);
                 break;
             case "GiveCard":
-                DrawnCardView.updateView(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));
+                if (drawnCard){
+                    DrawnCardView.updateView(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));
+                    drawnCard = false;
+                } else{
+                    ForcedDrawView.updateView(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));
+                }
                 break;
             case "RoundOver":
                 break;

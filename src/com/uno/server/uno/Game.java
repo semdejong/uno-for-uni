@@ -34,8 +34,15 @@ public class Game {
     public void startGame(){
         drawPile = new DrawPile();
         drawPile.dealCards(players);
-        playPile = new PlayPile(drawPile.drawCard());
-
+        Card firstCard = drawPile.drawCard();
+        if (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
+            while (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
+                drawPile.addCard(firstCard);
+                firstCard = drawPile.drawCard();
+                drawPile.shuffle();
+            }
+        }
+        playPile = new PlayPile(firstCard);
         Server.broadCast("StartingCard|"+playPile.getActiveCard().toString());
 
         for (Player player : players) {

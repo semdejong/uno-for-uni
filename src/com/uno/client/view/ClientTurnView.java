@@ -1,9 +1,7 @@
 package com.uno.client.view;
 
-import com.uno.client.controller.CommandHandler;
-import com.uno.client.controller.CommandSender;
-import com.uno.client.controller.GameController;
-import com.uno.client.controller.PlayerController;
+import com.uno.client.controller.*;
+import com.uno.client.model.Card;
 import com.uno.client.model.Game;
 import com.uno.client.model.Hand;
 
@@ -24,6 +22,7 @@ public class ClientTurnView {
         while (true){
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("draw")){
+                MessageHandler.drawnCard = true;
                 CommandSender.sendMessage("DrawCard");
                 return;
             }
@@ -34,6 +33,19 @@ public class ClientTurnView {
                     continue;
                 } else {
                     if (CommandHandler.playable(hand.getCards().get(number-1))){
+                        if (hand.getCards().get(number-1).getColor().equals(Card.cardColor.BLACK)){
+                            System.out.println("What color do you want to change it to?");
+                            String color = scanner.nextLine();
+                            while (true){
+                                if (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("green") || color.equalsIgnoreCase("yellow")){
+                                    hand.getCards().get(number-1).setColor(Card.cardColor.valueOf(color.toUpperCase()));
+                                    break;
+                                } else {
+                                    System.out.println("Please enter a valid color");
+                                    color = scanner.nextLine();
+                                }
+                            }
+                        }
                         CommandSender.sendMessage("PlayCard|" + hand.getCards().get(number-1).toString());
                         hand.removeCard(hand.getCards().get(number-1));
                         return;

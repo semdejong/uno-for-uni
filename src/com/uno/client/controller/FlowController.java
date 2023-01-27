@@ -4,20 +4,32 @@ import com.uno.client.view.*;
 import com.uno.server.Server;
 
 public class FlowController {
+    public static boolean comStarted = false;
 
-    public static void entryPoint(String server){
+    public static void entryPoint(){
 
-        String serverInput = server.toLowerCase().trim();
+        Communicator com;
 
-        if(serverInput.contains("own")){
-            Server ownServer = new Server();
-            ownServer.setPort(Integer.parseInt(serverInput.split(":")[1]));
-            ownServer.start();
+        System.out.println("Put in a UNO server address (ip:port), type (own:port) for own server on that port.");
+        Scanner scanner = new Scanner(System.in);
+        String serverInput = "";
+        while (!comStarted) {
+            serverInput = scanner.nextLine().toLowerCase().trim();
+            if (serverInput.split(":").length == 2) {
+                if(serverInput.contains("own")){
+                    Server ownServer = new Server();
+                    ownServer.setPort(Integer.parseInt(serverInput.split(":")[1]));
+                    ownServer.start();
+                }
+                if(serverInput.equals("l")){
+                    com = new Communicator("localhost", 3333);
+                }else {
+                    com = new Communicator(serverInput.contains("own") ? "localhost" : serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
+                }
+                com.run();
+            }
         }
 
-
-        Communicator com = new Communicator(serverInput.contains("own") ? "localhost" : serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
-        com.start();
 
         WelcomeView.inputView();
 
@@ -62,6 +74,7 @@ public class FlowController {
 
         emptyScreen();
         LobbyView.updateView(players != null ? players : defaultPlayers);
+        System.out.println(players != null && players.length > 1);
     }
 
     public static void emptyScreen(){

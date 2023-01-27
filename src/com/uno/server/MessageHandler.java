@@ -63,13 +63,23 @@ public class MessageHandler {
                 game.drawCard(client);
                 break;
             case "playdrawncard":
-                if(parts[1].equals("true")){
-                    Card lastCard = getPlayerByClient().getLastDrawnCard();
-                    game.playCard(lastCard, client);
-                }else{
-                    game.nextPlayer();
-                    lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
+                if (game.getActivePlayer().getClientHandler().equals(client) && game.getActivePlayer().getLastDrawnCard() != null){
+                    if(parts[1].equals("true")){
+                        Card lastCard = getPlayerByClient().getLastDrawnCard();
+                        if (lastCard.getType() == Card.cardType.WILD || lastCard.getType() == Card.cardType.WILD_DRAW_FOUR){
+                            lastCard.setColor(Card.cardColor.valueOf(parts[2].toUpperCase()));
+                        }
+                        game.playCard(lastCard, client);
+                        getPlayerByClient().setLastDrawnCard(null);
+                    }else{
+                        game.nextPlayer();
+                        lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
+                        getPlayerByClient().setLastDrawnCard(null);
+                    }
+                } else{
+                    client.sendError(Error.E07);
                 }
+                break;
             case "leavegame":
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");
                 client.closeConnection();

@@ -22,10 +22,13 @@ public class WaitStartView extends Thread{
             }
         }
         while (!started){
-            if (scanner.hasNext()){
+            if (scanner.hasNext() && !started){
                 if (scanner.nextLine().equals("start")){
                     CommandSender.sendMessage("Start");
                     started = true;
+                    break;
+                } else {
+                    System.out.println("Type 'start' to start the game.");
                 }
             }
         }
