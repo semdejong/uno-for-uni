@@ -1,6 +1,6 @@
 package com.uno.client.model;
 
-public class Card {
+public class Card implements Comparable<Card>{
     public enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
     };
@@ -62,6 +62,15 @@ public class Card {
         }
         return this.color + "$,$" + this.number;
     }
+
+    @Override
+    public int compareTo(Card otherCard){
+        Integer thisCardValue = (Integer) this.getNumber();
+        Integer otherCardValue = (Integer) otherCard.getNumber();
+
+        return otherCardValue.compareTo(thisCardValue);
+    }
+
     public String toStringPerson(){
         if(this.number < 0){
             return this.color + " " + this.type;

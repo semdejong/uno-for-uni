@@ -1,5 +1,7 @@
 package com.uno.client.controller;
 
+import com.uno.client.Computers.AI;
+import com.uno.client.Computers.BasicComputer;
 import com.uno.client.model.Player;
 
 public class PlayerController {
@@ -12,6 +14,14 @@ public class PlayerController {
 
     public static Player getOwnPlayer(){
         return ownPlayer;
+    }
+
+    public static void setOwnPlayer(Player player){
+        ownPlayer = player;
+    }
+
+    public static boolean isComputerPlayer(){
+        return AI.class.isAssignableFrom(ownPlayer.getClass());
     }
 
 }

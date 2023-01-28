@@ -45,7 +45,7 @@ public class MessageHandler {
             case "StartingPlayer":
             case "ActivePlayer":
                 if (messageInParts[1].equals(PlayerController.getOwnPlayer().getName())){
-                    ClientTurnView.updateView();
+                    FlowController.clientTurn();
                 }
                 break;
             case "CardPlayed":
@@ -59,7 +59,7 @@ public class MessageHandler {
                 break;
             case "GiveCard":
                 if (drawnCard){
-                    DrawnCardView.updateView(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));
+                    FlowController.drawCard(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));
                     drawnCard = false;
                 } else{
                     ForcedDrawView.updateView(CommandHandler.makeCard(messageInParts[1].split("\\$,\\$")));

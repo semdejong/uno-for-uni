@@ -14,6 +14,10 @@ public class Game {
         Game.players = players;
     }
 
+    public static void removePlayer(Player player){
+        players.remove(player);
+    }
+
     public static Card getActiveCard() {
         return activeCard;
     }

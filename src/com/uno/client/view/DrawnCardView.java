@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class DrawnCardView {
     public static void updateView(Card card){
         System.out.println("you drew: " + card.toStringPerson());
-        inputView(card);
     }
     public static void inputView(Card card){
         Scanner scanner = new Scanner(System.in);

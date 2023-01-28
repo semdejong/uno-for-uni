@@ -1,5 +1,6 @@
 package com.uno.client.view;
 
+import com.uno.client.Computers.BasicComputer;
 import com.uno.client.controller.*;
 import com.uno.client.model.Card;
 import com.uno.client.model.Game;
@@ -15,7 +16,6 @@ public class ClientTurnView {
         System.out.println("The card on the top of the stack is:\n" + Game.getActiveCard().toStringPerson());
         System.out.println("Your hand is:\n" + hand.toString());
         System.out.println("Type which card you want to play (1-"+ hand.getHandSize()+ ") or type draw to draw a card");
-        inputView();
     }
     public static void inputView(){
         Scanner scanner = new Scanner(System.in);

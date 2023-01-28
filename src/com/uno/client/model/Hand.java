@@ -1,6 +1,9 @@
 package com.uno.client.model;
 
+import com.uno.client.controller.CommandHandler;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Hand {
 
@@ -29,6 +32,20 @@ public class Hand {
 
     public int getHandSize() {
         return hand.size();
+    }
+
+    public ArrayList<Card> getPlayableCardsSortedOnValue(){
+        ArrayList<Card> cardsToReturn = new ArrayList<>();
+
+        for(Card card : hand){
+            if(CommandHandler.playable(card)){
+                cardsToReturn.add(card);
+            }
+        }
+
+        Collections.sort(cardsToReturn);
+
+        return cardsToReturn;
     }
 
     @Override

@@ -19,8 +19,8 @@ public class Server extends Thread{
     private static int port = 3333;
 
     public static void main(String[] args){
-        Server hi = new Server();
-        hi.start();
+        Server server = new Server();
+        server.start();
     }
     public void run(){
         try(ServerSocket ssock = new ServerSocket(port);){
