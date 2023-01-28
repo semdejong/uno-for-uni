@@ -213,4 +213,12 @@ public class Game {
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
     }
+    public void removePlayer(ClientHandler clientHandler) {
+        for (Player player : players) {
+            if (player.getClientHandler().equals(clientHandler)) {
+                players.remove(player);
+                break;
+            }
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.uno.client.controller.FlowController;
 
 import java.util.Scanner;
 
-public class RunClient {
+public class RunClient{
     public static void main(String[] args){
         FlowController.entryPoint();
     }

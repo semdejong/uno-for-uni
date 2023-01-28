@@ -15,7 +15,7 @@ public class CreateNewGameView {
 
     public static void inputView(){
         Scanner scanner = new Scanner(System.in);
-        CommandSender.sendMessage("REQUESTGAME|"+"a|p|"+scanner.nextInt());
+        CommandSender.sendMessage("REQUESTGAME|"+"m|"+scanner.nextInt());
         Game.addPlayer(PlayerController.getOwnPlayer());
     }
 }

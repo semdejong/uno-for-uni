@@ -24,7 +24,10 @@ public class MessageHandler {
         parts[0] = parts[0].toLowerCase().replace(" ", "");
 
         if (parts[0].equals("connect")){
-            if (Server.getClientHandlerByName(parts[1]) != null){
+            if (parts.length == 1 || parts[1].equals("")){
+                client.sendError(Error.E09, "no name has been entered"); //no name
+                return;
+            } else if (Server.getClientHandlerByName(parts[1]) != null){
                 client.sendError(Error.E01); //name not unique
                 return;
             }
@@ -40,12 +43,24 @@ public class MessageHandler {
 
         switch (parts[0]){
             case "requestgame":
-                this.lobby = CommandHandler.requestGame(parts, client);
+                //TODO: check if player is already in a lobby
+                //TODO: add max players
+                Lobby lobby1 = CommandHandler.requestGame(parts, client);
+                if (lobby1 != null){
+                    this.lobby = lobby1;
+                }
                 break;
             case "joingame":
-                this.lobby = CommandHandler.joinGame(parts, client);
+                Lobby lobby2 = CommandHandler.joinGame(parts, client);
+                if (lobby2 != null){
+                    this.lobby = lobby2;
+                }
                 break;
             case "start":
+                if (lobby == null){
+                    client.sendError(Error.E09, "Client is not in a lobby"); //not in a lobby
+                    return;
+                } else
                 if (lobby.getPlayers().size() < 2){
                     client.sendError(Error.E06); //not enough players
                     return;
@@ -56,13 +71,29 @@ public class MessageHandler {
                 }
                 break;
             case "playcard":
+                if (parts.length < 2){
+                    client.sendError(Error.E09, "No card has been selected"); //no card selected
+                    return;
+                }
+                if (game == null){
+                    client.sendError(Error.E09, "Client is not in a game"); //not in a game
+                    return;
+                }
                 String[] card = parts[1].split("\\$,\\$");
                 game.playCard(CommandHandler.makeCard(card), client);
                 break;
             case "drawcard":
+                if (game == null){
+                    client.sendError(Error.E09, "Client is not in a game"); //not in a game
+                    return;
+                }
                 game.drawCard(client);
                 break;
             case "playdrawncard":
+                if (game == null){
+                    client.sendError(Error.E09, "Client is not in a game"); //not in a game
+                    return;
+                }
                 if (game.getActivePlayer().getClientHandler().equals(client) && game.getActivePlayer().getLastDrawnCard() != null){
                     if(parts[1].equals("true")){
                         Card lastCard = getPlayerByClient().getLastDrawnCard();
@@ -81,10 +112,28 @@ public class MessageHandler {
                 }
                 break;
             case "leavegame":
+                if (lobby == null){
+                    client.sendError(Error.E09, "Client is not in a game"); //not in a game
+                    return;
+                }
                 lobby.broadCastLobby(client.getClientName() + " has left the game.");
-                client.closeConnection();
+                lobby.removePlayer(client);
+                lobby = null;
+                if (game != null){
+                    game.removePlayer(client);
+                    game = null;
+                }
                 break;
             case "leaveserver":
+                if (game != null){
+                    game.removePlayer(client);
+                    game = null;
+                }
+                if (lobby != null){
+                    lobby.broadCastLobby(client.getClientName() + " has left the game.");
+                    lobby.removePlayer(client);
+                    lobby = null;
+                }
                 client.closeConnection();
                 break;
             case "sendmessage":

@@ -93,6 +93,26 @@ public class Server extends Thread{
         return null;
     }
 
+    public static ServerSocket getListener() {
+        return listener;
+    }
+
+    public static void setListener(ServerSocket listener) {
+        Server.listener = listener;
+    }
+
+    public static Socket getConnection() {
+        return connection;
+    }
+
+    public static void setConnection(Socket connection) {
+        Server.connection = connection;
+    }
+
+    public static int getPort() {
+        return port;
+    }
+
     public static ArrayList<ClientHandler> getClients() {
         return clients;
     }

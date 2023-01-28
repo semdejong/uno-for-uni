@@ -124,4 +124,12 @@ public class Lobby {
     public void setSupportedFeatures(String[] supportedFeatures) {
         this.supportedFeatures = supportedFeatures;
     }
+    public void removePlayer(ClientHandler clientHandler) {
+        for (Player player : players) {
+            if (player.getClientHandler().equals(clientHandler)) {
+                players.remove(player);
+                break;
+            }
+        }
+    }
 }
