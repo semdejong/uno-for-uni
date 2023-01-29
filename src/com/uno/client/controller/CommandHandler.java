@@ -23,24 +23,24 @@ public class CommandHandler {
         }
         switch (parts[1].toUpperCase()){
             case "SKIP":
+                value = 22;
                 type = Card.cardType.SKIP;
-                value = -1;
                 break;
             case "REVERSE":
                 type = Card.cardType.REVERSE;
-                value = -2;
+                value = 21;
                 break;
             case "DRAW_TWO":
                 type = Card.cardType.DRAW_TWO;
-                value = -3;
+                value = 23;
                 break;
             case "WILD":
                 type = Card.cardType.WILD;
-                value = -4;
+                value = 54;
                 break;
             case "WILD_DRAW_FOUR":
                 type = Card.cardType.WILD_DRAW_FOUR;
-                value = -5;
+                value = 55;
                 break;
         }
         return new Card(type, color, value);

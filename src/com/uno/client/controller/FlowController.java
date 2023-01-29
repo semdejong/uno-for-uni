@@ -82,8 +82,8 @@ public class FlowController {
     }
 
     public static void playWithComputerPlayer(){
-
-        playWithComputerPlayer(1);
+        PlayWithComputerPlayerView.updateView();
+        playWithComputerPlayer(PlayWithComputerPlayerView.inputView());
     }
 
     public static void playWithComputerPlayer(int choice){

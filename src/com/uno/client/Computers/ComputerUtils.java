@@ -16,12 +16,18 @@ public class ComputerUtils {
         if(!CommandHandler.playable(card)){
             return false;
         }
-
         if(card.getColor().equals(Card.cardColor.BLACK)){
-            card.setColor(Card.cardColor.valueOf(mostColorInHand(PlayerController.getOwnPlayer().getHand()))); //if computer does not change the color it self it will be automatically changed to most common color in hand
+            Card.cardColor color = Card.cardColor.valueOf(mostColorInHand(PlayerController.getOwnPlayer().getHand()));
+
+            if(color.equals(Card.cardColor.BLACK)){
+                color = Card.cardColor.YELLOW; //Make sure to never change the color to black.
+            }
+
+            card.setColor(color); //if computer does not change the color itself it will be automatically changed to most common color in hand
         }
 
         CommandSender.sendMessage("PlayCard|" + card.toString());
+
         PlayerController.getOwnPlayer().getHand().removeCard(card);
 
         return true;
@@ -81,6 +87,10 @@ public class ComputerUtils {
                 winnerColor = values.getKey();
                 amount = values.getValue();
             }
+        }
+
+        if(winnerColor.equals("")){
+            winnerColor = "RED"; //prevent from returning ""
         }
 
         return winnerColor;

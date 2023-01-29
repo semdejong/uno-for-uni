@@ -117,8 +117,19 @@ public class Game {
     }
 
     public boolean checkGameEnd(){
-        if (activePlayer.getScore() >= 500){
+        if (activePlayer.getScore() >= 50000){
             lobby.broadCastLobby("GameOver|" + activePlayer.getName());
+            for (Player player : players){
+                if (activePlayer.getScore() >= 50000){
+                    nextPlayer();
+                    System.out.println("Winner: " + activePlayer.getName() + "-" + activePlayer.getScore());
+                } else {
+                    nextPlayer();
+                    System.out.println("Loser: " + activePlayer.getName() + "-" + activePlayer.getScore());
+                }
+                player.setScore(0);
+            }
+            System.out.println("Played Cards: " + playedCards);
             return true;
         }
 

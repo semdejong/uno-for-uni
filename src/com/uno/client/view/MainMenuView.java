@@ -8,11 +8,15 @@ public class MainMenuView {
         System.out.println("SMUNO");
         System.out.println("");
         System.out.println("Choose a option by number:");
-        System.out.println("1) ............. Create a game.");
-        System.out.println("2) ............. Create a game with an AI");
-        System.out.println("3) ............. Join a game.");
-        System.out.println("4) ............. Join game with an AI.");
-        System.out.println("5) ............. exit.");
+        System.out.println("|---------------------------------------------------|");
+        System.out.println("|                                                   |");
+        System.out.println("|      1) ............. Create a game.              |");
+        System.out.println("|      2) ............. Create a game with an AI    |");
+        System.out.println("|      3) ............. Join a game.                |");
+        System.out.println("|      4) ............  Join game with an AI.       |");
+        System.out.println("|      5) ............. exit.                       |");
+        System.out.println("|                                                   |");
+        System.out.println("|---------------------------------------------------|");
         System.out.println("");
 
         return inputView();
