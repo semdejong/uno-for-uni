@@ -32,6 +32,15 @@ public class Player {
 
     public void drawCardWithClientSync(int amountOfCards, Game game){
         for(int i =0; i < amountOfCards; i++){
+            if(game.getDrawPile().getDeck().size() == 0){
+                if (game.getPlayPile().getDiscardPile().size() == 0){
+                    game.nextPlayer();
+                    lobby.broadCastLobby("ActivePlayer|" + game.getActivePlayer().getName());
+                    return;
+                }
+                game.getDrawPile().setDeck(game.getPlayPile().getDiscardPile());
+                game.getPlayPile().clearDiscardPile();
+            }
             Card cardDrawn = game.getDrawPile().drawCard();
             this.getHand().addCardSyncWithClient(cardDrawn, clientHandler);
             this.lastDrawnCard = cardDrawn;

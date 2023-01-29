@@ -72,7 +72,7 @@ public class Card implements Comparable<Card>{
     }
 
     public String toStringPerson(){
-        if(this.number < 0){
+        if(this.number > 9){
             return this.color + " " + this.type;
         }
         return this.color + " " + this.number;

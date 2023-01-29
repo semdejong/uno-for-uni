@@ -63,6 +63,11 @@ public class DrawPile {
 
     public void setDeck(ArrayList<Card> deck){
         this.deck = deck;
+        for (Card card : deck){
+            if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                card.setColor(Card.cardColor.BLACK);
+            }
+        }
         shuffle();
     }
 

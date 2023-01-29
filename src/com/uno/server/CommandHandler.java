@@ -56,11 +56,11 @@ public class CommandHandler {
                 maxPlayers = 10;
             }
             if (maxPlayers > 10){
-                sender.sendError(Error.E09, "Max players cannot be more than 10"); //max players cannot be more than 10
-                return null;
+                sender.sendError(Error.E09, "Max players cannot be more than 10, lobby created with max players 10"); //max players cannot be more than 10
+                maxPlayers = 10;
             } else if (maxPlayers < 2){
-                sender.sendError(Error.E09, "Max players cannot be less than 2"); //max players cannot be less than 2
-                return null;
+                sender.sendError(Error.E09, "Max players cannot be less than 2, lobby created with max players 2"); //max players cannot be less than 2
+                maxPlayers = 2;
             } else {
                 lobby.setMaxPlayers(maxPlayers);
             }
@@ -73,7 +73,9 @@ public class CommandHandler {
     }
 
     public static Lobby joinGame(String[] parts, ClientHandler sender){
-        if (Server.getLobbies().size() == 0){
+        ArrayList<Lobby> lobbies = Server.getLobbies();
+
+        if (lobbies.size() == 0){
             sender.sendError(Error.E09, "no lobbies"); //no lobbies
             return null;
         }
@@ -81,48 +83,53 @@ public class CommandHandler {
             sender.sendError(Error.E09, "player has joined a lobby already"); //player has joined a lobby already
             return null;
         }
-        ArrayList<Lobby> lobbies = Server.getLobbies();
+
         Lobby firstLobby = lobbies.get(0);
-        Player player = new Player(sender);
 
         if (!multipleGames) {
-            if (firstLobby.getPlayers().size() == firstLobby.getMaxPlayers()) {
-                sender.sendError(Error.E09, "lobby is full"); //lobby is full
-                return null;
-            }
-            firstLobby.addPlayer(player);
-            firstLobby.broadCastLobby("PlayerJoined|" +sender.getClientName(), sender);
-            player.setLobby(firstLobby);
-            return firstLobby;
-        }else if (parts.length >= 1){
+            return joinLobby(firstLobby, sender);
+        }else if (parts.length >= 2){
             for (Lobby lobby : lobbies){
                 if (lobby.getPin() == Integer.parseInt(parts[1])){
-                    if (lobby.getPlayers().size() == firstLobby.getMaxPlayers()) {
-                        sender.sendError(Error.E09, "lobby is full"); //lobby is full
-                        return null;
-                    }
-                    lobby.addPlayer(new Player(sender));
-                    lobby.broadCastLobby("PlayerJoined|" +sender.getClientName(), sender);
-                    player.setLobby(lobby);
-                    return lobby;
+                    return joinLobby(lobby, sender);
                 }
             }
-
             sender.sendError(Error.E09, "could not find lobby"); // could not find lobby
         }
         sender.sendError(Error.E04); //no lobbies
         return null;
     }
-    public static Card makeCard(String[] parts) {
+    public static Lobby joinLobby(Lobby lobby, ClientHandler sender){
+        Player player = new Player(sender);
+        if (lobby.getPlayers().size() == lobby.getMaxPlayers()) {
+            sender.sendError(Error.E09, "lobby is full"); //lobby is full
+            return null;
+        }
+        if (lobby.getGame() != null) {
+            sender.sendError(Error.E09, "game has already started"); //game has already started
+            return null;
+        }
+        lobby.addPlayer(player);
+        lobby.broadCastLobby("PlayerJoined|" +sender.getClientName(), sender);
+        player.setLobby(lobby);
+        return lobby;
+    }
+    public static Card makeCard(String[] parts){
         Card.cardColor color = null;
         Card.cardType type = null;
         int value = 0;
+        if (parts.length < 2){
+            return null;
+        }
         if (Arrays.asList(colors).contains(parts[0].toUpperCase())){
             color = Card.cardColor.valueOf(parts[0].toUpperCase());
+        } else {
+            return null;
         }
         if (Arrays.asList(numbers).contains(parts[1])){
             type = Card.cardType.NUMBER;
             value = Integer.parseInt(parts[1]);
+            return new Card(type, color, value);
         }
         switch (parts[1].toUpperCase()){
             case "SKIP":
@@ -145,6 +152,8 @@ public class CommandHandler {
                 type = Card.cardType.WILD_DRAW_FOUR;
                 value = -5;
                 break;
+            default:
+                return null;
         }
         return new Card(type, color, value);
     }

@@ -10,10 +10,11 @@ public class ClientHandler extends Thread{
     private BufferedReader in;
     private BufferedWriter out;
     private String ClientName;
-
     private MessageHandler messageHandler;
+    private Socket socket;
 
     public ClientHandler(Socket socketArg){
+        socket = socketArg;
         try {
             in = new BufferedReader(new InputStreamReader(socketArg.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socketArg.getOutputStream()));
@@ -87,5 +88,13 @@ public class ClientHandler extends Thread{
 
     public void setMessageHandler(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }

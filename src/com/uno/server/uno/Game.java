@@ -16,6 +16,7 @@ public class Game {
     private Lobby lobby;
     private Player activePlayer;
     private boolean started = false;
+    private int playedCards = 0;
 
 
     public Game(ArrayList<Player> players, Lobby lobby){
@@ -32,6 +33,7 @@ public class Game {
     }
 
     public void startGame(){
+        Collections.shuffle(players);
         drawPile = new DrawPile();
         drawPile.dealCards(players);
         Card firstCard = drawPile.drawCard();
@@ -79,7 +81,7 @@ public class Game {
             skipped = true;
             getNextPlayer().drawCardWithClientSync(4, this);
         }
-
+        playedCards++;
         activePlayer.removeCard(card);
         if (checkRoundEnd()){
             return;
@@ -95,8 +97,8 @@ public class Game {
     public void drawCard(ClientHandler client){
         if(!client.equals(activePlayer.getClientHandler())){
             client.sendError(Error.E07);
+            return;
         }
-
         activePlayer.drawCardWithClientSync(1, this);
     }
 
@@ -217,6 +219,9 @@ public class Game {
         for (Player player : players) {
             if (player.getClientHandler().equals(clientHandler)) {
                 players.remove(player);
+                for (Card card : player.getHand().getCards()) {
+                    drawPile.addCard(card);
+                }
                 break;
             }
         }

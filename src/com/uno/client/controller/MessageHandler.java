@@ -14,6 +14,7 @@ public class MessageHandler {
     public static void receiveMessage(String message){
         System.out.println("Client received:" + message);
         String[] messageInParts = message.split("\\|");
+
         switch (messageInParts[0]){
             case "Welcome":
                 PlayerController.createOwnPlayer(messageInParts[1]);
@@ -75,6 +76,8 @@ public class MessageHandler {
                 if (messageInParts[1].equals("E09")){
                     System.out.println(messageInParts[2]);
                 }
+                System.out.println(messageInParts[1]);
+                break;
             default:
                 System.out.println(message);
         }

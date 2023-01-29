@@ -22,7 +22,7 @@ public class PlayPile {
     }
 
     public void clearDiscardPile(){
-        discardPile.clear();
+        discardPile = new ArrayList<>();
     }
 
 

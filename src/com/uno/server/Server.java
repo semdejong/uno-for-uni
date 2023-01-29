@@ -30,6 +30,14 @@ public class Server extends Thread{
                 System.out.println("Client connected");
                 ClientHandler handler = new ClientHandler(sock);
                 handler.start();
+                handler.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+                    public void uncaughtException(Thread t, Throwable e) {
+                        System.out.println("exception " + e + " from thread " + t);
+                        e.printStackTrace();
+                        handler.getMessageHandler().leaveServer();
+                    }
+                });
                 clients.add(handler);
             }
         }catch (IOException e){
@@ -73,9 +81,18 @@ public class Server extends Thread{
     public static void sendError(ClientHandler clientToReceive, Error error, String message){
        clientToReceive.sendError(error, message);
     }
-    public static void closeConnection(ClientHandler clientToClose){
-        clientToClose.stop();
+    public static void closeConnection(ClientHandler clientToClose) {
         clients.remove(clientToClose);
+        try {
+            clientToClose.getSocket().close();
+            clientToClose.getIn().close();
+            clientToClose.getOut().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (clientToClose.isAlive()){
+            clientToClose.interrupt();
+        }
     }
 
 
@@ -140,4 +157,5 @@ public class Server extends Thread{
     public static void addLobby(Lobby lobby){
         lobbies.add(lobby);
     }
+
 }

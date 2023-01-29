@@ -43,8 +43,6 @@ public class MessageHandler {
 
         switch (parts[0]){
             case "requestgame":
-                //TODO: check if player is already in a lobby
-                //TODO: add max players
                 Lobby lobby1 = CommandHandler.requestGame(parts, client);
                 if (lobby1 != null){
                     this.lobby = lobby1;
@@ -79,8 +77,16 @@ public class MessageHandler {
                     client.sendError(Error.E09, "Client is not in a game"); //not in a game
                     return;
                 }
-                String[] card = parts[1].split("\\$,\\$");
-                game.playCard(CommandHandler.makeCard(card), client);
+                String[] cardString = parts[1].split("\\$,\\$");
+                Card card = CommandHandler.makeCard(cardString);
+                if (card == null){
+                    client.sendError(Error.E09, "Card format is not valid"); //card not valid
+                    return;
+                }
+                if (card.getColor() == Card.cardColor.BLACK){
+                    client.sendError(Error.E09, "Card color is not valid if played"); //card color not valid
+                }
+                game.playCard(card, client);
                 break;
             case "drawcard":
                 if (game == null){
@@ -98,6 +104,10 @@ public class MessageHandler {
                     if(parts[1].equals("true")){
                         Card lastCard = getPlayerByClient().getLastDrawnCard();
                         if (lastCard.getType() == Card.cardType.WILD || lastCard.getType() == Card.cardType.WILD_DRAW_FOUR){
+                            if (parts.length < 3){
+                                client.sendError(Error.E09, "No color has been selected"); //no color selected
+                                return;
+                            }
                             lastCard.setColor(Card.cardColor.valueOf(parts[2].toUpperCase()));
                         }
                         game.playCard(lastCard, client);
@@ -112,32 +122,16 @@ public class MessageHandler {
                 }
                 break;
             case "leavegame":
-                if (lobby == null){
-                    client.sendError(Error.E09, "Client is not in a game"); //not in a game
-                    return;
-                }
-                lobby.broadCastLobby(client.getClientName() + " has left the game.");
-                lobby.removePlayer(client);
-                lobby = null;
-                if (game != null){
-                    game.removePlayer(client);
-                    game = null;
-                }
+                leaveGame();
                 break;
             case "leaveserver":
-                if (game != null){
-                    game.removePlayer(client);
-                    game = null;
-                }
-                if (lobby != null){
-                    lobby.broadCastLobby(client.getClientName() + " has left the game.");
-                    lobby.removePlayer(client);
-                    lobby = null;
-                }
-                client.closeConnection();
+                leaveServer();
                 break;
             case "sendmessage":
                 Server.broadCast(parts[1], client);
+                break;
+            case "crash":
+                String ouchie = parts[1000];
                 break;
             default:
                 Server.sendMessage(client, "E02");
@@ -178,5 +172,33 @@ public class MessageHandler {
         }
 
         return null;
+    }
+
+    public void leaveGame(){
+        if (lobby == null){
+            client.sendError(Error.E09, "Client is not in a game"); //not in a game
+            return;
+        }
+        lobby.broadCastLobby(client.getClientName() + " has left the game.");
+        lobby.removePlayer(client);
+        lobby = null;
+        if (game != null){
+            game.removePlayer(client);
+            if (game.getActivePlayer().getClientHandler().equals(client)){
+                if (game.getPlayers().size() == 1){
+                    game.getPlayers().get(0).getClientHandler().sendMessage("GameOver|" + game.getPlayers().get(0).getName());
+                }
+                game.nextPlayer();
+                lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
+            }
+            game = null;
+        }
+    }
+
+    public void leaveServer(){
+        if (lobby != null){
+            leaveGame();
+        }
+        client.closeConnection();
     }
 }
