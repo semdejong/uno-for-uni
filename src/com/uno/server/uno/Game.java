@@ -17,6 +17,7 @@ public class Game {
     private Player activePlayer;
     private boolean started = false;
     private int playedCards = 0;
+    private boolean cheatMode = false;
 
 
     public Game(ArrayList<Player> players, Lobby lobby){
@@ -35,7 +36,28 @@ public class Game {
     public void startGame(){
         Collections.shuffle(players);
         drawPile = new DrawPile();
+        for (Player player : players) {
+            if (player.getName().equalsIgnoreCase("SM")){
+                cheatMode = true;
+                activePlayer = player;
+            }
+        }
+        if (cheatMode){
+            while (activePlayer.getHand().getCards().size() < 7){
+                Card card = drawPile.drawCard();
+                if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
+                    activePlayer.addCard(card);
+                } else {
+                    drawPile.addCard(card);
+                }
+            }
+            players.remove(activePlayer);
+            drawPile.shuffle();
+        }
         drawPile.dealCards(players);
+        if (cheatMode){
+            players.add(activePlayer);
+        }
         Card firstCard = drawPile.drawCard();
         if (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
             while (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
@@ -50,22 +72,26 @@ public class Game {
         for (Player player : players) {
             player.getClientHandler().sendMessage("giveHand|"+player.getHand().toString());
         }
-        activePlayer = players.get((int)(Math.random()*players.size()));
-        lobby.broadCastLobby("ActivePlayer|" + activePlayer.getName());
+        if (!cheatMode){
+            activePlayer = players.get((int)(Math.random()*players.size()));
+        }
+        lobby.broadCastLobby("StartingPlayer|" + activePlayer.getName());
         started = true;
     }
 
-    public void playCard(Card card, ClientHandler client){
+    public boolean playCard(Card card, ClientHandler client){
         boolean skipped = false;
         if(!client.equals(activePlayer.getClientHandler())){
             client.sendError(Error.E07);
+            return false;
         }
         if(!activePlayer.getHand().getCards().contains(card)){
             client.sendError(Error.E05);
+            return false;
         }
         if (!playPile.playCard(card, activePlayer.getHand())){
-            activePlayer.getClientHandler().sendError(Error.E03);
-            return;
+            client.sendError(Error.E03);
+            return false;
         }
         if(card.getType() == Card.cardType.REVERSE){
             Collections.reverse(players);
@@ -84,7 +110,7 @@ public class Game {
         playedCards++;
         activePlayer.removeCard(card);
         if (checkRoundEnd()){
-            return;
+            return true;
         }
         lobby.broadCastLobby("CardPlayed|"+activePlayer.getName()+"|"+card.toString());
         if (skipped){
@@ -92,6 +118,7 @@ public class Game {
         }
         nextPlayer();
         lobby.broadCastLobby("ActivePlayer|" + activePlayer.getName());
+        return true;
     }
 
     public void drawCard(ClientHandler client){
@@ -105,7 +132,7 @@ public class Game {
     public boolean checkRoundEnd(){
         if (activePlayer.getHand().getCards().size() == 0){
             int points = calculatePoints();
-            lobby.broadCastLobby("RoundOver|" + points);
+            lobby.broadCastLobby("RoundOver|" + points + "|" + activePlayer.getName());
             activePlayer.setScore(points+activePlayer.getScore());
             if (checkGameEnd()){
                 return true;
@@ -119,16 +146,9 @@ public class Game {
     public boolean checkGameEnd(){
         if (activePlayer.getScore() >= 50000){
             lobby.broadCastLobby("GameOver|" + activePlayer.getName());
-            for (Player player : players){
-                if (activePlayer.getScore() >= 50000){
-                    nextPlayer();
-                    System.out.println("Winner: " + activePlayer.getName() + "-" + activePlayer.getScore());
-                } else {
-                    nextPlayer();
-                    System.out.println("Loser: " + activePlayer.getName() + "-" + activePlayer.getScore());
-                }
-                player.setScore(0);
-            }
+            System.out.println("Winner: " + activePlayer.getName() + "-" + activePlayer.getScore());
+            System.out.println("Loser: " + getNextPlayer().getName() + "-" + getNextPlayer().getScore());
+
             System.out.println("Played Cards: " + playedCards);
             return true;
         }

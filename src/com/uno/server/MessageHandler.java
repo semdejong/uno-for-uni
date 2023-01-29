@@ -100,23 +100,33 @@ public class MessageHandler {
                     client.sendError(Error.E09, "Client is not in a game"); //not in a game
                     return;
                 }
+                if (parts.length < 2){
+                    client.sendError(Error.E09, "No choice has been selected"); //no card selected
+                    return;
+                }
                 if (game.getActivePlayer().getClientHandler().equals(client) && game.getActivePlayer().getLastDrawnCard() != null){
-                    if(parts[1].equals("true")){
+                    if(parts[1].equals("yes")||parts[1].equals("true")){
                         Card lastCard = getPlayerByClient().getLastDrawnCard();
                         if (lastCard.getType() == Card.cardType.WILD || lastCard.getType() == Card.cardType.WILD_DRAW_FOUR){
                             if (parts.length < 3){
                                 client.sendError(Error.E09, "No color has been selected"); //no color selected
                                 return;
                             }
-                            lastCard.setColor(Card.cardColor.valueOf(parts[2].toUpperCase()));
+                            if (parts[2].equalsIgnoreCase("red") || parts[2].equalsIgnoreCase("blue") || parts[2].equalsIgnoreCase("green") || parts[2].equalsIgnoreCase("yellow")){
+                                lastCard.setColor(Card.cardColor.valueOf(parts[2].toUpperCase()));
+                            }else {
+                                client.sendError(Error.E09, "Color is not valid"); //color not valid
+                                return;
+                            }
                         }
-                        game.playCard(lastCard, client);
-                        getPlayerByClient().setLastDrawnCard(null);
+                        if (!game.playCard(lastCard, client)){
+                            game.nextPlayer();
+                            lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
+                        }
                     }else{
                         game.nextPlayer();
                         lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
-                        getPlayerByClient().setLastDrawnCard(null);
-                    }
+                    } getPlayerByClient().setLastDrawnCard(null);
                 } else{
                     client.sendError(Error.E07);
                 }
@@ -184,10 +194,9 @@ public class MessageHandler {
         lobby = null;
         if (game != null){
             game.removePlayer(client);
-            if (game.getActivePlayer().getClientHandler().equals(client)){
-                if (game.getPlayers().size() == 1){
-                    game.getPlayers().get(0).getClientHandler().sendMessage("GameOver|" + game.getPlayers().get(0).getName());
-                }
+            if (game.getPlayers().size() == 1){
+                game.getPlayers().get(0).getClientHandler().sendMessage("GameOver|" + game.getPlayers().get(0).getName());
+            }else if (game.getActivePlayer().getClientHandler().equals(client)){
                 game.nextPlayer();
                 lobby.broadCastLobby("ActivePlayer|"+game.getActivePlayer().getName());
             }

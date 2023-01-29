@@ -1,6 +1,7 @@
 package com.uno.server.uno;
 
 import com.uno.server.ClientHandler;
+import com.uno.server.CommandHandler;
 
 import java.util.ArrayList;
 
@@ -24,17 +25,18 @@ public class Lobby {
 
     public void startGame(){
         game = new Game(players, this);
-        game.startGame();
         String message = "GameStarted|";
-//        for (String feature: supportedFeatures) {
-//            message += feature + "|";
-//        }
+        if (CommandHandler.multipleGames){
+            message += "m";
+        }
         broadCastLobby(message);
 
         broadCastLobby("PlayersAtTable|"+ getPlayersAsString());
         for (Player player: players) {
             player.getClientHandler().getMessageHandler().setGame(game);
         }
+
+        game.startGame();
     }
 
     public Game getGame(){

@@ -19,7 +19,7 @@ public class DrawnCardView {
         while (true){
             if (input.equals("y") && !CommandHandler.playable(card)){
                 System.out.println("you can't play this card");
-                CommandSender.sendMessage("PlayDrawnCard|false");
+                CommandSender.sendMessage("PlayDrawnCard|no");
                 PlayerController.getOwnPlayer().addCard(card);
                 break;
             } else if (input.equals("y")){
@@ -29,7 +29,7 @@ public class DrawnCardView {
                     while (true){
                         if (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("green") || color.equalsIgnoreCase("yellow")){
 
-                            CommandSender.sendMessage("PlayDrawnCard|true|"+color.toUpperCase());
+                            CommandSender.sendMessage("PlayDrawnCard|yes|"+color.toUpperCase());
                             return;
                         } else {
                             System.out.println("Please enter a valid color");
@@ -38,10 +38,10 @@ public class DrawnCardView {
                     }
                 }
 
-                CommandSender.sendMessage("PlayDrawnCard|true");
+                CommandSender.sendMessage("PlayDrawnCard|yes");
                 break;
             } else if (input.equals("n")){
-                CommandSender.sendMessage("PlayDrawnCard|false");
+                CommandSender.sendMessage("PlayDrawnCard|no");
                 PlayerController.getOwnPlayer().addCard(card);
                 break;
             } else {

@@ -89,14 +89,20 @@ public class CommandHandler {
         if (!multipleGames) {
             return joinLobby(firstLobby, sender);
         }else if (parts.length >= 2){
+            int pin;
+            try {
+                pin = Integer.parseInt(parts[1]);
+            } catch (NumberFormatException e){
+                sender.sendError(Error.E09, "pin must be a number"); //pin must be a number
+                return null;
+            }
             for (Lobby lobby : lobbies){
-                if (lobby.getPin() == Integer.parseInt(parts[1])){
+                if (lobby.getPin() == pin){
                     return joinLobby(lobby, sender);
                 }
             }
-            sender.sendError(Error.E09, "could not find lobby"); // could not find lobby
         }
-        sender.sendError(Error.E04); //no lobbies
+        sender.sendError(Error.E09, "could not find a lobby"); //no lobbies
         return null;
     }
     public static Lobby joinLobby(Lobby lobby, ClientHandler sender){

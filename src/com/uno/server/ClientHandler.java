@@ -28,7 +28,6 @@ public class ClientHandler extends Thread{
     public void run() {
         receiveMessage();
     }
-
     public void receiveMessage(){
         try {
             String msg = in.readLine();

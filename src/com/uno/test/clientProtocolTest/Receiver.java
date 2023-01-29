@@ -1,6 +1,4 @@
-package com.uno.test.serverProtocolTest;
-
-import com.uno.client.controller.MessageHandler;
+package com.uno.test.clientProtocolTest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,21 +8,11 @@ public class Receiver extends Thread {
     public Receiver(BufferedReader reader){
         this.reader = reader;
     }
-    private int nullCount = 0;
 
     public void run() {
         try{
             String msg = reader.readLine();
             while (true) {
-                if (msg == null){
-                    nullCount++;
-                    if (nullCount > 5){
-                        System.out.println("Server is not responding. Please try again later.");
-                        System.exit(0);
-                    }
-                } else {
-                    nullCount = 0;
-                }
                 System.out.println("client received: " + msg);
                 msg = reader.readLine();
             }

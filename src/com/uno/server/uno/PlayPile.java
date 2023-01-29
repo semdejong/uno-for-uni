@@ -24,6 +24,9 @@ public class PlayPile {
     public void clearDiscardPile(){
         discardPile = new ArrayList<>();
     }
+    public void addCardToDiscardPile(Card card){
+        discardPile.add(card);
+    }
 
 
     public boolean playCard(Card card, Hand hand){
@@ -40,7 +43,7 @@ public class PlayPile {
             return true;
         } else if (card.getType() == Card.cardType.WILD_DRAW_FOUR) {
             for (Card card1 : hand.getCards()){
-                if (card1.getColor() == activeCard.getColor()){
+                if (card1.getColor() == activeCard.getColor() && card.getType() != Card.cardType.WILD_DRAW_FOUR){
                     return false;
                 }
             }
