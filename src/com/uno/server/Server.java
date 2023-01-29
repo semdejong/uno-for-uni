@@ -22,6 +22,8 @@ public class Server extends Thread{
         Server server = new Server();
         server.start();
     }
+
+
     public void run(){
         try(ServerSocket ssock = new ServerSocket(port);){
             System.out.println("Server started");

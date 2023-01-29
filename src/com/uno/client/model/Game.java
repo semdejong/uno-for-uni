@@ -29,4 +29,14 @@ public class Game {
     public static void addPlayer(Player player){
         players.add(player);
     }
+
+    public static Player getPlayerByName(String name){
+        for (Player player: players) {
+            if(player.getName().equals(name)){
+                return player;
+            }
+        }
+
+        return null;
+    }
 }

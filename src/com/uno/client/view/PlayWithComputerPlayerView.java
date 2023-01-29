@@ -10,6 +10,7 @@ public class PlayWithComputerPlayerView {
         System.out.println("|                                         |");
         System.out.println("|   1) ............. Basic computer.      |");
         System.out.println("|   2) ............. Medium computer.     |");
+        System.out.println("|   3) ............. Advanced computer.   |");
         System.out.println("|                                         |");
         System.out.println("|-----------------------------------------|");
 
@@ -23,7 +24,7 @@ public class PlayWithComputerPlayerView {
 
         while(true){
             int choice = scanner.nextInt();
-            if(choice < 1 || choice > 2){
+            if(choice < 1 || choice > 3){
                 System.out.println("Invalid choice, try again:");
                 continue;
             }

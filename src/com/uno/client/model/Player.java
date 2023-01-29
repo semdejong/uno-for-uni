@@ -35,6 +35,16 @@ public class Player {
         hand.removeCard(card);
     }
 
+    //Removes a closed card from a player.
+    public void removeClosedCard(){
+        for(Card card : hand.getCards()){
+            if(card instanceof ClosedCard){
+                hand.removeCard(card);
+                return;
+            }
+        }
+    }
+
     public int getHandSize(){
         return hand.getHandSize();
     }

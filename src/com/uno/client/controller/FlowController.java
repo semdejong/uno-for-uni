@@ -1,6 +1,7 @@
 package com.uno.client.controller;
 
 import com.uno.client.Computers.AI;
+import com.uno.client.Computers.AdvancedComputer;
 import com.uno.client.Computers.BasicComputer;
 import com.uno.client.Computers.MediumComputer;
 import com.uno.client.model.Card;
@@ -29,12 +30,13 @@ public class FlowController {
                     ownServer.setPort(Integer.parseInt(serverInput.split(":")[1]));
                     ownServer.start();
                 }
+                com = new Communicator(serverInput.contains("own") ? "localhost" : serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
+                com.run();
+            }else{
                 if(serverInput.equals("l")){
                     com = new Communicator("localhost", 3333);
-                }else {
-                    com = new Communicator(serverInput.contains("own") ? "localhost" : serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
+                    com.run();
                 }
-                com.run();
             }
         }
 
@@ -96,6 +98,8 @@ public class FlowController {
             computerToPlay = new BasicComputer(player.getName());
         }else if(choice == 2){
             computerToPlay = new MediumComputer(player.getName());
+        }else if(choice == 3) {
+            computerToPlay = new AdvancedComputer(player.getName());
         }else{
             computerToPlay = new MediumComputer(player.getName());
         }

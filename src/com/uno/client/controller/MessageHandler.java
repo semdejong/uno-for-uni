@@ -35,7 +35,7 @@ public class MessageHandler {
                 GameController.updatePlayers(messageInParts[1]);
                 break;
             case "StartingCard":
-                GameController.updatePlayedCard(messageInParts[1]);
+                GameController.updatePlayedCard(null, messageInParts[1]);
                 break;
             case "giveHand":
                 GameController.giveHand(messageInParts[1]);
@@ -51,11 +51,11 @@ public class MessageHandler {
                 break;
             case "CardPlayed":
                 // TODO: reduce player's card count
-                GameController.updatePlayedCard(messageInParts[2]);
+                GameController.updatePlayedCard(messageInParts[1], messageInParts[2]);
                 OtherTurnView.updateView(messageInParts[1], Game.getActiveCard());
-                // TODO:? update all player's card count
                 break;
             case "CardDrawn":
+                GameController.updateDrawnCard(messageInParts[1]);
                 OtherTurnView.updateView(messageInParts[1], null);
                 break;
             case "GiveCard":

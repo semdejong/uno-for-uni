@@ -2,11 +2,11 @@ package com.uno.client.model;
 
 public class Card implements Comparable<Card>{
     public enum cardType {
-        NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
+        NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR, UNKNOWN
     };
 
     public enum cardColor {
-        RED, YELLOW, GREEN, BLUE, BLACK
+        RED, YELLOW, GREEN, BLUE, BLACK, UNKNOWN
     };
 
     public Card(cardType type, cardColor color, int number) {
