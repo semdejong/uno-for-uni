@@ -18,6 +18,12 @@ public class MessageHandler {
         lobby = null;
     }
 
+    /**
+     * It receives a message from the client, splits it into parts, checks if the client is connected, and then checks if
+     * the message is a valid command. If it is, it executes the command
+     *
+     * @param message The message that was received from the client.
+     */
     public void receiveMessage(String message) {
         System.out.println("Server received:" + message);
         String[] parts = message.split("\\|");
@@ -149,30 +155,65 @@ public class MessageHandler {
     }
 
 
+    /**
+     * This function returns the lobby.
+     *
+     * @return The lobby object.
+     */
     public Lobby getLobby(){
         return lobby;
     }
 
+    /**
+     * This function returns the client.
+     *
+     * @return The client object.
+     */
     public ClientHandler getClient() {
         return client;
     }
 
+    /**
+     * This function sets the client variable to the client that is passed in.
+     *
+     * @param client The client that is connected to the server.
+     */
     public void setClient(ClientHandler client) {
         this.client = client;
     }
 
+    /**
+     * This function sets the lobby of the player to the lobby that is passed in.
+     *
+     * @param lobby The lobby that the player is in.
+     */
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
     }
 
+    /**
+     * This function returns the game object.
+     *
+     * @return The game object.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * This function sets the game variable to the game variable passed in.
+     *
+     * @param game The game object that the player is in.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Get the player that is associated with the client that is calling this function.
+     *
+     * @return The player that is connected to the client.
+     */
     public Player getPlayerByClient(){
 
         for(Player player: game.getPlayers()){
@@ -184,6 +225,10 @@ public class MessageHandler {
         return null;
     }
 
+
+    /**
+     * If the client is in a game, remove the client from the game and broadcast the message to the other players
+     */
     public void leaveGame(){
         if (lobby == null){
             client.sendError(Error.E09, "Client is not in a game"); //not in a game
@@ -204,6 +249,10 @@ public class MessageHandler {
         }
     }
 
+    /**
+     * If the client is in a lobby, leave the lobby. If the client is in a game, leave the game. If the client is connected
+     * to the server, close the connection
+     */
     public void leaveServer(){
         if (lobby != null){
             leaveGame();

@@ -15,6 +15,14 @@ public class CommandHandler {
     public static final String[] types = {"SKIP", "REVERSE", "DRAW_TWO", "WILD", "WILD_DRAW_FOUR"};
     public static final String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     public static boolean multipleGames = false;
+
+    /**
+     * If the user has specified a pin, create a lobby with that pin, otherwise create a lobby without a pin
+     *
+     * @param parts The message split into an array of strings
+     * @param sender The client that sent the request
+     * @return A lobby object
+     */
     public static Lobby requestGame(String[] parts, ClientHandler sender){
         Lobby lobby = null;
         Player player = new Player(sender);
@@ -72,6 +80,14 @@ public class CommandHandler {
         return lobby;
     }
 
+    /**
+     * If the client is not already in a lobby, and the server is not in multiple game mode, the client is put in the first
+     * lobby. If the server is in multiple game mode, the client is put in the lobby with the pin that the client specified
+     *
+     * @param parts the message split into an array of strings
+     * @param sender the client that sent the message
+     * @return The lobby that the player has joined.
+     */
     public static Lobby joinGame(String[] parts, ClientHandler sender){
         ArrayList<Lobby> lobbies = Server.getLobbies();
 
@@ -105,6 +121,16 @@ public class CommandHandler {
         sender.sendError(Error.E09, "could not find a lobby"); //no lobbies
         return null;
     }
+
+    /**
+     * The function takes a lobby and a clienthandler as parameters, creates a new player with the clienthandler, checks if
+     * the lobby is full, if the game has already started, adds the player to the lobby, broadcasts the lobby and returns
+     * the lobby
+     *
+     * @param lobby The lobby you want to join
+     * @param sender The client that sent the request
+     * @return The lobby that the player has joined.
+     */
     public static Lobby joinLobby(Lobby lobby, ClientHandler sender){
         Player player = new Player(sender);
         if (lobby.getPlayers().size() == lobby.getMaxPlayers()) {
@@ -120,6 +146,15 @@ public class CommandHandler {
         player.setLobby(lobby);
         return lobby;
     }
+
+
+    /**
+     * If the first argument is a valid color, and the second argument is a valid number, type, or wild card, then return a
+     * new card with the given color and type
+     *
+     * @param parts An array of strings that contains the color and type of the card.
+     * @return A card object
+     */
     public static Card makeCard(String[] parts){
         Card.cardColor color = null;
         Card.cardType type = null;
