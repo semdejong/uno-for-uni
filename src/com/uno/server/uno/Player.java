@@ -58,8 +58,29 @@ public class Player {
         for(int i =0; i < amountOfCards; i++){
             if(game.getDrawPile().getDeck().size() == 0){
                 if (game.getPlayPile().getDiscardPile().size() == 0){
-                    game.nextPlayer();
-                    lobby.broadCastLobby("ActivePlayer|" + game.getActivePlayer().getName());
+//                    game.nextPlayer();
+//                    lobby.broadCastLobby("ActivePlayer|" + game.getActivePlayer().getName());
+
+                    Player playerLeastCards = null;
+
+                    for(Player player : lobby.getGame().getPlayers()){
+                        if(playerLeastCards ==  null){
+                            playerLeastCards = player;
+                        }
+                        if(player.getHand().getCards().size() < playerLeastCards.getHand().getCards().size()){
+                            playerLeastCards = player;
+                        }
+                    }
+
+                    lobby.broadCastLobby("RoundOver|"+calculatePoints()+"|"+playerLeastCards.getName());
+                    playerLeastCards.setScore(score + calculatePoints());
+
+                    if(lobby.getGame().checkGameEnd()){
+                        return;
+                    }
+
+                    lobby.getGame().startGame();
+
                     return;
                 }
                 game.getDrawPile().setDeck(game.getPlayPile().getDiscardPile());
@@ -69,6 +90,35 @@ public class Player {
             this.getHand().addCardSyncWithClient(cardDrawn, clientHandler);
             this.lastDrawnCard = cardDrawn;
         }
+    }
+
+    public int calculatePoints(){
+        int points = 0;
+        for (Player player : lobby.getPlayers()){
+            for (Card card : player.getHand().getCards()){
+                switch (card.getType()){
+                    case NUMBER:
+                        points += card.getNumber();
+                        break;
+                    case SKIP:
+                        points += 20;
+                        break;
+                    case REVERSE:
+                        points += 20;
+                        break;
+                    case DRAW_TWO:
+                        points += 20;
+                        break;
+                    case WILD:
+                        points += 50;
+                        break;
+                    case WILD_DRAW_FOUR:
+                        points += 50;
+                        break;
+                }
+            }
+        }
+        return points;
     }
 
     /**

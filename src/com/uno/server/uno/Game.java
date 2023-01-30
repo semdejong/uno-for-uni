@@ -17,7 +17,6 @@ public class Game {
     private Player activePlayer;
     private boolean started = false;
     private int playedCards = 0;
-    private boolean cheatMode = false;
 
 
     // This is the constructor for the Game class. It takes in an ArrayList of Player objects and a Lobby object.
@@ -51,28 +50,6 @@ public class Game {
     public void startGame(){
         Collections.shuffle(players);
         drawPile = new DrawPile();
-        for (Player player : players) {
-            if (player.getName().equalsIgnoreCase("SM")){
-                cheatMode = true;
-                activePlayer = player;
-            }
-        }
-        if (cheatMode){
-            while (activePlayer.getHand().getCards().size() < 7){
-                Card card = drawPile.drawCard();
-                if (card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
-                    activePlayer.addCard(card);
-                } else {
-                    drawPile.addCard(card);
-                }
-            }
-            players.remove(activePlayer);
-            drawPile.shuffle();
-        }
-        drawPile.dealCards(players);
-        if (cheatMode){
-            players.add(activePlayer);
-        }
         Card firstCard = drawPile.drawCard();
         if (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
             while (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){
@@ -81,15 +58,16 @@ public class Game {
                 drawPile.shuffle();
             }
         }
+        drawPile.dealCards(players);
         playPile = new PlayPile(firstCard);
         Server.broadCast("StartingCard|"+playPile.getActiveCard().toString());
 
         for (Player player : players) {
             player.getClientHandler().sendMessage("giveHand|"+player.getHand().toString());
         }
-        if (!cheatMode){
-            activePlayer = players.get((int)(Math.random()*players.size()));
-        }
+
+        activePlayer = players.get((int)(Math.random()*players.size()));
+
         lobby.broadCastLobby("StartingPlayer|" + activePlayer.getName());
         started = true;
     }
@@ -183,7 +161,7 @@ public class Game {
      * @return A boolean value.
      */
     public boolean checkGameEnd(){
-        if (activePlayer.getScore() >= 50000){
+        if (activePlayer.getScore() >= 500){
             lobby.broadCastLobby("GameOver|" + activePlayer.getName());
             System.out.println("Winner: " + activePlayer.getName() + "-" + activePlayer.getScore());
             System.out.println("Loser: " + getNextPlayer().getName() + "-" + getNextPlayer().getScore());
