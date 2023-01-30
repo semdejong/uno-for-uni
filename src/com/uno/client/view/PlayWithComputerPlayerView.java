@@ -23,9 +23,15 @@ public class PlayWithComputerPlayerView {
         Scanner scanner = new Scanner(System.in);
 
         while(true){
-            int choice = scanner.nextInt();
+            int choice = 0;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+                System.out.println("Please type in a number between 1 and 3");
+                continue;
+            }
             if(choice < 1 || choice > 3){
-                System.out.println("Invalid choice, try again:");
+                System.out.println("Please type in a number between 1 and 3");
                 continue;
             }
 

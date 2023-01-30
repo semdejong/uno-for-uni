@@ -12,7 +12,12 @@ public class WelcomeView {
     public static void inputView(){
         System.out.println("What is your name?");
         Scanner scanner = new Scanner(System.in);
-
-        CommandSender.sendMessage("Connect|"+scanner.nextLine());
+        while (true){
+            String name = scanner.nextLine();
+            if (!name.equals("")){
+                CommandSender.sendMessage("connect|"+name);
+                break;
+            }
+        }
     }
 }

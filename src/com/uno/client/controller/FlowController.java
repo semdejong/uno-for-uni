@@ -114,10 +114,9 @@ public class FlowController {
         defaultPlayers[0] = PlayerController.getOwnPlayer().getName();
 
         emptyScreen();
-//      WaitStartView.enoughPlayers = players != null && players.length > 1;
-        WaitStartView.enoughPlayers = true;
+
+        WaitStartView.enoughPlayers = players != null && players.length > 1;
         LobbyView.updateView(players != null ? players : defaultPlayers);
-        System.out.println(players != null && players.length > 1);
     }
 
     public static void drawCard(Card card){

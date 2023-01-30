@@ -29,11 +29,16 @@ public class MainMenuView {
         while(!validChoice) {
             System.out.println("Make a choice:");
             Scanner scanner = new Scanner(System.in);
-
-            int choice = scanner.nextInt();
+            int choice = 0;
+            try {
+                choice = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Please type in a number between 1 and 5");
+                continue;
+            }
 
             if (choice < 1 || choice > 5) {
-                System.out.println("Choose other option!");
+                System.out.println("That is not an option");
                 continue;
             }
 

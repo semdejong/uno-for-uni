@@ -16,6 +16,12 @@ public class WaitStartView extends Thread{
     public void run(){
         Scanner scanner = new Scanner(System.in);
         while(true){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
+            }
             if (enoughPlayers){
                 System.out.println("Type 'start' to start the game.");
                 break;
