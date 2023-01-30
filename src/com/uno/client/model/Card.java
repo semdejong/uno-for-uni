@@ -55,6 +55,11 @@ public class Card implements Comparable<Card>{
         return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || card.getType() == cardType.WILD && this.getType() == cardType.WILD|| card.getType() == cardType.WILD_DRAW_FOUR && this.getType() == cardType.WILD_DRAW_FOUR);
     }
 
+    /**
+     * This function returns a string that is the color of the card, a comma, and either the number or type of the card
+     *
+     * @return The color, type, and number of the card.
+     */
     @Override
     public String toString() {
         if(this.number > 9){

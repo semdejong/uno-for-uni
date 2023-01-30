@@ -20,6 +20,15 @@ public class PlayPile {
     }
 
     /**
+     * This function sets the active card to the card passed in as a parameter.
+     *
+     * @param card The card that is being set as the active card.
+     */
+    public void setActiveCard(Card card){
+        this.activeCard = card;
+    }
+
+    /**
      * This function returns the discard pile
      *
      * @return The discard pile.
