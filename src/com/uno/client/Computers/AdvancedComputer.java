@@ -14,6 +14,7 @@ public class AdvancedComputer extends Player implements AI {
     }
 
     @Override
+    // The method that determines the move of the advanced computer.
     public void determineMove(){
         boolean hasLeastCards = true;
 

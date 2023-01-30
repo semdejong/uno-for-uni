@@ -11,6 +11,12 @@ import java.util.concurrent.Flow;
 public class MessageHandler {
     public static boolean drawnCard = false;
 
+    /**
+     * It receives a message from the server, splits it into parts, and then calls the appropriate function in the
+     * appropriate controller
+     *
+     * @param message The message received from the server
+     */
     public static void receiveMessage(String message){
         System.out.println("Client received:" + message);
         String[] messageInParts = message.split("\\|");

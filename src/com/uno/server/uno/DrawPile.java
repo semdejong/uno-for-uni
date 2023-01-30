@@ -6,6 +6,7 @@ import java.util.Collections;
 public class DrawPile {
     ArrayList<Card> deck;
 
+    // Creating a new deck of cards.
     public DrawPile(){
         deck = new ArrayList<>();
 
@@ -41,12 +42,22 @@ public class DrawPile {
         }
     }
 
+    /**
+     * This function removes the first card from the deck and returns it.
+     *
+     * @return A card object is being returned.
+     */
     public Card drawCard(){
         Card card = deck.get(0);
         deck.remove(0);
         return card;
     }
 
+    /**
+     * This function shuffles the deck and deals 7 cards to each player.
+     *
+     * @param players An ArrayList of Player objects.
+     */
     public void dealCards(ArrayList<Player> players){
         shuffle();
         for (Player player : players) {
@@ -57,10 +68,20 @@ public class DrawPile {
         }
     }
 
+    /**
+     * This function returns the deck of cards
+     *
+     * @return The deck of cards.
+     */
     public ArrayList<Card> getDeck(){
         return deck;
     }
 
+    /**
+     * This function sets the deck to the given deck, and sets the color of all wild cards to black
+     *
+     * @param deck The deck of cards that the player will be using.
+     */
     public void setDeck(ArrayList<Card> deck){
         this.deck = deck;
         for (Card card : deck){
@@ -71,10 +92,18 @@ public class DrawPile {
         shuffle();
     }
 
+    /**
+     * The function shuffle() takes the deck of cards and shuffles them
+     */
     public void shuffle(){
         Collections.shuffle(deck);
     }
 
+    /**
+     * This function adds a card to the deck.
+     *
+     * @param card The card to be added to the deck.
+     */
     public void addCard(Card card){
         deck.add(card);
     }

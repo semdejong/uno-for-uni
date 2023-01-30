@@ -15,6 +15,9 @@ import java.util.Scanner;
 public class FlowController {
     public static boolean comStarted = false;
 
+    /**
+     * It starts the communicator, and then starts the welcome view
+     */
     public static void entryPoint(){
 
         Communicator com;
@@ -46,6 +49,10 @@ public class FlowController {
         mainMenu();
     }
 
+    /**
+     * It displays the main menu and depending on the user's choice, it either creates a game, joins a game, or exits the
+     * program
+     */
     public static void mainMenu(){
         emptyScreen();
 
@@ -67,6 +74,9 @@ public class FlowController {
         }
     }
 
+    /**
+     * Create a new game, update the view to show the new game, and update the lobby to show the new game.
+     */
     public static void createGame(){
         emptyScreen();
 
@@ -75,6 +85,10 @@ public class FlowController {
         WaitStartView.updateView();
     }
 
+    /**
+     * It clears the screen, updates the JoinGameView, updates the lobby, sets the boolean enoughPlayers to true, and
+     * updates the WaitStartView
+     */
     public static void joinGame(){
         emptyScreen();
         JoinGameView.updateView();
@@ -83,11 +97,20 @@ public class FlowController {
         WaitStartView.updateView();
     }
 
+    /**
+     * The function `playWithComputerPlayer` is called with the user's input from the `PlayWithComputerPlayerView` class
+     */
     public static void playWithComputerPlayer(){
         PlayWithComputerPlayerView.updateView();
         playWithComputerPlayer(PlayWithComputerPlayerView.inputView());
     }
 
+    /**
+     * It removes the current player from the game, creates a new computer player based on the choice, and adds the new
+     * computer player to the game
+     *
+     * @param choice 1 = BasicComputer, 2 = MediumComputer, 3 = AdvancedComputer
+     */
     public static void playWithComputerPlayer(int choice){
         Player player = PlayerController.getOwnPlayer();
         Game.removePlayer(player);
@@ -108,6 +131,11 @@ public class FlowController {
         PlayerController.setOwnPlayer(computerToPlay);
     }
 
+    /**
+     * It updates the lobby view with the given players
+     *
+     * @param players An array of strings containing the names of the players in the lobby.
+     */
     public static void updateLobby(String[] players){
         String[] defaultPlayers = new String[1];
 
@@ -119,6 +147,12 @@ public class FlowController {
         LobbyView.updateView(players != null ? players : defaultPlayers);
     }
 
+    /**
+     * If the player is a computer, then the computer will determine whether to play the card or not. If the player is a
+     * human, then the human will be prompted to play the card or not.
+     *
+     * @param card The card that was drawn
+     */
     public static void drawCard(Card card){
         DrawnCardView.updateView(card);
 
@@ -132,6 +166,10 @@ public class FlowController {
         DrawnCardView.inputView(card);
     }
 
+    /**
+     * If the player is a computer, then the computer determines its move. Otherwise, the player is prompted to make a
+     * move.
+     */
     public static void clientTurn(){
         ClientTurnView.updateView();
 
@@ -145,6 +183,9 @@ public class FlowController {
         ClientTurnView.inputView();
     }
 
+    /**
+     * This function prints 50 blank lines to the console.
+     */
     public static void emptyScreen(){
         for(int i = 0; i < 50; i++){
             System.out.println("");
