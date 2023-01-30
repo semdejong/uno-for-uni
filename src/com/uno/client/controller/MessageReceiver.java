@@ -19,6 +19,15 @@ public class MessageReceiver extends Thread{
         try{
             String msg = reader.readLine();
             while (true) {
+                if (msg == null){
+                    nullCount++;
+                    if (nullCount > 5){
+                        System.out.println("Server is not responding. Please try again later.");
+                        System.exit(0);
+                    }
+                } else {
+                    nullCount = 0;
+                }
                 MessageHandler.receiveMessage(msg);
                 msg = reader.readLine();
             }
