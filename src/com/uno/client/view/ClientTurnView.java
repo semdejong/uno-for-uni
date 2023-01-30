@@ -29,20 +29,27 @@ public class ClientTurnView {
             try {
                 int number = Integer.parseInt(input);
                 if (number < 1 || number > hand.getHandSize()){
+                    if (MessageHandler.getChat()){
+                        CommandSender.sendMessage("SendMessage|" + number);
+                        continue;
+                    }
                     System.out.println("Please enter a number between 1 and " + hand.getHandSize());
                     continue;
                 } else {
                     if (CommandHandler.playable(hand.getCards().get(number-1))){
                         if (hand.getCards().get(number-1).getColor().equals(Card.cardColor.BLACK)){
                             System.out.println("What color do you want to change it to?");
-                            String color = scanner.nextLine();
                             while (true){
+                                String color = scanner.nextLine();
                                 if (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("green") || color.equalsIgnoreCase("yellow")){
                                     hand.getCards().get(number-1).setColor(Card.cardColor.valueOf(color.toUpperCase()));
                                     break;
                                 } else {
+                                    if (MessageHandler.getChat()){
+                                        CommandSender.sendMessage("SendMessage|" + color);
+                                        continue;
+                                    }
                                     System.out.println("Please enter a valid color");
-                                    color = scanner.nextLine();
                                 }
                             }
                         }
@@ -56,6 +63,10 @@ public class ClientTurnView {
 
                 }
             } catch (NumberFormatException e){
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + input);
+                    continue;
+                }
                 System.out.println("Please enter a number");
                 continue;
             }

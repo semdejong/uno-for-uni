@@ -48,7 +48,6 @@ public class Game {
      * first card and sets the active player
      */
     public void startGame(){
-        Collections.shuffle(players);
         drawPile = new DrawPile();
         Card firstCard = drawPile.drawCard();
         if (firstCard.getType() == Card.cardType.WILD || firstCard.getType() == Card.cardType.WILD_DRAW_FOUR){

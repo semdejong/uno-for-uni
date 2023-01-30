@@ -1,5 +1,8 @@
 package com.uno.client.view;
 
+import com.uno.client.controller.CommandSender;
+import com.uno.client.controller.MessageHandler;
+
 import java.util.Scanner;
 
 public class PlayWithComputerPlayerView {
@@ -23,14 +26,23 @@ public class PlayWithComputerPlayerView {
         Scanner scanner = new Scanner(System.in);
 
         while(true){
+            String input = scanner.nextLine();
             int choice = 0;
             try {
-                choice = Integer.parseInt(scanner.nextLine());
+                choice = Integer.parseInt(input);
             } catch (Exception e) {
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + input);
+                    continue;
+                }
                 System.out.println("Please type in a number between 1 and 3");
                 continue;
             }
             if(choice < 1 || choice > 3){
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + choice);
+                    continue;
+                }
                 System.out.println("Please type in a number between 1 and 3");
                 continue;
             }

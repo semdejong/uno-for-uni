@@ -1,6 +1,7 @@
 package com.uno.client.view;
 
 import com.uno.client.controller.CommandSender;
+import com.uno.client.controller.MessageHandler;
 import com.uno.client.controller.PlayerController;
 import com.uno.client.model.Card;
 import com.uno.client.controller.CommandHandler;
@@ -15,8 +16,8 @@ public class DrawnCardView {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("would you like to play this card? y/n");
-        String input = scanner.nextLine();
         while (true){
+            String input = scanner.nextLine();
             if (input.equals("y") && !CommandHandler.playable(card)){
                 System.out.println("you can't play this card");
                 CommandSender.sendMessage("PlayDrawnCard|no");
@@ -45,10 +46,12 @@ public class DrawnCardView {
                 PlayerController.getOwnPlayer().addCard(card);
                 break;
             } else {
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + input);
+                    continue;
+                }
                 System.out.println("please enter y or n");
             }
-
-            input = scanner.nextLine();
         }
 
     }

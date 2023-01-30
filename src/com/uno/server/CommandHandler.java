@@ -14,7 +14,6 @@ public class CommandHandler {
     public static final String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "BLACK"};
     public static final String[] types = {"SKIP", "REVERSE", "DRAW_TWO", "WILD", "WILD_DRAW_FOUR"};
     public static final String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-    public static boolean multipleGames = false;
 
     /**
      * If the user has specified a pin, create a lobby with that pin, otherwise create a lobby without a pin
@@ -41,7 +40,7 @@ public class CommandHandler {
                 int pin = (int)(Math.random()*1000);
                 lobby = new Lobby(pin);
                 Server.broadCast("A new lobby with the pin " + pin + " has been created");
-                multipleGames = true;
+                lobby.addSupportedFeature("m");
                 lobby.addPlayer(player);
             } else {
                 if (Server.getLobbies().size() == 0){
@@ -51,6 +50,9 @@ public class CommandHandler {
                     sender.sendError(Error.E09, "A lobby already exists"); //no lobbies
                     return null;
                 }
+            }
+            if (parts[1].toLowerCase().contains("c")){
+                lobby.addSupportedFeature("c");
             }
             // TODO - add special features implementation
             // lobby.setSupportedFeatures(parts[1].split(","));
@@ -102,7 +104,7 @@ public class CommandHandler {
 
         Lobby firstLobby = lobbies.get(0);
 
-        if (!multipleGames) {
+        if (!firstLobby.getSupportedFeatures().contains("m")){
             return joinLobby(firstLobby, sender);
         }else if (parts.length >= 2){
             int pin;

@@ -12,12 +12,13 @@ public class Lobby {
     private int pin;
     private int maxPlayers;
     private Game game;
-    private String[] supportedFeatures;
+    private String supportedFeatures;
 
     // A constructor for the Lobby class.
     public Lobby(int pin){
         this.pin = pin;
         players = new ArrayList<>();
+        supportedFeatures = "tl";
     }
     // This is a constructor for the Lobby class.
     public Lobby(){
@@ -31,10 +32,8 @@ public class Lobby {
      */
     public void startGame(){
         game = new Game(players, this);
-        String message = "GameStarted|";
-        if (CommandHandler.multipleGames){
-            message += "m";
-        }
+        String message = "GameStarted|" + supportedFeatures;
+
         broadCastLobby(message);
 
         broadCastLobby("PlayersAtTable|"+ getPlayersAsString());
@@ -210,18 +209,12 @@ public class Lobby {
      *
      * @return The array of supported features.
      */
-    public String[] getSupportedFeatures() {
-        return supportedFeatures;
-    }
 
     /**
      * > This function sets the supported features of the device
      *
      * @param supportedFeatures A list of features that the device supports.
      */
-    public void setSupportedFeatures(String[] supportedFeatures) {
-        this.supportedFeatures = supportedFeatures;
-    }
 
     /**
      * Remove the player from the list of players.
@@ -235,5 +228,14 @@ public class Lobby {
                 break;
             }
         }
+    }
+    public String getSupportedFeatures() {
+        return supportedFeatures;
+    }
+    public void setSupportedFeatures(String  supportedFeatures) {
+        this.supportedFeatures = supportedFeatures;
+    }
+    public void addSupportedFeature(String feature){
+        supportedFeatures += feature;
     }
 }
