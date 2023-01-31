@@ -14,7 +14,8 @@ public class ClientTurnView {
     public static void updateView(){
         hand = PlayerController.getOwnPlayer().getHand();
         System.out.println("It's your turn!");
-        System.out.println("The card on the top of the stack is:\n" + Game.getActiveCard().toStringPerson());
+        System.out.println("Your opponents have the following amount of cards:\n" + GameController.displayHandPlayers());
+        System.out.println("The card on the top of the stack is:\n" + CommandHandler.colorRizeString(Game.getActiveCard().toStringPerson(), Game.getActiveCard().getColor()));
         System.out.println("Your hand is:\n" + hand.toString());
         System.out.println("Type which card you want to play (1-"+ hand.getHandSize()+ ") or type draw to draw a card");
     }

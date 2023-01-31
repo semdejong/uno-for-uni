@@ -28,6 +28,7 @@ public class GameTest {
     @BeforeAll
     public static void beforeAll(){
         lobby = new Lobby();
+        lobby.setSupportedFeatures("");
         players = new ArrayList<>();
 
         server = new Server();

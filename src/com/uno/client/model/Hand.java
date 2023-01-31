@@ -52,11 +52,13 @@ public class Hand {
     public  String toString(){
         String handString = "";
         for (int i=0; i<getCards().size(); i++){
-            handString += (i+1) + ": " + hand.get(i).toStringPerson();
+            handString +=  CommandHandler.colorRizeString((i+1) + ": " + hand.get(i).toStringPerson(), hand.get(i).getColor());
             if(i != hand.size() -1){
                 handString+= "\n";
             }
         }
         return handString;
     }
+
+
 }

@@ -48,11 +48,11 @@ public class Card implements Comparable<Card>{
     public boolean equals(Object compareTo){
         if(this == compareTo) return true; //both adresses are the same in the memory.
 
-        if(!(compareTo instanceof com.uno.server.uno.Card)) return false; // if compareTo is not a card, it can not be the same.
+        if(!(compareTo instanceof Card)) return false; // if compareTo is not a card, it can not be the same.
 
         Card card = (Card) compareTo; //Safe cast to card, because of instanceof check above
 
-        return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || card.getType() == cardType.WILD && this.getType() == cardType.WILD|| card.getType() == cardType.WILD_DRAW_FOUR && this.getType() == cardType.WILD_DRAW_FOUR);
+        return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || (card.getType().equals(cardType.WILD) && this.getType().equals(cardType.WILD))|| (card.getType().equals(cardType.WILD_DRAW_FOUR) && this.getType().equals(cardType.WILD_DRAW_FOUR)));
     }
 
     /**

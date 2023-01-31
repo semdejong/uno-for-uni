@@ -17,11 +17,17 @@ public class GameController {
     public static void updatePlayers(String players){
         String[] playerNames = players.split("~,~");
 
+        Game.setPlayers(new ArrayList<>());
+
         for (String playerName : playerNames){
-            Player player = new Player(playerName);
-            player.setHand(createClosedHand());
-            Game.addPlayer(player);
+            if(!playerName.equals(PlayerController.getOwnPlayer().getName())) {
+                Player player = new Player(playerName);
+                player.setHand(createClosedHand());
+                Game.addPlayer(player);
+            }
         }
+
+        Game.addPlayer(PlayerController.getOwnPlayer());
     }
 
     /**

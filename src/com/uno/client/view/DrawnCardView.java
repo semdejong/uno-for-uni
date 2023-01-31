@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DrawnCardView {
     public static void updateView(Card card){
-        System.out.println("you drew: " + card.toStringPerson());
+        System.out.println("you drew: " + CommandHandler.colorRizeString(card.toStringPerson(), card.getColor()));
     }
     public static void inputView(Card card){
         Scanner scanner = new Scanner(System.in);
@@ -27,6 +27,7 @@ public class DrawnCardView {
                 int playerNumber = 0;
                 if (card.getColor().equals(Card.cardColor.BLACK)){
                     System.out.println("What color do you want to change it to?");
+                    System.out.println(CommandHandler.colorRizeString("RED", Card.cardColor.RED) + "    " + CommandHandler.colorRizeString("BLUE", Card.cardColor.BLUE) + "    " + CommandHandler.colorRizeString("YELLOW", Card.cardColor.YELLOW) + "    " + CommandHandler.colorRizeString("GREEN", Card.cardColor.GREEN));
                     String color = scanner.nextLine();
                     while (true){
                         if (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("green") || color.equalsIgnoreCase("yellow")){

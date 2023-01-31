@@ -1,9 +1,8 @@
 package com.uno.client.controller;
 
-import com.uno.client.model.Card;
-import com.uno.client.model.Game;
-import com.uno.client.model.Hand;
+import com.uno.client.model.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CommandHandler {
@@ -58,5 +57,42 @@ public class CommandHandler {
         } else {
             return card.getColor().equals(Game.getActiveCard().getColor()) || card.getNumber() == Game.getActiveCard().getNumber() || card.getType().equals(Card.cardType.WILD);
         }
+    }
+
+    public static void roundOver(){
+        for(Player player : Game.getPlayers()){
+            if(!player.getName().equals(PlayerController.getOwnPlayer().getName())){
+                Hand hand = new Hand();
+                ArrayList<Card> handList = new ArrayList<>();
+
+                for(int i =0; i < 7; i++){
+                    handList.add(new ClosedCard());
+                }
+
+                hand.setHand(handList);
+                player.setHand(hand);
+            }
+        }
+    }
+
+    public static String colorRizeString(String text, Card.cardColor color){
+        if(Card.cardColor.RED.equals(color)){
+            return "\u001B[31m" + text + "\u001B[0m";
+        }
+
+        if(Card.cardColor.BLUE.equals(color)){
+            return "\u001B[34m" + text + "\u001B[0m";
+        }
+
+        if(Card.cardColor.YELLOW.equals(color)){
+            return "\u001B[33m" + text + "\u001B[0m";
+        }
+
+        if(Card.cardColor.GREEN.equals(color)){
+            return "\u001B[32m" + text + "\u001B[0m";
+        }
+
+
+        return text;
     }
 }

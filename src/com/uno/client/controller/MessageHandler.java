@@ -97,6 +97,7 @@ public class MessageHandler {
                 }
                 break;
             case "RoundOver":
+                 CommandHandler.roundOver();
                 break;
             case "GameOver":
                 if (messageInParts.length < 2){
