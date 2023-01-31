@@ -10,6 +10,7 @@ import java.util.concurrent.Flow;
 
 public class MessageHandler {
     public static boolean drawnCard = false;
+    private static boolean chat = true;
 
     /**
      * It receives a message from the server, splits it into parts, and then calls the appropriate function in the
@@ -48,6 +49,11 @@ public class MessageHandler {
                 break;
             case "GameStarted":
                 WaitStartView.started = true;
+                if (messageInParts.length > 1){
+                    if (messageInParts[1].contains("c")){
+
+                    }
+                }
                 break;
             case "StartingPlayer":
             case "ActivePlayer":
@@ -77,6 +83,10 @@ public class MessageHandler {
             case "GameOver":
                 break;
             case "receiveMessage":
+                if (messageInParts.length <3){
+                    return;
+                }
+                System.out.println(messageInParts[2] + "Said: " + messageInParts[1]);
                 break;
             case "ERROR":
                 if (messageInParts[1].equals("E09")){
@@ -87,5 +97,8 @@ public class MessageHandler {
             default:
                 System.out.println(message);
         }
+    }
+    public static boolean getChat(){
+        return chat;
     }
 }

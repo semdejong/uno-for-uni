@@ -1,5 +1,8 @@
 package com.uno.client.view;
 
+import com.uno.client.controller.CommandSender;
+import com.uno.client.controller.MessageHandler;
+
 import java.util.Scanner;
 
 public class MainMenuView {
@@ -25,28 +28,32 @@ public class MainMenuView {
     public static int inputView(){
 
         boolean validChoice = false;
-
-        while(!validChoice) {
-            System.out.println("Make a choice:");
-            Scanner scanner = new Scanner(System.in);
+        System.out.println("Make a choice:");
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            String input = scanner.nextLine();
             int choice = 0;
             try {
-                choice = scanner.nextInt();
+                choice = Integer.parseInt(input);
             } catch (Exception e) {
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + input);
+                    continue;
+                }
                 System.out.println("Please type in a number between 1 and 5");
                 continue;
             }
 
             if (choice < 1 || choice > 5) {
+                if (MessageHandler.getChat()){
+                    CommandSender.sendMessage("SendMessage|" + choice);
+                    continue;
+                }
                 System.out.println("That is not an option");
                 continue;
             }
 
-            validChoice = true;
-
             return choice;
         }
-
-        return 1;
     }
 }

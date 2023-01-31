@@ -1,6 +1,7 @@
 package com.uno.client.view;
 
 import com.uno.client.controller.CommandSender;
+import com.uno.client.controller.MessageHandler;
 
 import java.util.Scanner;
 
@@ -28,12 +29,17 @@ public class WaitStartView extends Thread{
             }
         }
         while (!started){
-            if (scanner.hasNext() && !started){
-                if (scanner.nextLine().equals("start")){
+            if (scanner.hasNext()){
+                String input = scanner.nextLine();
+                if (input.equals("start")){
                     CommandSender.sendMessage("Start");
                     started = true;
                     break;
                 } else {
+                    if (MessageHandler.getChat()){
+                        CommandSender.sendMessage("SendMessage|" + input);
+                        continue;
+                    }
                     System.out.println("Type 'start' to start the game.");
                 }
             }

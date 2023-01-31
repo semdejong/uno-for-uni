@@ -144,7 +144,15 @@ public class MessageHandler {
                 leaveServer();
                 break;
             case "sendmessage":
-                Server.broadCast(parts[1], client);
+                if (parts.length < 2){
+                    client.sendError(Error.E09, "No message has been entered"); //no message entered
+                    return;
+                }
+                if (lobby != null){
+                    lobby.broadCastLobby("receiveMessage|"+parts[1]+"|"+client);
+                } else{
+                    Server.broadCast("receiveMessage|"+parts[1]+"|"+client);
+                }
                 break;
             case "crash":
                 String ouchie = parts[1000];
