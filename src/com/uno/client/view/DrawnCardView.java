@@ -1,11 +1,11 @@
 package com.uno.client.view;
 
-import com.uno.client.controller.CommandSender;
-import com.uno.client.controller.MessageHandler;
-import com.uno.client.controller.PlayerController;
+import com.uno.client.controller.*;
 import com.uno.client.model.Card;
-import com.uno.client.controller.CommandHandler;
+import com.uno.client.model.Game;
+import com.uno.client.model.Hand;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DrawnCardView {
@@ -14,7 +14,7 @@ public class DrawnCardView {
     }
     public static void inputView(Card card){
         Scanner scanner = new Scanner(System.in);
-
+        Hand hand= PlayerController.getOwnPlayer().getHand();
         System.out.println("would you like to play this card? y/n");
         while (true){
             String input = scanner.nextLine();
@@ -24,6 +24,7 @@ public class DrawnCardView {
                 PlayerController.getOwnPlayer().addCard(card);
                 break;
             } else if (input.equals("y")){
+                int playerNumber = 0;
                 if (card.getColor().equals(Card.cardColor.BLACK)){
                     System.out.println("What color do you want to change it to?");
                     String color = scanner.nextLine();
@@ -38,8 +39,38 @@ public class DrawnCardView {
                         }
                     }
                 }
+                if (MessageHandler.SevenO && card.getNumber() == 7){
+                    System.out.println("You played a 7 please choose a player with whom to change hands");
+                    System.out.println("The players have the following hands:");
+                    System.out.println(GameController.displayHandPlayers());
+                    while (true){
+                        String player = scanner.nextLine();
 
+                        try{
+                            playerNumber = Integer.parseInt(player);
+                        } catch (NumberFormatException e){
+                            if (MessageHandler.getChat()){
+                                CommandSender.sendMessage("SendMessage|" + player);
+                                continue;
+                            }
+                            System.out.println("Please enter a number");
+                            continue;
+                        }
+                        if (playerNumber > 0 && playerNumber <= Game.getPlayers().size()){
+                            break;
+                        } else {
+                            if (MessageHandler.getChat()){
+                                CommandSender.sendMessage("SendMessage|" + playerNumber);
+                                continue;
+                            }
+                            System.out.println("Please enter a valid player");
+                        }
+                    }
+                }
                 CommandSender.sendMessage("PlayDrawnCard|yes");
+                if (playerNumber != 0){
+                    CommandSender.sendMessage("SwitchHand|" + Game.getPlayers().get(playerNumber-1).getName());
+                }
                 break;
             } else if (input.equals("n")){
                 CommandSender.sendMessage("PlayDrawnCard|no");

@@ -7,7 +7,7 @@ public class OtherTurnView {
         if (card == null){
             System.out.println(playerName + " drew a card");
         } else {
-            System.out.println(playerName + " played: " + card.toString());
+            System.out.println(playerName + " played: " + card.toStringPerson());
         }
     }
 }

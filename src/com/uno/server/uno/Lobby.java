@@ -143,7 +143,7 @@ public class Lobby {
             playersToReturn += player.getName();
 
             if(players.indexOf(player) != players.size() - 1){
-                playersToReturn += "|";
+                playersToReturn += "~,~";
             }
         }
 

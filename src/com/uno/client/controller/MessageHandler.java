@@ -1,5 +1,6 @@
 package com.uno.client.controller;
 
+import com.uno.client.model.Card;
 import com.uno.client.model.Game;
 import com.uno.client.model.Hand;
 import com.uno.client.model.Player;
@@ -10,7 +11,9 @@ import java.util.concurrent.Flow;
 
 public class MessageHandler {
     public static boolean drawnCard = false;
-    private static boolean chat = true;
+    private static boolean chat = false;
+    private static boolean jumpIn = false;
+    public static boolean SevenO = false;
 
     /**
      * It receives a message from the server, splits it into parts, and then calls the appropriate function in the
@@ -19,7 +22,6 @@ public class MessageHandler {
      * @param message The message received from the server
      */
     public static void receiveMessage(String message){
-        System.out.println("Client received:" + message);
         String[] messageInParts = message.split("\\|");
 
         switch (messageInParts[0]){
@@ -51,9 +53,16 @@ public class MessageHandler {
                 WaitStartView.started = true;
                 if (messageInParts.length > 1){
                     if (messageInParts[1].contains("c")){
-
+                        chat = true;
+                    }
+                    if (messageInParts[1].contains("j")){
+                        jumpIn = true;
+                    }
+                    if (messageInParts[1].contains("s")){
+                        SevenO = true;
                     }
                 }
+                GameStartedView.updateView();
                 break;
             case "StartingPlayer":
             case "ActivePlayer":
@@ -62,9 +71,18 @@ public class MessageHandler {
                 }
                 break;
             case "CardPlayed":
-                // TODO: reduce player's card count
+                JumpInView.played = true;
                 GameController.updatePlayedCard(messageInParts[1], messageInParts[2]);
                 OtherTurnView.updateView(messageInParts[1], Game.getActiveCard());
+                if (jumpIn){
+                    for (Card card : PlayerController.getOwnPlayer().getHand().getCards()){
+                        if (card.equals(Game.getActiveCard())){
+                            JumpInView.updateView();
+                            break;
+                        }
+                    }
+                }
+
                 break;
             case "CardDrawn":
                 GameController.updateDrawnCard(messageInParts[1]);
@@ -81,6 +99,10 @@ public class MessageHandler {
             case "RoundOver":
                 break;
             case "GameOver":
+                if (messageInParts.length < 2){
+                    System.out.println("Game over");
+                }
+                GameOverView.updateView(messageInParts[1]);
                 break;
             case "receiveMessage":
                 if (messageInParts.length <3){

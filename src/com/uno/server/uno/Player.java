@@ -220,4 +220,9 @@ public class Player {
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
     }
+    public Hand getAndSetHand(Hand hand){
+        Hand temp = this.hand;
+        this.hand = hand;
+        return temp;
+    }
 }

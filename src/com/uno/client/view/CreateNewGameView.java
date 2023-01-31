@@ -9,12 +9,14 @@ import java.util.Scanner;
 
 public class CreateNewGameView {
 
+
     public static void updateView(){
         System.out.println("With how many players do you want to play?");
         inputView();
     }
 
     public static void inputView(){
+        String supportedFeatures = "";
         Scanner scanner = new Scanner(System.in);
         while(true){
             String input = scanner.nextLine();
@@ -38,9 +40,25 @@ public class CreateNewGameView {
                 System.out.println("That is not an option");
                 continue;
             }
-            CommandSender.sendMessage("REQUESTGAME|"+"m|"+choice);
-            Game.addPlayer(PlayerController.getOwnPlayer());
-            break;
+            System.out.println("With what setting would you like to play?");
+            System.out.println("add c to enable chat");
+            System.out.println("add j for jump-in enabled");
+            System.out.println("add s for Seven-O uno");
+            System.out.println("if you do not want to add anything, type in nothing");
+            System.out.println("Example: cjs");
+            input = scanner.nextLine();
+            if (input.contains("c")){
+                supportedFeatures += "c";
+            }
+            if(input.contains("j")){
+                supportedFeatures += "j";
+            }
+            if(input.contains("s")){
+                supportedFeatures += "s";
+            }
+            CommandSender.sendMessage("REQUESTGAME|"+supportedFeatures+"mlt|"+choice);
+//            Game.addPlayer(PlayerController.getOwnPlayer());
+            return;
         }
     }
 }

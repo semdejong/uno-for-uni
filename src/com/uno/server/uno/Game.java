@@ -78,14 +78,23 @@ public class Game {
      * @param client The client that is playing the card
      * @return A boolean value.
      */
-    public boolean playCard(Card card, ClientHandler client){
+    public synchronized boolean playCard(Card card, ClientHandler client){
         boolean skipped = false;
-        if(!client.equals(activePlayer.getClientHandler())){
-            client.sendError(Error.E07);
-            return false;
+
+        if (lobby.getSupportedFeatures().contains("j") && playPile.getActiveCard().equals(card)){
+            for (Player player : players) {
+                if (player.getClientHandler().equals(client)){
+                    activePlayer = player;
+                }
+            }
         }
+
         if(!activePlayer.getHand().getCards().contains(card)){
             client.sendError(Error.E05);
+            return false;
+        }
+        if(!client.equals(activePlayer.getClientHandler())){
+            client.sendError(Error.E07);
             return false;
         }
         if (!playPile.playCard(card, activePlayer.getHand())){
@@ -106,12 +115,27 @@ public class Game {
             skipped = true;
             getNextPlayer().drawCardWithClientSync(4, this);
         }
+
         playedCards++;
         activePlayer.removeCard(card);
+
+        if (lobby.getSupportedFeatures().contains("s")&& card.getNumber()==0){
+            Hand hand = players.get(players.size()-1).getHand();
+            for (Player player : players) {
+                hand = player.getAndSetHand(hand);
+                player.getClientHandler().sendMessage("giveHand|"+player.getHand().toString());
+            }
+        }
+
         if (checkRoundEnd()){
             return true;
         }
+        if (lobby.getSupportedFeatures().contains("s")&& card.getNumber()==7){
+            client.getMessageHandler().SevenPlayed = card;
+            return true;
+        }
         lobby.broadCastLobby("CardPlayed|"+activePlayer.getName()+"|"+card.toString());
+
         if (skipped){
             nextPlayer();
         }

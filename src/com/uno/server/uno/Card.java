@@ -100,7 +100,7 @@ public class Card {
 
         Card card = (Card) compareTo; //Safe cast to card, because of instanceof check above
 
-        return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || card.getType() == cardType.WILD && this.getType() == cardType.WILD|| card.getType() == cardType.WILD_DRAW_FOUR && this.getType() == cardType.WILD_DRAW_FOUR);
+        return ((this.getType().equals(card.getType()) && this.getColor().equals(card.getColor()) && this.getNumber() == card.getNumber()) || (card.getType() == cardType.WILD && this.getType() == cardType.WILD)|| (card.getType() == cardType.WILD_DRAW_FOUR && this.getType() == cardType.WILD_DRAW_FOUR));
     }
 
     /**

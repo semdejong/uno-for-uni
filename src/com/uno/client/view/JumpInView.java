@@ -1,6 +1,5 @@
 package com.uno.client.view;
 
-import com.uno.client.Computers.BasicComputer;
 import com.uno.client.controller.*;
 import com.uno.client.model.Card;
 import com.uno.client.model.Game;
@@ -8,24 +7,31 @@ import com.uno.client.model.Hand;
 
 import java.util.Scanner;
 
+public class JumpInView extends Thread{
 
-public class ClientTurnView {
-    public static Hand hand;
-    public static void updateView(){
+    private static Hand hand;
+    public static boolean played = false;
+
+    public static void updateView() {
         hand = PlayerController.getOwnPlayer().getHand();
-        System.out.println("It's your turn!");
-        System.out.println("The card on the top of the stack is:\n" + Game.getActiveCard().toStringPerson());
+        played = false;
+        System.out.println("You have a card in your hand that you could play using jump-in");
+        System.out.println("Your opponents have the following amount of cards:\n" + GameController.displayHandPlayers());
+        System.out.println("The card on the top of the stack is:\n" + CommandHandler.colorRizeString(Game.getActiveCard().toStringPerson(), Game.getActiveCard().getColor()));
         System.out.println("Your hand is:\n" + hand.toString());
-        System.out.println("Type which card you want to play (1-"+ hand.getHandSize()+ ") or type draw to draw a card");
+        System.out.println("Type which card you want to play (1-"+ hand.getHandSize()+ ") but be quick");
+        JumpInView jumpInView = new JumpInView();
+        jumpInView.start();
     }
-    public static void inputView(){
+    public void run() {
         Scanner scanner = new Scanner(System.in);
+        String input = "";
+        int playerNumber = 0;
         while (true){
-            String input = scanner.nextLine();
-            int playerNumber = 0;
-            if (input.equalsIgnoreCase("draw")){
-                MessageHandler.drawnCard = true;
-                CommandSender.sendMessage("DrawCard");
+            if (scanner.hasNext() && !played) {
+                input = scanner.nextLine();
+            } else {
+                System.out.println("sorry you were too slow");
                 return;
             }
             try {
@@ -57,7 +63,7 @@ public class ClientTurnView {
                         }
                         if (MessageHandler.SevenO && hand.getCards().get(number-1).getNumber() == 7){
                             System.out.println("You played a 7 please choose a player with whom to change hands");
-                            System.out.println("The players have the following hands (these can be incorrect):");
+                            System.out.println("The players have the following hands:");
                             System.out.println(GameController.displayHandPlayers());
                             while (true){
                                 String player = scanner.nextLine();
@@ -106,3 +112,4 @@ public class ClientTurnView {
         }
     }
 }
+

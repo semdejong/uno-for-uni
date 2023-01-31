@@ -1,9 +1,6 @@
 package com.uno.server;
 
-import com.uno.server.uno.Card;
-import com.uno.server.uno.Game;
-import com.uno.server.uno.Lobby;
-import com.uno.server.uno.Player;
+import com.uno.server.uno.*;
 
 import java.util.Random;
 
@@ -12,6 +9,7 @@ public class MessageHandler {
     private ClientHandler client;
     private Lobby lobby;
     private Game game;
+    public Card SevenPlayed = null;
 
     public MessageHandler(ClientHandler client){
         this.client = client;
@@ -149,9 +147,41 @@ public class MessageHandler {
                     return;
                 }
                 if (lobby != null){
-                    lobby.broadCastLobby("receiveMessage|"+parts[1]+"|"+client);
+                    lobby.broadCastLobby("receiveMessage|"+parts[1]+"|"+client.getClientName());
                 } else{
-                    Server.broadCast("receiveMessage|"+parts[1]+"|"+client);
+                    Server.broadCast("receiveMessage|"+parts[1]+"|"+client.getClientName());
+                }
+                break;
+            case "switchhand":
+                if (SevenPlayed != null){
+                    if (parts.length < 2){
+                        client.sendError(Error.E09, "No one to switch hands with selected"); //no one to switch hands with
+                    }
+                    if (game == null){
+                        client.sendError(Error.E09, "Client is not in a game"); //not in a game
+                        return;
+                    }
+                    for (Player player : game.getPlayers()){
+                        if (parts[1].equalsIgnoreCase(player.getName())){
+                            if (player.getClientHandler().equals(client)){
+                                client.sendError(Error.E09, "You can't switch hands with yourself"); //can't switch hands with yourself
+                                return;
+                            }
+                            Player thisPlayer = getPlayerByClient();
+                            Hand temp = player.getHand();
+                            player.setHand(thisPlayer.getHand());
+                            thisPlayer.setHand(temp);
+                            player.getClientHandler().sendMessage("giveHand|"+player.getHand().toString());
+                            thisPlayer.getClientHandler().sendMessage("giveHand|"+thisPlayer.getHand().toString());
+                            lobby.broadCastLobby("receiveMessage|"+client.getName()+" has switched hands with "+player.getName());
+                            lobby.broadCastLobby("CardPlayed|"+thisPlayer.getName()+"|"+SevenPlayed);
+                            game.nextPlayer();
+                            lobby.broadCastLobby("ActivePlayer|" + game.getActivePlayer().getName());
+                            SevenPlayed = null;
+                        }
+                    }
+                }else {
+                    client.sendError(Error.E09, "You can't switch hands now"); //can't switch hands now
                 }
                 break;
             case "crash":

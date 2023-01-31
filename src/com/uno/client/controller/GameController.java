@@ -112,4 +112,12 @@ public class GameController {
         return hand;
     }
 
+    public static String displayHandPlayers() {
+        String hand = "";
+        ArrayList<Player> players = Game.getPlayers();
+        for(int i = 0; i < players.size(); i++) {
+            hand += (i+1)+": "+players.get(i).getName() + " has " + players.get(i).getHand().getCards().size() + " cards\n";
+        }
+        return hand;
+    }
 }

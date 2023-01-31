@@ -51,11 +51,18 @@ public class CommandHandler {
                     return null;
                 }
             }
-            if (parts[1].toLowerCase().contains("c")){
-                lobby.addSupportedFeature("c");
-            }
+
             // TODO - add special features implementation
             // lobby.setSupportedFeatures(parts[1].split(","));
+        }
+        if (parts[1].toLowerCase().contains("c")){
+            lobby.addSupportedFeature("c");
+        }
+        if (parts[1].toLowerCase().contains("j")){
+            lobby.addSupportedFeature("j");
+        }
+        if (parts[1].toLowerCase().contains("s")){
+            lobby.addSupportedFeature("s");
         }
         if (parts.length >= 3){
             int maxPlayers = 0;
