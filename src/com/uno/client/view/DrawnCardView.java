@@ -3,9 +3,6 @@ package com.uno.client.view;
 import com.uno.client.controller.*;
 import com.uno.client.model.Card;
 import com.uno.client.model.Game;
-import com.uno.client.model.Hand;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DrawnCardView {
@@ -14,8 +11,8 @@ public class DrawnCardView {
     }
     public static void inputView(Card card){
         Scanner scanner = new Scanner(System.in);
-        Hand hand= PlayerController.getOwnPlayer().getHand();
         System.out.println("would you like to play this card? y/n");
+
         while (true){
             String input = scanner.nextLine();
             if (input.equals("y") && !CommandHandler.playable(card)){

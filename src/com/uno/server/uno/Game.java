@@ -5,9 +5,7 @@ import com.uno.server.Error;
 import com.uno.server.Server;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Random;
 
 public class Game {
     private ArrayList<Player> players;
@@ -15,7 +13,6 @@ public class Game {
     private PlayPile playPile;
     private Lobby lobby;
     private Player activePlayer;
-    private boolean started = false;
     private int playedCards = 0;
 
 
@@ -23,15 +20,6 @@ public class Game {
     public Game(ArrayList<Player> players, Lobby lobby){
         this.players = players;
         this.lobby = lobby;
-    }
-
-    /**
-     * This function adds a player to the list of players.
-     *
-     * @param player The player to add to the game.
-     */
-    public void addPlayer(Player player){
-        players.add(player);
     }
 
     /**
@@ -68,7 +56,6 @@ public class Game {
         activePlayer = players.get((int)(Math.random()*players.size()));
 
         lobby.broadCastLobby("StartingPlayer|" + activePlayer.getName());
-        started = true;
     }
 
     /**
@@ -134,7 +121,7 @@ public class Game {
             client.getMessageHandler().SevenPlayed = card;
             return true;
         }
-        lobby.broadCastLobby("CardPlayed|"+activePlayer.getName()+"|"+card.toString());
+        lobby.broadCastLobby("CardPlayed|"+activePlayer.getName()+"|"+card);
 
         if (skipped){
             nextPlayer();
@@ -210,17 +197,11 @@ public class Game {
                         points += card.getNumber();
                         break;
                     case SKIP:
-                        points += 20;
-                        break;
                     case REVERSE:
-                        points += 20;
-                        break;
                     case DRAW_TWO:
                         points += 20;
                         break;
                     case WILD:
-                        points += 50;
-                        break;
                     case WILD_DRAW_FOUR:
                         points += 50;
                         break;
@@ -267,26 +248,10 @@ public class Game {
         return drawPile;
     }
 
-    /**
-     * Returns true if the server is started, false otherwise.
-     *
-     * @return The boolean value of the variable started.
-     */
-    public boolean isStarted() {
-        return started;
-    }
+
 
     /**
-     * This function sets the value of the variable started to the value of the parameter started.
-     *
-     * @param started This is a boolean value that indicates whether the game has started or not.
-     */
-    public void setStarted(boolean started) {
-        this.started = started;
-    }
-
-    /**
-     * This function sets the players variable to the value of the players parameter.
+     * This function sets the players variable to the value of the player's parameter.
      *
      * @param players The list of players in the game.
      */
@@ -310,15 +275,6 @@ public class Game {
      */
     public PlayPile getPlayPile() {
         return playPile;
-    }
-
-    /**
-     * This function sets the playPile variable to the playPile parameter.
-     *
-     * @param playPile The play pile that the player will be playing on.
-     */
-    public void setPlayPile(PlayPile playPile) {
-        this.playPile = playPile;
     }
 
     /**

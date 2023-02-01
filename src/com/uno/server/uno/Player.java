@@ -1,14 +1,12 @@
 package com.uno.server.uno;
 
 import com.uno.server.ClientHandler;
-import com.uno.server.uno.Card;
-import com.uno.server.uno.Hand;
 
 public class Player {
 
     private Hand hand;
     private int score;
-    private ClientHandler clientHandler;
+    private final ClientHandler clientHandler;
     private Lobby lobby;
     private Card lastDrawnCard;
     
@@ -71,9 +69,9 @@ public class Player {
                             playerLeastCards = player;
                         }
                     }
-
-                    lobby.broadCastLobby("RoundOver|"+calculatePoints()+"|"+playerLeastCards.getName());
-                    playerLeastCards.setScore(score + calculatePoints());
+                    int points = game.calculatePoints();
+                    lobby.broadCastLobby("RoundOver|"+points+"|"+playerLeastCards.getName());
+                    playerLeastCards.setScore(score + points);
 
                     if(lobby.getGame().checkGameEnd()){
                         return;
@@ -92,34 +90,6 @@ public class Player {
         }
     }
 
-    public int calculatePoints(){
-        int points = 0;
-        for (Player player : lobby.getPlayers()){
-            for (Card card : player.getHand().getCards()){
-                switch (card.getType()){
-                    case NUMBER:
-                        points += card.getNumber();
-                        break;
-                    case SKIP:
-                        points += 20;
-                        break;
-                    case REVERSE:
-                        points += 20;
-                        break;
-                    case DRAW_TWO:
-                        points += 20;
-                        break;
-                    case WILD:
-                        points += 50;
-                        break;
-                    case WILD_DRAW_FOUR:
-                        points += 50;
-                        break;
-                }
-            }
-        }
-        return points;
-    }
 
     /**
      * Remove a card from the hand.
@@ -128,15 +98,6 @@ public class Player {
      */
     public void removeCard(Card card){
         hand.removeCard(card);
-    }
-
-    /**
-     * This function returns the size of the hand
-     *
-     * @return The size of the hand.
-     */
-    public int getHandSize(){
-        return hand.getHandSize();
     }
 
     /**

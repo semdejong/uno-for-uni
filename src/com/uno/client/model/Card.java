@@ -3,11 +3,11 @@ package com.uno.client.model;
 public class Card implements Comparable<Card>{
     public enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR, UNKNOWN
-    };
+    }
 
     public enum cardColor {
         RED, YELLOW, GREEN, BLUE, BLACK, UNKNOWN
-    };
+    }
 
     public Card(cardType type, cardColor color, int number) {
         this.type = type;
@@ -46,7 +46,7 @@ public class Card implements Comparable<Card>{
 
     @Override
     public boolean equals(Object compareTo){
-        if(this == compareTo) return true; //both adresses are the same in the memory.
+        if(this == compareTo) return true; //both addresses are the same in the memory.
 
         if(!(compareTo instanceof Card)) return false; // if compareTo is not a card, it can not be the same.
 
@@ -70,8 +70,8 @@ public class Card implements Comparable<Card>{
 
     @Override
     public int compareTo(Card otherCard){
-        Integer thisCardValue = (Integer) this.getNumber();
-        Integer otherCardValue = (Integer) otherCard.getNumber();
+        Integer thisCardValue = this.getNumber();
+        Integer otherCardValue = otherCard.getNumber();
 
         return otherCardValue.compareTo(thisCardValue);
     }

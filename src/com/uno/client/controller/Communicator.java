@@ -1,18 +1,14 @@
 package com.uno.client.controller;
 
-import com.uno.client.RunClient;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Communicator{
-    private  String ip;
-    private int port;
+    private final String ip;
+    private final int port;
 
     public Communicator(String ip, int port){
         this.ip = ip;
@@ -23,7 +19,7 @@ public class Communicator{
         try{
             Socket connection = new Socket(ip, port);
             System.out.println("Connected to server");
-            FlowController.comStarted = true;;
+            FlowController.comStarted = true;
             BufferedWriter outgoing = new BufferedWriter(new java.io.OutputStreamWriter(connection.getOutputStream()));
             BufferedReader incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             CommandSender.setOut(outgoing);

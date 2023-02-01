@@ -5,13 +5,13 @@ public class Card {
     // classes. It is a list of possible values that the variable can take.
     public enum cardType {
         NUMBER, SKIP, REVERSE, DRAW_TWO, WILD, WILD_DRAW_FOUR
-    };
+    }
 
     // Defining a new type of variable called cardColor. It is a public enum, which means that it can be used by other
     // classes. It is a list of possible values that the variable can take.
     public enum cardColor {
         RED, YELLOW, GREEN, BLUE, BLACK
-    };
+    }
 
     // This is a constructor. It is a method that is called when a new object of the class is created. It is used to
     // initialize the object.
@@ -53,11 +53,7 @@ public class Card {
         return number;
     }
 
-    /**
-     * This function sets the type of the card to the type passed in
-     *
-     * @param type The type of card.
-     */
+
     /**
      * This function sets the type of the card to the type passed in
      *
@@ -88,13 +84,12 @@ public class Card {
     /**
      * Checks if the card objects values are equal. Overwrites default behaviour.
      *
-     *
      * @param compareTo The object to compare to.
      * @return The return value is a boolean.
      */
     @Override
     public boolean equals(Object compareTo){
-        if(this == compareTo) return true; //both adresses are the same in the memory.
+        if(this == compareTo) return true; //both addresses are the same in the memory.
 
         if(!(compareTo instanceof Card)) return false; // if compareTo is not a card, it can not be the same.
 

@@ -2,7 +2,6 @@ package com.uno.server;
 
 import com.uno.server.uno.Lobby;
 
-import javax.print.attribute.standard.Severity;
 import java.io.*;
 import java.net.Socket;
 
@@ -11,7 +10,7 @@ public class ClientHandler extends Thread{
     private BufferedWriter out;
     private String ClientName;
     private MessageHandler messageHandler;
-    private Socket socket;
+    private final Socket socket;
 
     // Creating a new client handler.
     public ClientHandler(Socket socketArg){
@@ -140,29 +139,11 @@ public class ClientHandler extends Thread{
     }
 
     /**
-     * This function sets the message handler to the message handler passed in.
-     *
-     * @param messageHandler The message handler that will be used to process the messages.
-     */
-    public void setMessageHandler(MessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    /**
      * This function returns the socket.
      *
      * @return The socket object.
      */
     public Socket getSocket() {
         return socket;
-    }
-
-    /**
-     * This function sets the socket to the socket passed in.
-     *
-     * @param socket The socket that the client is connected to.
-     */
-    public void setSocket(Socket socket) {
-        this.socket = socket;
     }
 }

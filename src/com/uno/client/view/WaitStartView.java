@@ -18,7 +18,7 @@ public class WaitStartView extends Thread{
         Scanner scanner = new Scanner(System.in);
         while(true){
             try {
-                sleep(1000);
+                sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;

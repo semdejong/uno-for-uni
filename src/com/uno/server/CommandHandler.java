@@ -4,16 +4,14 @@ import com.uno.server.uno.Card;
 import com.uno.server.uno.Lobby;
 import com.uno.server.uno.Player;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CommandHandler {
     public static final String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "BLACK"};
-    public static final String[] types = {"SKIP", "REVERSE", "DRAW_TWO", "WILD", "WILD_DRAW_FOUR"};
     public static final String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    public static final int MAX_ALLOWED_PLAYERS = 10;
+    public static final int MIN_ALLOWED_PLAYERS = 2;
 
     /**
      * If the user has specified a pin, create a lobby with that pin, otherwise create a lobby without a pin
@@ -65,22 +63,22 @@ public class CommandHandler {
             lobby.addSupportedFeature("s");
         }
         if (parts.length >= 3){
-            int maxPlayers = 0;
+            int maxPlayers;
             try {
                 maxPlayers = Integer.parseInt(parts[2]);
             } catch (NumberFormatException e){
-                sender.sendError(Error.E09, "Max players must be a number, lobby created with max players 10"); //max players must be a number
-                maxPlayers = 10;
+                sender.sendError(Error.E09, "Max players must be a number, lobby created with max players " + MAX_ALLOWED_PLAYERS); //max players must be a number
+                maxPlayers = MAX_ALLOWED_PLAYERS;
             }
-            if (maxPlayers > 10){
-                sender.sendError(Error.E09, "Max players cannot be more than 10, lobby created with max players 10"); //max players cannot be more than 10
-                maxPlayers = 10;
-            } else if (maxPlayers < 2){
-                sender.sendError(Error.E09, "Max players cannot be less than 2, lobby created with max players 2"); //max players cannot be less than 2
-                maxPlayers = 2;
-            } else {
-                lobby.setMaxPlayers(maxPlayers);
+            if (maxPlayers > MAX_ALLOWED_PLAYERS){
+                sender.sendError(Error.E09, "Max players cannot be more than 10, lobby created with max players " + MAX_ALLOWED_PLAYERS); //max players cannot be more than 10
+                maxPlayers = MAX_ALLOWED_PLAYERS;
+            } else if (maxPlayers < MIN_ALLOWED_PLAYERS){
+                sender.sendError(Error.E09, "Max players cannot be less than 2, lobby created with max players " + MIN_ALLOWED_PLAYERS); //max players cannot be less than 2
+                maxPlayers = MIN_ALLOWED_PLAYERS;
             }
+            lobby.setMaxPlayers(maxPlayers);
+
         } else {
             lobby.setMaxPlayers(10);
         }
@@ -132,7 +130,7 @@ public class CommandHandler {
     }
 
     /**
-     * The function takes a lobby and a clienthandler as parameters, creates a new player with the clienthandler, checks if
+     * The function takes a lobby and a ClientHandler as parameters, creates a new player with the ClientHandler, checks if
      * the lobby is full, if the game has already started, adds the player to the lobby, broadcasts the lobby and returns
      * the lobby
      *
@@ -165,9 +163,9 @@ public class CommandHandler {
      * @return A card object
      */
     public static Card makeCard(String[] parts){
-        Card.cardColor color = null;
-        Card.cardType type = null;
-        int value = 0;
+        Card.cardColor color;
+        Card.cardType type;
+        int value;
         if (parts.length < 2){
             return null;
         }

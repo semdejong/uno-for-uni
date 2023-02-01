@@ -1,10 +1,8 @@
 package com.uno.client.controller;
 
 import com.uno.client.model.*;
-import com.uno.client.view.DrawnCardView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameController {
 
@@ -85,19 +83,6 @@ public class GameController {
             String[] cardInParts = card.split("\\$,\\$");
             PlayerController.getOwnPlayer().getHand().addCard(CommandHandler.makeCard(cardInParts));
         }
-    }
-
-    /**
-     * It takes a string, splits it into an array, then uses the array to create a card object, then adds the card to the
-     * player's hand, then updates the view
-     *
-     * @param card The card that was drawn.
-     */
-    public static void drawnCard(String card){
-        String[] cardInParts = card.split("\\$,\\$");
-        Card card1 = CommandHandler.makeCard(cardInParts);
-        PlayerController.getOwnPlayer().getHand().addCard(card1);
-        DrawnCardView.updateView(card1);
     }
 
     /**

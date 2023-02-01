@@ -2,8 +2,6 @@ package com.uno.client.view;
 
 import com.uno.client.controller.CommandSender;
 import com.uno.client.controller.MessageHandler;
-import com.uno.client.controller.PlayerController;
-import com.uno.client.model.Game;
 
 import java.util.Scanner;
 
@@ -56,8 +54,7 @@ public class CreateNewGameView {
             if(input.contains("s")){
                 supportedFeatures += "s";
             }
-            CommandSender.sendMessage("REQUESTGAME|"+supportedFeatures+"mlt|"+choice);
-//            Game.addPlayer(PlayerController.getOwnPlayer());
+            CommandSender.sendMessage("RequestGame|"+supportedFeatures+"mlt|"+choice);
             return;
         }
     }

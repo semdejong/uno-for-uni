@@ -9,7 +9,7 @@ public class MainMenuView {
 
     public static int updateView(){
         System.out.println("SMUNO");
-        System.out.println("");
+        System.out.println();
         System.out.println("Choose a option by number:");
         System.out.println("|---------------------------------------------------|");
         System.out.println("|                                                   |");
@@ -20,19 +20,18 @@ public class MainMenuView {
         System.out.println("|      5) ............. exit.                       |");
         System.out.println("|                                                   |");
         System.out.println("|---------------------------------------------------|");
-        System.out.println("");
+        System.out.println();
 
         return inputView();
     }
 
     public static int inputView(){
 
-        boolean validChoice = false;
         System.out.println("Make a choice:");
         Scanner scanner = new Scanner(System.in);
+        int choice;
         while(true) {
             String input = scanner.nextLine();
-            int choice = 0;
             try {
                 choice = Integer.parseInt(input);
             } catch (Exception e) {

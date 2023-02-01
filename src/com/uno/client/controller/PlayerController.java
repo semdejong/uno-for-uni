@@ -1,7 +1,6 @@
 package com.uno.client.controller;
 
 import com.uno.client.Computers.AI;
-import com.uno.client.Computers.BasicComputer;
 import com.uno.client.model.Player;
 
 public class PlayerController {

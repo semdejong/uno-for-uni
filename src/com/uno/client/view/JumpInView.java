@@ -25,7 +25,7 @@ public class JumpInView extends Thread{
     }
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        String input = "";
+        String input;
         int playerNumber = 0;
         while (true){
             if (scanner.hasNext() && !played) {
@@ -42,7 +42,6 @@ public class JumpInView extends Thread{
                         continue;
                     }
                     System.out.println("Please enter a number between 1 and " + hand.getHandSize());
-                    continue;
                 } else {
                     if (CommandHandler.playable(hand.getCards().get(number-1))){
                         if (hand.getCards().get(number-1).getColor().equals(Card.cardColor.BLACK)){
@@ -97,7 +96,6 @@ public class JumpInView extends Thread{
                         return;
                     } else{
                         System.out.println("You can't play that card");
-                        continue;
                     }
 
                 }
@@ -107,7 +105,6 @@ public class JumpInView extends Thread{
                     continue;
                 }
                 System.out.println("Please enter a number");
-                continue;
             }
         }
     }

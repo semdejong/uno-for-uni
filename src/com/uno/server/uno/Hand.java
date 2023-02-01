@@ -2,7 +2,6 @@ package com.uno.server.uno;
 
 
 import com.uno.server.ClientHandler;
-import com.uno.server.uno.Card;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ public class Hand {
 
     // Creating a new ArrayList of type Card.
     public Hand(){
-        this.hand = new ArrayList<Card>();
+        this.hand = new ArrayList<>();
     }
 
     /**

@@ -11,15 +11,7 @@ public enum Error{
     E08("General error"),
     E09("custom error");
 
-    private String errorDescription;
-
-    /**
-     * A method that returns the description of the error
-     * @return the error description
-     */
-    public String getErrorDescription(){
-        return this.errorDescription;
-    }
+    private final String errorDescription;
 
     /**
      * Sets the error description

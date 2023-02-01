@@ -19,9 +19,10 @@ public class AdvancedComputer extends Player implements AI {
         boolean hasLeastCards = true;
 
         for(Player player : Game.getPlayers()){
-            //When player has less cards then all other players keep wilds, and max 2 +2. Also keep them at start.
+            //When player has fewer cards than all other players keep wilds, and max 2 +2. Also keep them at start.
             if(PlayerController.getOwnPlayer().getHand().getCards().size() > player.getHand().getCards().size() + 1){
                 hasLeastCards = false;
+                break;
             }
         }
 
@@ -75,22 +76,12 @@ public class AdvancedComputer extends Player implements AI {
         for(Card card : PlayerController.getOwnPlayer().getHand().getCards()){
             if(card.getType() == Card.cardType.WILD || card.getType() == Card.cardType.WILD_DRAW_FOUR){
                 hasWild = true;
+                break;
             }
         }
 
         return hasWild;
     }
-
-//    public Card.cardColor findLastColor(){
-//        for(Card card : PlayerController.getOwnPlayer().getHand().getCards()){
-//            if(!(card.getType().equals(Card.cardType.WILD) || card.getType().equals(Card.cardType.WILD_DRAW_FOUR))){
-//                return card.getColor();
-//            }
-//        }
-//
-//        return Card.cardColor.RED;
-//
-//    }
 
     public boolean hasWildAndPlus2(ArrayList<Card> cards){
         boolean hasWild = false;
@@ -125,20 +116,4 @@ public class AdvancedComputer extends Player implements AI {
 
         return (hasWild && hasSkip);
     }
-
-//    public boolean hasCardOfDifferentColorButSameNumber(ArrayList<Card> cards) {
-//        boolean sameNumber = false;
-//
-//        if (Game.getActiveCard().getNumber() < 30) {
-//            for (Card card : cards) {
-//                if (Game.getActiveCard().getNumber() == card.getNumber()) {
-//                    return true;
-//                }
-//            }
-//        }
-//
-//
-//        return false;
-//    }
-//    }
 }

@@ -3,7 +3,7 @@ package com.uno.client.model;
 import java.util.ArrayList;
 
 public class Game {
-    private static ArrayList<Player> players = new ArrayList<Player>();
+    private static ArrayList<Player> players = new ArrayList<>();
     private static Card activeCard;
 
     public static ArrayList<Player> getPlayers() {

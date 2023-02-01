@@ -79,7 +79,7 @@ public class PlayerTest {
         player.getHand().getCards().add(new Card(Card.cardType.SKIP, Card.cardColor.BLUE, 0));
         player.getHand().getCards().add(new Card(Card.cardType.REVERSE, Card.cardColor.GREEN, 0));
 
-        Assertions.assertEquals(94, player.calculatePoints());
+        Assertions.assertEquals(94, game.calculatePoints());
     }
 
     /**

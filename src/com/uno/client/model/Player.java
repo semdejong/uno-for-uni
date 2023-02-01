@@ -4,7 +4,6 @@ public class Player {
 
     private String name;
     private Hand hand;
-    private int score;
 
     public Player(String name){
         this.name = name;
@@ -31,10 +30,6 @@ public class Player {
         hand.addCard(card);
     }
 
-    public void removeCard(Card card){
-        hand.removeCard(card);
-    }
-
     //Removes a closed card from a player.
     public void removeClosedCard(){
         for(Card card : hand.getCards()){
@@ -43,18 +38,6 @@ public class Player {
                 return;
             }
         }
-    }
-
-    public int getHandSize(){
-        return hand.getHandSize();
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public String toString(){

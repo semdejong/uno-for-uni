@@ -17,17 +17,17 @@ public class PlayWithComputerPlayerView {
         System.out.println("|                                         |");
         System.out.println("|-----------------------------------------|");
 
-        System.out.println("");
+        System.out.println();
         System.out.println("Make a choice:");
     }
 
     public static int inputView(){
 
         Scanner scanner = new Scanner(System.in);
-
+        int choice;
         while(true){
             String input = scanner.nextLine();
-            int choice = 0;
+
             try {
                 choice = Integer.parseInt(input);
             } catch (Exception e) {

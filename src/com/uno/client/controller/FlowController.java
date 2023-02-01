@@ -8,12 +8,13 @@ import com.uno.client.model.Card;
 import com.uno.client.model.Game;
 import com.uno.client.model.Player;
 import com.uno.client.view.*;
-import com.uno.server.Server;
 
 import java.util.Scanner;
 
 public class FlowController {
     public static boolean comStarted = false;
+    public static final int LINES_TO_CLEAR = 50;
+    public static final int STANDARD_PORT = 3333;
 
     /**
      * It starts the communicator, and then starts the welcome view
@@ -22,22 +23,17 @@ public class FlowController {
 
         Communicator com;
 
-        System.out.println("Put in a UNO server address (ip:port), type (own:port) for own server on that port.");
+        System.out.println("Put in a UNO server address (ip:port)");
         Scanner scanner = new Scanner(System.in);
-        String serverInput = "";
+        String serverInput;
         while (!comStarted) {
             serverInput = scanner.nextLine().toLowerCase().trim();
             if (serverInput.split(":").length == 2) {
-                if(serverInput.contains("own")){
-                    Server ownServer = new Server();
-                    ownServer.setPort(Integer.parseInt(serverInput.split(":")[1]));
-                    ownServer.start();
-                }
-                com = new Communicator(serverInput.contains("own") ? "localhost" : serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
+                com = new Communicator(serverInput.split(":")[0], Integer.parseInt(serverInput.split(":")[1]));
                 com.run();
             }else{
                 if(serverInput.equals("l")){
-                    com = new Communicator("localhost", 3333);
+                    com = new Communicator("localhost", STANDARD_PORT);
                     com.run();
                 }
             }
@@ -115,7 +111,7 @@ public class FlowController {
         Player player = PlayerController.getOwnPlayer();
         Game.removePlayer(player);
 
-        Player computerToPlay = null;
+        Player computerToPlay;
 
         if(choice == 1){
             computerToPlay = new BasicComputer(player.getName());
@@ -187,8 +183,8 @@ public class FlowController {
      * This function prints 50 blank lines to the console.
      */
     public static void emptyScreen(){
-        for(int i = 0; i < 50; i++){
-            System.out.println("");
+        for(int i = 0; i < LINES_TO_CLEAR; i++){
+            System.out.println();
         }
     }
 }

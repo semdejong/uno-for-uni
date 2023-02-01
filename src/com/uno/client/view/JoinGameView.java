@@ -26,7 +26,7 @@ public class JoinGameView {
                     System.out.println("Please type in a number between 0 and 9999");
                     continue;
                 }
-                CommandSender.sendMessage("JOINGAME|"+pin);
+                CommandSender.sendMessage("JoinGame|"+pin);
                 break;
             } catch (Exception e) {
                 if (MessageHandler.getChat()){

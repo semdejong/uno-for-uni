@@ -1,15 +1,13 @@
 package com.uno.server.uno;
 
 import com.uno.server.ClientHandler;
-import com.uno.server.CommandHandler;
 
 import java.util.ArrayList;
 
 public class Lobby {
 
     private ArrayList<Player> players;
-    private int waitingToStart = 0;
-    private int pin;
+    private final int pin;
     private int maxPlayers;
     private Game game;
     private String supportedFeatures;
@@ -54,11 +52,6 @@ public class Lobby {
     }
 
     /**
-     * This function assigns teams to players.
-     */
-    public void assignTeams(){}
-
-    /**
      * This function adds a player to the list of players.
      *
      * @param player The player to add to the game.
@@ -95,16 +88,6 @@ public class Lobby {
     }
 
     /**
-     * Broadcast a message to all players in the lobby, except the player who sent the message.
-     *
-     * @param message The message you want to send to the lobby
-     * @param player The player who sent the message
-     */
-    public void broadCastLobby(String message, Player player){
-        broadCastLobby(message, player.getClientHandler());
-    }
-
-    /**
      * This function sets the maximum number of players in the game.
      *
      * @param maxPlayers The maximum number of players that can join the game.
@@ -114,9 +97,9 @@ public class Lobby {
     }
 
     /**
-     * This function returns the pin number of the card.
+     * This function returns the pin of the card.
      *
-     * @return The pin number.
+     * @return The pin.
      */
     public int getPin() {
         return pin;
@@ -160,42 +143,6 @@ public class Lobby {
     }
 
     /**
-     * This function adds a new player to the game.
-     *
-     * @param clientHandler The clientHandler object that is passed in from the server.
-     */
-    public void addPlayer(ClientHandler clientHandler){
-        players.add(new Player(clientHandler));
-    }
-
-    /**
-     * This function returns the number of threads waiting to start.
-     *
-     * @return The number of threads waiting to start.
-     */
-    public int getWaitingToStart() {
-        return waitingToStart;
-    }
-
-    /**
-     * This function sets the number of players waiting to start the game.
-     *
-     * @param waitingToStart The number of threads that are waiting to start.
-     */
-    public void setWaitingToStart(int waitingToStart) {
-        this.waitingToStart = waitingToStart;
-    }
-
-    /**
-     * This function sets the pin to the value of the parameter pin.
-     *
-     * @param pin The pin number that the servo is connected to.
-     */
-    public void setPin(int pin) {
-        this.pin = pin;
-    }
-
-    /**
      * This function returns the maximum number of players that can be in a game.
      *
      * @return The maxPlayers variable is being returned.
@@ -204,17 +151,6 @@ public class Lobby {
         return maxPlayers;
     }
 
-    /**
-     * Returns an array of strings containing the names of the features supported by this implementation.
-     *
-     * @return The array of supported features.
-     */
-
-    /**
-     * > This function sets the supported features of the device
-     *
-     * @param supportedFeatures A list of features that the device supports.
-     */
 
     /**
      * Remove the player from the list of players.
@@ -229,9 +165,23 @@ public class Lobby {
             }
         }
     }
+
+
+    /**
+     * Returns an array of strings containing the names of the features supported by this implementation.
+     *
+     * @return The array of supported features.
+     */
     public String getSupportedFeatures() {
         return supportedFeatures;
     }
+
+    /**
+     * > This function sets the supported features of the device
+     *
+     * @param supportedFeatures A list of features that the device supports.
+     */
+
     public void setSupportedFeatures(String  supportedFeatures) {
         this.supportedFeatures = supportedFeatures;
     }

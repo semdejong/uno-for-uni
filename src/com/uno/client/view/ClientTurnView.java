@@ -1,6 +1,5 @@
 package com.uno.client.view;
 
-import com.uno.client.Computers.BasicComputer;
 import com.uno.client.controller.*;
 import com.uno.client.model.Card;
 import com.uno.client.model.Game;
@@ -37,7 +36,6 @@ public class ClientTurnView {
                         continue;
                     }
                     System.out.println("Please enter a number between 1 and " + hand.getHandSize());
-                    continue;
                 } else {
                     if (CommandHandler.playable(hand.getCards().get(number-1))){
                         if (hand.getCards().get(number-1).getColor().equals(Card.cardColor.BLACK)){
@@ -92,7 +90,6 @@ public class ClientTurnView {
                         return;
                     } else{
                         System.out.println("You can't play that card");
-                        continue;
                     }
 
                 }
@@ -102,7 +99,6 @@ public class ClientTurnView {
                     continue;
                 }
                 System.out.println("Please enter a number");
-                continue;
             }
         }
     }

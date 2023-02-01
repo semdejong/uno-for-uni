@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class CommandHandler {
     public static final String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "BLACK"};
     public static final String[] numbers = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    public static final int STARTING_CARDS_AMOUNT = 7;
 
     public static Card makeCard(String[] parts) {
         Card.cardColor color = null;
@@ -65,7 +66,7 @@ public class CommandHandler {
                 Hand hand = new Hand();
                 ArrayList<Card> handList = new ArrayList<>();
 
-                for(int i =0; i < 7; i++){
+                for(int i =0; i < STARTING_CARDS_AMOUNT; i++){
                     handList.add(new ClosedCard());
                 }
 

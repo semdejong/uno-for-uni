@@ -5,7 +5,6 @@ import com.uno.client.controller.CommandSender;
 import com.uno.client.controller.MessageHandler;
 import com.uno.client.controller.PlayerController;
 import com.uno.client.model.Card;
-import com.uno.client.model.Hand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ public class ComputerUtils {
             return false;
         }
         if(card.getColor().equals(Card.cardColor.BLACK)){
-            Card.cardColor color = Card.cardColor.valueOf(mostColorInHand(PlayerController.getOwnPlayer().getHand()));
+            Card.cardColor color = Card.cardColor.valueOf(mostColorInHand());
 
             if(color.equals(Card.cardColor.BLACK)){
                 color = Card.cardColor.YELLOW; //Make sure to never change the color to black.
@@ -26,7 +25,7 @@ public class ComputerUtils {
             card.setColor(color); //if computer does not change the color itself it will be automatically changed to most common color in hand
         }
 
-        CommandSender.sendMessage("PlayCard|" + card.toString());
+        CommandSender.sendMessage("PlayCard|" + card);
 
         PlayerController.getOwnPlayer().getHand().removeCard(card);
 
@@ -34,18 +33,16 @@ public class ComputerUtils {
     }
 
 
-    public static boolean playDrawnCard(Card card){
+    public static void playDrawnCard(Card card){
         if(CommandHandler.playable(card)){
             if(card.getColor().equals(Card.cardColor.BLACK)){
-                CommandSender.sendMessage("PlayDrawnCard|true|"+mostColorInHand(PlayerController.getOwnPlayer().getHand()));
-                return true;
+                CommandSender.sendMessage("PlayDrawnCard|true|"+mostColorInHand());
+                return;
             }
             CommandSender.sendMessage("PlayDrawnCard|true");
-            return true;
         }else{
             CommandSender.sendMessage("PlayDrawnCard|false");
             PlayerController.getOwnPlayer().getHand().addCard(card);
-            return false;
         }
     }
 
@@ -54,7 +51,7 @@ public class ComputerUtils {
         MessageHandler.drawnCard = true;
     }
 
-    public static String mostColorInHand(Hand hand){
+    public static String mostColorInHand(){
         HashMap<String, Integer> colors = new HashMap<>();
         colors.put("RED", 0);
         colors.put("BLUE", 0);

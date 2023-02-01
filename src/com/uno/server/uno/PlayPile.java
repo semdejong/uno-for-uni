@@ -38,15 +38,6 @@ public class PlayPile {
     }
 
     /**
-     * This function sets the discard pile to the given discard pile
-     *
-     * @param discardPile The discard pile is where the cards that are discarded by the players go.
-     */
-    public void setDiscardPile(ArrayList<Card> discardPile) {
-        this.discardPile = discardPile;
-    }
-
-    /**
      * This function clears the discard pile by creating a new ArrayList
      */
     public void clearDiscardPile(){
@@ -83,9 +74,7 @@ public class PlayPile {
 
     /**
      * If the card is a wild draw four, then check if the hand has any cards of the same color as the active card. If it
-     * does, then the card is not playable. Otherwise, the card is playable
-     *
-     * otherwise check if type or color are the same.
+     * does, then the card is not playable. Otherwise, the card is playable otherwise check if type or color are the same.
      *
      * @param card The card that is being played
      * @param hand The hand of the player who is playing the card.

@@ -1,15 +1,11 @@
 package com.uno.client.controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.util.Scanner;
 
 public class MessageReceiver extends Thread{
 
-    private BufferedReader reader;
+    private final BufferedReader reader;
     private int nullCount = 0;
 
     public MessageReceiver(BufferedReader reader){
@@ -33,7 +29,7 @@ public class MessageReceiver extends Thread{
             }
         } catch (IOException e) {
             System.out.println("An error occurred while connecting to the server.");
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
 
     }
