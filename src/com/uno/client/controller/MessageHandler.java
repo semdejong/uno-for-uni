@@ -105,7 +105,7 @@ public class MessageHandler {
                 if (messageInParts.length <3){
                     return;
                 }
-                System.out.println(messageInParts[2] + "Said: " + messageInParts[1]);
+                System.out.println("\033[1;96m"+ messageInParts[2] + " said: " + messageInParts[1]+ "\u001B[0m");
                 break;
             case "ERROR":
                 if (messageInParts[1].equals("E09")){

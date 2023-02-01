@@ -21,7 +21,7 @@ public class MessageHandler {
      * @param message The message that was received from the client.
      */
     public void receiveMessage(String message) {
-        System.out.println("Server received:" + message);
+        System.out.println("\u001B[34m[CLIENT-->SERVER] " + message + "\u001B[0m");
         String[] parts = message.split("\\|");
         parts[0] = parts[0].toLowerCase().replace(" ", "");
 

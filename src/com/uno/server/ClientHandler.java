@@ -50,6 +50,7 @@ public class ClientHandler extends Thread{
      */
     public void sendMessage(String message){
         try {
+            System.out.println("\u001B[31m[SERVER-->CLIENT] " + message + "\u001B[0m");
             out.write(message);
             out.newLine();
             out.flush();
